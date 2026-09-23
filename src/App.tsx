@@ -110,21 +110,21 @@ function YouTubePlayer({
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30 group-hover:from-black/60 transition-colors" />
 
         {/* Prominent Red YouTube Play Button with Pulse on Hover */}
-        <div className="relative z-10 flex flex-col items-center gap-2">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 border-2 border-white/50 group-hover:shadow-red-600/50">
-            <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1 transition-transform group-hover:scale-110" />
+        <div className="relative z-10 flex flex-col items-center gap-1.5 sm:gap-2">
+          <div className="w-9 h-9 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 border border-white/50 group-hover:shadow-red-600/50">
+            <Play className="w-4 h-4 sm:w-8 sm:h-8 fill-current ml-0.5 sm:ml-1 transition-transform group-hover:scale-110" />
           </div>
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[10px] sm:text-[11px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-black/85 text-white border border-white/20 backdrop-blur-sm shadow-lg flex items-center gap-1">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[9px] sm:text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-black/85 text-white border border-white/20 backdrop-blur-sm shadow-lg flex items-center gap-1 hidden xs:flex">
             <span>{isShort ? 'Watch Short' : 'Play on YouTube'}</span>
-            <ArrowUpRight className="w-3 h-3 text-red-400" />
+            <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-400" />
           </span>
         </div>
 
         {/* Bottom Bar: Title & Direct YouTube badge */}
-        <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 z-10 flex items-center justify-between text-white/95 text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
-          <span className="truncate pr-2 group-hover:text-red-300 transition-colors">{title}</span>
-          <span className="px-2.5 py-1 rounded-md bg-red-600 hover:bg-red-500 text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-1 shadow-md transition-colors">
-            <YouTubeIcon className="w-3.5 h-3.5" />
+        <div className="absolute bottom-0 inset-x-0 p-1.5 sm:p-3.5 z-10 flex items-center justify-between text-white/95 text-[10px] sm:text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+          <span className="truncate pr-1 sm:pr-2 group-hover:text-red-300 transition-colors text-[10px] sm:text-xs">{title}</span>
+          <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded sm:rounded-md bg-red-600 hover:bg-red-500 text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-0.5 sm:gap-1 shadow-md transition-colors">
+            <YouTubeIcon className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
             <span>{isShort ? 'Short' : 'Watch'}</span>
           </span>
         </div>
@@ -531,51 +531,49 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Short Welcome Greeting */}
+                {/* Clean, punchy bio without text clutter */}
                 <p
                   className={`text-sm sm:text-base leading-relaxed max-w-2xl ${
                     isDark ? 'text-slate-300' : 'text-slate-600'
                   }`}
                 >
-                  Welcome to my portfolio! I transform raw footage into rhythmically driven visual
-                  masterpieces with razor-sharp cuts, atmospheric sound design, and cohesive color
-                  treatment. Watch all my video projects below!
+                  Passionate video editor & visual storyteller. Specializing in cinematic pacing, dynamic sound design, and color grading.
                 </p>
 
                 {/* Action Buttons */}
-                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
                   <a
                     href="#videos"
-                    className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Watch All Videos</span>
+                    <span>Watch Videos</span>
                   </a>
 
                   <a
                     href="#shorts"
-                    className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
                   >
                     <Smartphone className="w-3.5 h-3.5" />
-                    <span>Watch Shorts (2)</span>
+                    <span>Shorts</span>
                   </a>
 
                   <a
                     href="#contact"
-                    className={`inline-flex items-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border transition-colors ${
+                    className={`inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold border transition-colors ${
                       isDark
                         ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white'
                         : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-100 shadow-sm'
                     }`}
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Get in Touch</span>
+                    <span>Contact</span>
                   </a>
 
                   <button
                     type="button"
                     onClick={copyEmailToClipboard}
-                    className={`inline-flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1.5 py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
                       isDark
                         ? 'border-slate-800 bg-slate-800/60 text-slate-400 hover:text-slate-200'
                         : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900'
@@ -585,12 +583,12 @@ export default function App() {
                     {copiedEmail ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span className="text-emerald-500 font-semibold">Copied Email!</span>
+                        <span className="text-emerald-500 font-semibold">Copied!</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>naeim.connect@gmail.com</span>
+                        <span>Email</span>
                       </>
                     )}
                   </button>
@@ -629,15 +627,15 @@ export default function App() {
         {/* SECTION 2: MORE PROJECT VIDEOS (16:9)                                     */}
         {/* YouTube embeds load cleanly with title, direct open, and responsive ratio */}
         {/* ========================================================================= */}
-        <section id="videos" className="space-y-8 scroll-mt-24">
+        <section id="videos" className="space-y-6 sm:space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Tv className="w-4 h-4" />
                 <span>Cinematic Video Works</span>
               </div>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                Featured & Additional Video Projects
+              <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+                Video Projects
               </h2>
             </div>
             <p
@@ -645,16 +643,16 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              Editorial pacing, sound design, and color contrast. Play any project directly or open on YouTube.
+              Editorial pacing, sound design, and color contrast. Click to play on YouTube.
             </p>
           </div>
 
-          {/* VIDEOS GRID (4 Projects) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {/* VIDEOS GRID: 2 columns on mobile (grid-cols-2) and 2 on tablet/desktop */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8">
               {PORTFOLIO_VIDEOS.slice(1).map((video) => (
                 <div
                   key={video.id}
-                  className={`group rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
+                  className={`group rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col ${
                     isDark
                       ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
                       : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
@@ -666,73 +664,50 @@ export default function App() {
                     title={video.title}
                   />
 
-                  {/* Card Information */}
-                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                  {/* Card Information - Compact & Clean */}
+                  <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
+                        <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20 truncate max-w-[110px] sm:max-w-none">
                           {video.badge}
                         </span>
                         <span
-                          className={`flex items-center gap-1.5 font-medium ${
+                          className={`hidden sm:flex items-center gap-1 font-medium ${
                             isDark ? 'text-slate-400' : 'text-slate-500'
                           }`}
                         >
-                          <Clock className="w-3.5 h-3.5" />
+                          <Clock className="w-3 h-3" />
                           <span>{video.duration}</span>
-                          <span aria-hidden="true">·</span>
-                          <span>{video.role}</span>
                         </span>
                       </div>
 
-                      <h3 className="font-heading text-xl font-bold tracking-tight group-hover:text-rose-500 transition-colors">
+                      <h3 className="font-heading text-xs sm:text-lg font-bold tracking-tight group-hover:text-rose-500 transition-colors line-clamp-2 leading-snug">
                         {video.title}
                       </h3>
 
                       <p
-                        className={`text-xs sm:text-sm leading-relaxed ${
-                          isDark ? 'text-slate-300' : 'text-slate-600'
+                        className={`text-[11px] sm:text-xs leading-relaxed hidden sm:block ${
+                          isDark ? 'text-slate-400' : 'text-slate-600'
                         }`}
                       >
                         {video.description}
                       </p>
-
-                      {/* Tags */}
-                      <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex flex-wrap gap-1.5">
-                        {video.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
-                              isDark
-                                ? 'bg-slate-800/80 border-slate-700/80 text-slate-300'
-                                : 'bg-slate-100 border-slate-200 text-slate-700'
-                            }`}
-                          >
-                            ✓ {tag}
-                          </span>
-                        ))}
-                      </div>
                     </div>
 
                     {/* Direct YouTube Link and Info */}
-                    <div className="pt-4 mt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-xs">
-                      <span
-                        className={`text-[11px] font-mono truncate max-w-[170px] ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}
-                        title={video.url}
-                      >
-                        {video.url}
+                    <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-[11px] sm:text-xs">
+                      <span className="hidden sm:inline font-mono text-[10px] text-slate-500 truncate max-w-[100px]">
+                        YouTube
                       </span>
                       <a
                         href={video.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-bold text-rose-500 hover:text-rose-400 transition-colors"
+                        className="inline-flex items-center gap-1 font-bold text-rose-500 hover:text-rose-400 transition-colors text-[10px] sm:text-xs ml-auto"
                       >
-                        <YouTubeIcon className="w-3.5 h-3.5 text-rose-500" />
-                        <span>Open Video</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
+                        <YouTubeIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500" />
+                        <span>Watch</span>
+                        <ArrowUpRight className="w-3 h-3" />
                       </a>
                     </div>
                   </div>
@@ -744,15 +719,15 @@ export default function App() {
         {/* ========================================================================= */}
         {/* SECTION 2.5: YOUTUBE SHORTS & VERTICAL FORMAT                             */}
         {/* ========================================================================= */}
-        <section id="shorts" className="space-y-8 scroll-mt-24">
+        <section id="shorts" className="space-y-6 sm:space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Smartphone className="w-4 h-4 text-rose-500" />
-                <span>Short-Form & Vertical Video</span>
+                <span>Short-Form Video</span>
               </div>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                YouTube Shorts Showcase
+              <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+                YouTube Shorts
               </h2>
             </div>
             <p
@@ -760,24 +735,24 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              High-retention vertical edits designed for Reels, TikTok & YouTube Shorts with fast-paced retention hooks.
+              High-retention vertical edits designed for Reels & YouTube Shorts. Click to play.
             </p>
           </div>
 
-          {/* SHORTS GRID */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+          {/* SHORTS GRID: 2 columns on mobile (grid-cols-2) and 2 on tablet/desktop */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8 max-w-3xl mx-auto">
             {PORTFOLIO_SHORTS.map((short) => (
               <div
                 key={short.id}
-                className={`group rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
+                className={`group rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col ${
                   isDark
                     ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
                     : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
                 }`}
               >
                 {/* 9:16 Vertical Video Frame with YouTube Thumbnail */}
-                <div className="p-4 sm:p-5 flex justify-center bg-black/40">
-                  <div className="w-full max-w-[280px]">
+                <div className="p-2 sm:p-4 flex justify-center bg-black/40">
+                  <div className="w-full max-w-[220px]">
                     <YouTubePlayer
                       videoId={short.youtubeId}
                       title={short.title}
@@ -787,74 +762,32 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Shorts Card Details */}
-                <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-red-600/15 text-red-500 border border-red-600/25 flex items-center gap-1.5">
-                        <YouTubeIcon className="w-3 h-3" />
-                        <span>{short.badge}</span>
-                      </span>
-                      <span
-                        className={`flex items-center gap-1.5 font-medium text-xs ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}
-                      >
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{short.duration}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{short.role}</span>
+                {/* Shorts Card Details - Compact */}
+                <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
+                      <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-bold uppercase tracking-wider bg-red-600/15 text-red-500 border border-red-600/25 flex items-center gap-1">
+                        <YouTubeIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                        <span>Short</span>
                       </span>
                     </div>
 
-                    <h3 className="font-heading text-xl font-bold tracking-tight group-hover:text-rose-500 transition-colors">
+                    <h3 className="font-heading text-xs sm:text-base font-bold tracking-tight group-hover:text-rose-500 transition-colors line-clamp-2 leading-snug">
                       {short.title}
                     </h3>
-
-                    <p
-                      className={`text-xs sm:text-sm leading-relaxed ${
-                        isDark ? 'text-slate-300' : 'text-slate-600'
-                      }`}
-                    >
-                      {short.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex flex-wrap gap-1.5">
-                      {short.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
-                            isDark
-                              ? 'bg-slate-800/80 border-slate-700/80 text-slate-300'
-                              : 'bg-slate-100 border-slate-200 text-slate-700'
-                          }`}
-                        >
-                          ✓ {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
                   {/* Direct YouTube Short Link */}
-                  <div className="pt-4 mt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-xs">
-                    <span
-                      className={`text-[11px] font-mono truncate max-w-[170px] ${
-                        isDark ? 'text-slate-400' : 'text-slate-500'
-                      }`}
-                      title={short.url}
-                    >
-                      {short.url}
-                    </span>
+                  <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-end text-xs">
                     <a
                       href={short.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-bold text-red-500 hover:text-red-400 transition-colors"
+                      className="inline-flex items-center gap-1 font-bold text-red-500 hover:text-red-400 transition-colors text-[10px] sm:text-xs"
                     >
-                      <YouTubeIcon className="w-3.5 h-3.5 text-red-500" />
-                      <span>Watch Short</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <YouTubeIcon className="w-3 h-3 text-red-500" />
+                      <span>Watch</span>
+                      <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
@@ -866,150 +799,131 @@ export default function App() {
         {/* ========================================================================= */}
         {/* SECTION 3: ABOUT ME (BIO) SECTION                                         */}
         {/* ========================================================================= */}
-        <section id="about" className="space-y-8 scroll-mt-24">
+        <section id="about" className="space-y-6 sm:space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Sliders className="w-4 h-4" />
-                <span>The Story & Philosophy</span>
+                <span>Story & Style</span>
               </div>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+              <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
                 About NAEIM Visual
               </h2>
             </div>
-            <span
-              className={`text-xs font-semibold ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            >
-              Honest Dedication · Daily Practice · High-Energy Delivery
-            </span>
           </div>
 
           <div
-            className={`p-6 sm:p-10 rounded-3xl border-2 transition-all duration-300 space-y-8 ${
+            className={`p-5 sm:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-300 space-y-6 ${
               isDark
                 ? 'bg-slate-900/60 border-slate-800'
                 : 'bg-white border-slate-200 shadow-sm'
             }`}
           >
-            {/* User's Exact Honest Bio */}
-            <div className="space-y-4">
-              <span className="text-xs uppercase tracking-wider font-extrabold text-rose-500">
-                A Note From The Editor
-              </span>
-              <blockquote
-                className={`text-base sm:text-lg lg:text-xl font-normal leading-relaxed italic border-l-4 border-rose-500 pl-4 sm:pl-6 ${
-                  isDark ? 'text-slate-200' : 'text-slate-700'
-                }`}
-              >
-                &ldquo;I am a passionate video editor dedicated to the art of visual storytelling.
-                Over the past several months, I have immersed myself in learning the ins and outs of
-                editing—practicing daily, refining my pacing, and perfecting my sound design. While I
-                don&apos;t claim decades of industry experience, I bring fresh creativity, high-energy
-                dedication, and a modern aesthetic to every frame. Let&apos;s create something memorable
-                together.&rdquo;
-              </blockquote>
-            </div>
+            {/* Direct Honest Bio */}
+            <blockquote
+              className={`text-sm sm:text-base lg:text-lg font-normal leading-relaxed italic border-l-4 border-rose-500 pl-3 sm:pl-5 ${
+                isDark ? 'text-slate-200' : 'text-slate-700'
+              }`}
+            >
+              &ldquo;I am a video editor dedicated to cinematic visual storytelling. I bring fresh creativity, precise rhythm, dynamic audio mixing, and modern aesthetics to every project.&rdquo;
+            </blockquote>
 
-            {/* Core Pillars */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+            {/* Core Pillars: 2x2 grid on mobile & tablet */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
               <div
-                className={`p-5 rounded-2xl border ${
+                className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border ${
                   isDark ? 'bg-slate-900/90 border-slate-800/80' : 'bg-slate-50 border-slate-200/80'
                 }`}
               >
-                <div className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center mb-3">
-                  <Film className="w-5 h-5" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center mb-2">
+                  <Film className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-sm mb-1">Rhythm & Pacing</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Rhythm & Pacing</h4>
                 <p
-                  className={`text-xs leading-relaxed ${
+                  className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Cutting to narrative emotion rather than arbitrary timecodes; maintaining seamless momentum.
+                  Seamless cuts matched to mood and beat.
                 </p>
               </div>
 
               <div
-                className={`p-5 rounded-2xl border ${
+                className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border ${
                   isDark ? 'bg-slate-900/90 border-slate-800/80' : 'bg-slate-50 border-slate-200/80'
                 }`}
               >
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-3">
-                  <Volume2 className="w-5 h-5" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center mb-2">
+                  <Volume2 className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-sm mb-1">Sound Design</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Sound Design</h4>
                 <p
-                  className={`text-xs leading-relaxed ${
+                  className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Layered ambiences, precision whooshes, risers, and punchy hits that drive emotional impact.
+                  Layered ambient SFX, whooshes, and hits.
                 </p>
               </div>
 
               <div
-                className={`p-5 rounded-2xl border ${
+                className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border ${
                   isDark ? 'bg-slate-900/90 border-slate-800/80' : 'bg-slate-50 border-slate-200/80'
                 }`}
               >
-                <div className="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-3">
-                  <Palette className="w-5 h-5" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-2">
+                  <Palette className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-sm mb-1">Color & Mood</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Color Grading</h4>
                 <p
-                  className={`text-xs leading-relaxed ${
+                  className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Curating balanced tones, rich shadows, and cinematic color palettes that elevate production quality.
+                  Rich cinematic tones and mood pallets.
                 </p>
               </div>
 
               <div
-                className={`p-5 rounded-2xl border ${
+                className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border ${
                   isDark ? 'bg-slate-900/90 border-slate-800/80' : 'bg-slate-50 border-slate-200/80'
                 }`}
               >
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3">
-                  <Layers className="w-5 h-5" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-2">
+                  <Layers className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-sm mb-1">Kinetic Transitions</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Transitions</h4>
                 <p
-                  className={`text-xs leading-relaxed ${
+                  className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Speed ramps, dynamic whipping, seamless audio wipes, and punch-ins that keep engagement high.
+                  Dynamic speed ramps and motion cues.
                 </p>
               </div>
             </div>
 
             {/* Software Arsenal */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2 pt-1">
               <span
-                className={`text-xs font-bold uppercase tracking-wider ${
+                className={`text-[11px] font-bold uppercase tracking-wider ${
                   isDark ? 'text-slate-400' : 'text-slate-500'
                 }`}
               >
-                Primary Creative Arsenal
+                Editing Tools
               </span>
-              <div className="flex flex-wrap gap-2 text-xs">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
                 {[
                   'Adobe Premiere Pro',
                   'Adobe After Effects',
                   'DaVinci Resolve',
-                  'Adobe Photoshop',
-                  'Sound Foley & Audio Mastering',
-                  'Dynamic Beat Sync',
-                  'Color Grading & LUTs',
-                  'Kinetic Motion Design'
+                  'Photoshop',
+                  'Audio Mixing',
+                  'Color Grading'
                 ].map((tool) => (
                   <span
                     key={tool}
-                    className={`py-1.5 px-3.5 rounded-xl border font-semibold transition-colors ${
+                    className={`py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-lg sm:rounded-xl border font-semibold ${
                       isDark
                         ? 'bg-slate-800/70 border-slate-700/80 text-slate-300'
                         : 'bg-slate-100 border-slate-200 text-slate-700'
