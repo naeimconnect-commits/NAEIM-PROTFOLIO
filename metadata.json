@@ -1,0 +1,6 @@
+{
+  "name": "NAEIM Visual - Video Editor Portfolio",
+  "description": "Official portfolio of NAEIM Visual — Video Editor & Visual Storyteller specializing in dynamic editing, cinematic cuts, sound design, and graphic design.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
