@@ -21,7 +21,8 @@ import {
   Flame,
   Award,
   Sparkles,
-  Smartphone
+  Smartphone,
+  Phone
 } from 'lucide-react';
 
 // Custom SVG Brand Icons for Facebook, Behance & YouTube
@@ -36,7 +37,7 @@ function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
 function BehanceIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M7.65 11.5c.78-.3 1.25-.97 1.25-1.92 0-1.85-1.42-2.58-3.32-2.58H1v10h4.82c2.08 0 3.58-.91 3.58-2.92 0-1.31-.69-2.18-1.75-2.58zM3.48 8.7h1.93c.95 0 1.57.34 1.57 1.15 0 .85-.62 1.2-1.57 1.2H3.48V8.7zm2.14 6.6H3.48v-2.7h2.14c1.1 0 1.76.4 1.76 1.35 0 .96-.66 1.35-1.76 1.35zm12.38-4.8c-2.3 0-3.9 1.7-3.9 4s1.6 4 3.9 4c1.65 0 2.92-.85 3.48-2.22h-1.9c-.3.45-.88.75-1.58.75-1.12 0-1.88-.72-1.98-1.78h5.58c.05-.25.07-.5.07-.75 0-2.3-1.62-4-3.67-4zm-1.88 3.12c.15-.95.82-1.62 1.88-1.62 1.02 0 1.68.67 1.83 1.62h-3.71zm.38-4.62h3v1h-3v-1z" />
+      <path d="M22 7h-7v2h7V7zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.419 0-5.75-2.327-5.75-5.955 0-3.565 2.279-6.045 5.688-6.045 3.328 0 5.343 2.378 5.343 5.805 0 .463-.047.905-.119 1.309h-8.082c.159 1.748 1.487 2.766 3.197 2.766 1.438 0 2.457-.611 2.871-1.488l1.828.608zm-7.939-3.454h5.275c-.139-1.503-1.127-2.39-2.585-2.39-1.559 0-2.529.919-2.69 2.39zM8.808 13.313c.839-.54 1.307-1.442 1.307-2.482 0-2.355-1.782-3.831-4.542-3.831H0v14h5.774c2.834 0 4.81-1.597 4.81-4.08 0-1.521-.734-2.825-1.776-3.607zm-5.783-4.14h2.463c1.373 0 2.222.709 2.222 1.838 0 1.15-.849 1.884-2.222 1.884H3.025V9.173zm2.666 9.654H3.025v-4.032h2.666c1.554 0 2.502.778 2.502 2.016 0 1.261-.948 2.016-2.502 2.016z" />
     </svg>
   );
 }
@@ -45,6 +46,22 @@ function YouTubeIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
       <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M12.031 0C5.396 0 .029 5.367.029 12.003c0 2.12.553 4.188 1.603 6.009L0 24l6.169-1.619a11.967 11.967 0 0 0 5.862 1.511h.005c6.634 0 12.001-5.367 12.001-12.003C24.037 5.367 18.669 0 12.031 0zm-.005 21.892a9.92 9.92 0 0 1-5.06-1.385l-.363-.215-3.76.986 1.003-3.665-.236-.375a9.924 9.924 0 0 1-1.523-5.235c0-5.485 4.463-9.948 9.948-9.948 2.656 0 5.155 1.034 7.034 2.913a9.882 9.882 0 0 1 2.91 7.035c0 5.486-4.463 9.949-9.953 9.949zm5.45-7.447c-.299-.149-1.77-.873-2.044-.973-.274-.1-.473-.149-.672.15-.199.299-.772.973-.946 1.172-.174.199-.349.224-.648.075-.299-.149-1.262-.465-2.404-1.484-.889-.793-1.489-1.773-1.663-2.072-.174-.299-.019-.461.131-.61.135-.134.299-.349.448-.523.149-.174.199-.299.299-.498.1-.199.05-.374-.025-.523-.075-.149-.672-1.62-.921-2.219-.243-.583-.49-.504-.672-.513l-.573-.01c-.199 0-.523.075-.797.374-.274.299-1.046 1.022-1.046 2.493 0 1.471 1.071 2.891 1.221 3.091.15.199 2.108 3.219 5.107 4.514.714.308 1.271.492 1.706.63.717.228 1.369.196 1.884.119.574-.086 1.77-.723 2.019-1.421.249-.698.249-1.296.174-1.421-.075-.125-.274-.199-.573-.349z" />
+    </svg>
+  );
+}
+
+function GmailIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.572l8.073-6.079C21.691 2.279 24 3.434 24 5.457z" />
     </svg>
   );
 }
@@ -241,6 +258,12 @@ export default function App() {
   // Email copy feedback
   const [copiedEmail, setCopiedEmail] = useState(false);
 
+  // WhatsApp number state (initialized to user's exact number: 01610977029)
+  const [whatsAppNumber, setWhatsAppNumber] = useState('01610977029');
+  const [isEditingWhatsApp, setIsEditingWhatsApp] = useState(false);
+  const [tempWhatsApp, setTempWhatsApp] = useState('01610977029');
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
   // Profile image fallback state
   const [imgSrc, setImgSrc] = useState('profile.jpg');
 
@@ -265,6 +288,25 @@ export default function App() {
     navigator.clipboard.writeText('naeim.connect@gmail.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2400);
+  };
+
+  const getWhatsAppLink = (num: string) => {
+    let cleaned = num.replace(/[^\d]/g, '');
+    if (cleaned.startsWith('0')) {
+      cleaned = '88' + cleaned;
+    } else if (!cleaned.startsWith('880') && cleaned.length === 10) {
+      cleaned = '880' + cleaned;
+    }
+    const msg = encodeURIComponent('Hi Naeim, I saw your video editor portfolio and would like to collaborate on a video project!');
+    return `https://wa.me/${cleaned}?text=${msg}`;
+  };
+
+  const handleSaveWhatsApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (tempWhatsApp.trim()) {
+      setWhatsAppNumber(tempWhatsApp.trim());
+      setIsEditingWhatsApp(false);
+    }
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -426,34 +468,124 @@ export default function App() {
             />
 
             <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
-              {/* Profile Picture at Top */}
-              <div className="relative shrink-0 group">
-                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-rose-600 via-amber-400 to-rose-500 opacity-75 blur-md group-hover:opacity-100 transition-opacity duration-300" />
+              {/* Profile Picture with Perfectly Aligned Revolving Circular Badges in Authentic Official Brand Colors */}
+              <div className="relative shrink-0 flex items-center justify-center p-8 sm:p-10 select-none">
+                {/* 1. Subtle Ambient Outer Glow Pulse */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-2 rounded-full bg-gradient-to-tr from-amber-500/25 via-rose-500/20 to-cyan-500/25 blur-2xl animate-glow-spin pointer-events-none"
+                />
 
-                <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border-2 border-white/30 shadow-2xl bg-slate-950">
-                  <img
-                    src={imgSrc}
-                    alt="NAEIM Visual - Profile"
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    onError={() => {
-                      if (imgSrc !== 'https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png') {
-                        setImgSrc('https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png');
-                      }
-                    }}
-                  />
+                {/* 2. Rotating Orbit Ring */}
+                <div
+                  className="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full border-2 border-amber-500/50 dark:border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.3)] animate-orbit pointer-events-auto"
+                >
+                  {/* Badge 1: Premiere Pro (Angle 0° - Top) - Official Premiere Purple #9999FF / #00005B */}
+                  <div
+                    className="absolute -top-5 left-1/2 -translate-x-1/2"
+                    title="Adobe Premiere Pro"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#00005b] text-[#9999ff] border-2 border-[#9999ff] shadow-xl shadow-purple-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <span className="font-black text-sm leading-none text-[#9999ff] drop-shadow">Pr</span>
+                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Premiere</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Badge 2: After Effects (Angle 60° - Top Right) - Official After Effects Violet #D291FF / #00005B */}
+                  <div
+                    className="absolute top-[25%] right-[-16px] translate-x-1 -translate-y-1/2"
+                    title="Adobe After Effects"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#00005b] text-[#d291ff] border-2 border-[#d291ff] shadow-xl shadow-purple-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <span className="font-black text-sm leading-none text-[#d291ff] drop-shadow">Ae</span>
+                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">AfterFX</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Badge 3: Photoshop (Angle 120° - Bottom Right) - Official Photoshop Cyan Blue #31A8FF / #001E36 */}
+                  <div
+                    className="absolute top-[75%] right-[-16px] translate-x-1 -translate-y-1/2"
+                    title="Adobe Photoshop"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#001e36] text-[#31a8ff] border-2 border-[#31a8ff] shadow-xl shadow-blue-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <span className="font-black text-sm leading-none text-[#31a8ff] drop-shadow">Ps</span>
+                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Photoshop</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Badge 4: Illustrator (Angle 180° - Bottom) - Official Illustrator Orange #FF9A00 / #330000 */}
+                  <div
+                    className="absolute -bottom-5 left-1/2 -translate-x-1/2"
+                    title="Adobe Illustrator"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#330000] text-[#ff9a00] border-2 border-[#ff9a00] shadow-xl shadow-amber-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <span className="font-black text-sm leading-none text-[#ff9a00] drop-shadow">Ai</span>
+                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Illustrator</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Badge 5: Meta (Angle 240° - Bottom Left) - Official Meta Blue #0081FB / #002F6C */}
+                  <div
+                    className="absolute top-[75%] left-[-16px] -translate-x-1 -translate-y-1/2"
+                    title="Meta Platforms & Video Ads"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#002f6c] text-[#0081fb] border-2 border-[#0081fb] shadow-xl shadow-blue-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <span className="font-black text-base leading-none text-[#0081fb] drop-shadow">∞</span>
+                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Meta</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Badge 6: Digital Marketing (Angle 300° - Top Left) - Official Cyan/Sky Marketing #0EA5E9 / #0F172A */}
+                  <div
+                    className="absolute top-[25%] left-[-16px] -translate-x-1 -translate-y-1/2"
+                    title="Digital Marketing & Growth"
+                  >
+                    <div className="animate-counter-spin">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#0f172a] text-[#38bdf8] border-2 border-[#38bdf8] shadow-xl shadow-cyan-950/80 hover:scale-120 transition-transform cursor-pointer">
+                        <Sparkles className="w-3.5 h-3.5 text-[#38bdf8] drop-shadow" />
+                        <span className="text-[6px] font-black tracking-tight uppercase text-white/90">Marketing</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Available for projects badge */}
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg flex items-center gap-1.5 whitespace-nowrap">
-                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                  <span>Open for Projects</span>
+                {/* 3. Center Profile Photo with Glowing Amber/Gold Gradient Border */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1 bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 shadow-2xl z-10">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-amber-200/60 bg-slate-950 relative">
+                    <img
+                      src={imgSrc}
+                      alt="NAEIM Visual - Profile"
+                      className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+                      onError={() => {
+                        if (imgSrc !== 'https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png') {
+                          setImgSrc('https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png');
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {/* Available badge */}
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg flex items-center gap-1 whitespace-nowrap border border-white/40 z-20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-200 animate-ping" />
+                    <span>Open to Work</span>
+                  </div>
                 </div>
               </div>
 
               {/* Name, Social Logos Under Name, Greeting & CTAs */}
-              <div className="flex-1 text-center md:text-left space-y-5">
+              <div className="flex-1 text-center md:text-left space-y-4">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                  <span className="px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-rose-500/15 text-rose-500 border border-rose-500/30 flex items-center gap-1.5">
+                  <span className="px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-rose-500/15 text-rose-500 border border-rose-500/30 flex items-center gap-1.5 shadow-sm">
                     <Flame className="w-3.5 h-3.5 fill-rose-500" />
                     Video Editor & Motion Artist
                   </span>
@@ -466,85 +598,131 @@ export default function App() {
                   </span>
                 </div>
 
-                {/* PROMINENTLY HIGHLIGHTED NAME */}
-                <div className="space-y-1">
-                  <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                    <span className="bg-gradient-to-r from-rose-500 via-amber-400 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">
+                {/* EXTRA BOLD & HIGHLY PROMINENT NAME */}
+                <div className="space-y-1.5">
+                  <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none drop-shadow-md">
+                    <span className="bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 bg-clip-text text-transparent filter drop-shadow-[0_6px_20px_rgba(245,158,11,0.5)]">
                       NAEIM Visual
                     </span>
                   </h1>
                   <p
-                    className={`text-base sm:text-lg font-semibold tracking-wide ${
-                      isDark ? 'text-slate-300' : 'text-slate-700'
+                    className={`text-base sm:text-lg font-black tracking-wide ${
+                      isDark ? 'text-slate-100' : 'text-slate-900'
                     }`}
                   >
-                    Dynamic Video Editor & Creative Visual Artist
+                    Dynamic Video Editor & Creative Motion Designer
                   </p>
                 </div>
 
-                {/* SOCIAL LOGOS DIRECTLY UNDER THE NAME (Facebook, Behance, YouTube) */}
-                <div className="pt-1 pb-1">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5 flex items-center justify-center md:justify-start gap-1.5">
+                {/* 1. SOCIAL BRAND CHANNELS (Facebook, Behance, YouTube) */}
+                <div className="pt-1">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-center md:justify-start gap-1.5">
                     <Share2 className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Connect & Follow My Channels</span>
+                    <span>Official Creative Channels</span>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                    {/* 1. Facebook Logo Button */}
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+                    {/* Facebook Button */}
                     <a
                       href="https://www.facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/btn inline-flex items-center gap-2.5 py-2 px-4 rounded-xl border font-bold text-xs transition-all duration-200 bg-[#1877f2]/10 border-[#1877f2]/30 text-[#1877f2] dark:text-[#4294ff] hover:bg-[#1877f2] hover:text-white shadow-sm hover:shadow-md hover:scale-105"
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-[#1877f2] font-bold text-xs transition-all duration-200 bg-[#1877f2] text-white hover:bg-[#166fe5] hover:shadow-lg hover:shadow-[#1877f2]/30 hover:scale-105"
                       title="Connect on Facebook"
                     >
-                      <FacebookIcon className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-                      <span>Facebook</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100" />
+                      <FacebookIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">Facebook</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </a>
 
-                    {/* 2. Behance Logo Button */}
+                    {/* Behance Button */}
                     <a
-                      href="https://www.behance.net"
+                      href="https://www.behance.net/mdnaeim26"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/btn inline-flex items-center gap-2.5 py-2 px-4 rounded-xl border font-bold text-xs transition-all duration-200 bg-[#0057ff]/10 border-[#0057ff]/30 text-[#0057ff] dark:text-[#3884ff] hover:bg-[#0057ff] hover:text-white shadow-sm hover:shadow-md hover:scale-105"
-                      title="Follow on Behance"
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-[#0057ff] font-bold text-xs transition-all duration-200 bg-[#0057ff] text-white hover:bg-[#0047d4] hover:shadow-lg hover:shadow-[#0057ff]/30 hover:scale-105"
+                      title="View Projects on Behance (mdnaeim26)"
                     >
-                      <BehanceIcon className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-                      <span>Behance</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100" />
+                      <BehanceIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">Behance</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </a>
 
-                    {/* 3. YouTube Logo Button */}
+                    {/* YouTube Button */}
                     <a
-                      href="https://youtube.com/@naeimvisual"
+                      href="https://www.youtube.com/@MdNaeim-u8x"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/btn inline-flex items-center gap-2.5 py-2 px-4 rounded-xl border font-bold text-xs transition-all duration-200 bg-[#ff0000]/10 border-[#ff0000]/30 text-[#ff0000] dark:text-[#ff4e4e] hover:bg-[#ff0000] hover:text-white shadow-sm hover:shadow-md hover:scale-105"
-                      title="Subscribe on YouTube"
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-[#ff0000] font-bold text-xs transition-all duration-200 bg-[#ff0000] text-white hover:bg-[#cc0000] hover:shadow-lg hover:shadow-[#ff0000]/30 hover:scale-105"
+                      title="Subscribe on YouTube (@MdNaeim-u8x)"
                     >
-                      <YouTubeIcon className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-                      <span>YouTube</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100" />
+                      <YouTubeIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">YouTube</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* 2. DIRECT CONTACT BUTTONS: EMAIL, WHATSAPP & DIRECT CALL */}
+                <div className="pt-2">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-center md:justify-start gap-1.5">
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Direct Inquiries & WhatsApp Chat</span>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+                    {/* Compact Email Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowEmailModal(true)}
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-rose-500 font-bold text-xs transition-all duration-200 bg-gradient-to-r from-rose-600 to-rose-700 text-white hover:from-rose-500 hover:to-rose-600 hover:shadow-lg hover:shadow-rose-600/30 hover:scale-105 cursor-pointer"
+                      title="Send Email / Message"
+                    >
+                      <GmailIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">Email</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
+                    </button>
+
+                    {/* WhatsApp Button (Clean, NO number displayed here, directly opens WhatsApp for 01610977029) */}
+                    <a
+                      href={getWhatsAppLink(whatsAppNumber)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-emerald-500 font-bold text-xs transition-all duration-200 bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:from-emerald-500 hover:to-green-500 hover:shadow-lg hover:shadow-emerald-600/30 hover:scale-105"
+                      title="Direct Chat on WhatsApp"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">WhatsApp</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
+                    </a>
+
+                    {/* Contact Phone Button (Direct telephone contact replacing number) */}
+                    <a
+                      href="tel:+8801610977029"
+                      className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-amber-500 font-bold text-xs transition-all duration-200 bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-500 hover:to-orange-500 hover:shadow-lg hover:shadow-amber-600/30 hover:scale-105"
+                      title="Direct Phone Call: +8801610977029"
+                    >
+                      <Phone className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
+                      <span className="text-white font-extrabold tracking-wide">Contact</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </a>
                   </div>
                 </div>
 
                 {/* Clean, punchy bio without text clutter */}
                 <p
-                  className={`text-sm sm:text-base leading-relaxed max-w-2xl ${
+                  className={`text-sm leading-relaxed max-w-2xl ${
                     isDark ? 'text-slate-300' : 'text-slate-600'
                   }`}
                 >
                   Passionate video editor & visual storyteller. Specializing in cinematic pacing, dynamic sound design, and color grading.
                 </p>
 
-                {/* Action Buttons */}
-                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
+                {/* Quick Scroll Links */}
+                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-3">
                   <a
                     href="#videos"
-                    className="inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
                     <span>Watch Videos</span>
@@ -552,7 +730,7 @@ export default function App() {
 
                   <a
                     href="#shorts"
-                    className="inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
                   >
                     <Smartphone className="w-3.5 h-3.5" />
                     <span>Shorts</span>
@@ -560,7 +738,7 @@ export default function App() {
 
                   <a
                     href="#contact"
-                    className={`inline-flex items-center gap-2 py-2 px-3.5 sm:py-2.5 sm:px-4 rounded-xl text-xs font-bold border transition-colors ${
+                    className={`inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border transition-colors ${
                       isDark
                         ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white'
                         : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-100 shadow-sm'
@@ -573,7 +751,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={copyEmailToClipboard}
-                    className={`inline-flex items-center gap-1.5 py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1.5 py-2 px-3 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
                       isDark
                         ? 'border-slate-800 bg-slate-800/60 text-slate-400 hover:text-slate-200'
                         : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900'
@@ -588,7 +766,7 @@ export default function App() {
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Email</span>
+                        <span>Copy Email</span>
                       </>
                     )}
                   </button>
@@ -1026,30 +1204,40 @@ export default function App() {
               >
                 <div className="flex items-center gap-3">
                   <span className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-                    <MessageCircle className="w-5 h-5" />
+                    <WhatsAppIcon className="w-5 h-5 text-emerald-500" />
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-sm">WhatsApp Chat</h4>
+                    <h4 className="font-heading font-bold text-sm">WhatsApp Direct Chat</h4>
                     <p
                       className={`text-xs ${
                         isDark ? 'text-slate-400' : 'text-slate-500'
                       }`}
                     >
-                      Fast response for project inquiries & quotes
+                      Instant reply & collaboration for your video projects
                     </p>
                   </div>
                 </div>
 
-                <a
-                  href="https://wa.me/?text=Hi%20Naeim,%20I%20saw%20your%20video%20editor%20portfolio%20and%20would%20like%20to%20collaborate!"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-sm"
-                >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Chat on WhatsApp</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <a
+                    href={getWhatsAppLink(whatsAppNumber)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md hover:scale-[1.02]"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 text-white" />
+                    <span>Start WhatsApp Chat</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="tel:+8801610977029"
+                    className="inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white transition-all shadow-md hover:scale-[1.02]"
+                    title="Direct Phone Call"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-white" />
+                    <span>Contact Call</span>
+                  </a>
+                </div>
               </div>
 
               {/* Social Channels with Official Brand Icons */}
@@ -1081,7 +1269,7 @@ export default function App() {
 
                   {/* Behance */}
                   <a
-                    href="https://www.behance.net"
+                    href="https://www.behance.net/mdnaeim26"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`p-3 rounded-xl border flex flex-col items-center gap-1.5 transition-all text-center ${
@@ -1096,7 +1284,7 @@ export default function App() {
 
                   {/* YouTube */}
                   <a
-                    href="https://youtube.com/@naeimvisual"
+                    href="https://www.youtube.com/@MdNaeim-u8x"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`p-3 rounded-xl border flex flex-col items-center gap-1.5 transition-all text-center ${
@@ -1248,33 +1436,42 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
               href="https://www.facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors"
+              className="p-2 rounded-xl bg-[#1877f2] text-white hover:bg-[#166fe5] transition-all hover:scale-105 shadow-sm"
               title="Facebook"
             >
-              <FacebookIcon className="w-4 h-4 text-[#1877f2]" />
+              <FacebookIcon className="w-4 h-4 text-white" />
             </a>
             <a
-              href="https://www.behance.net"
+              href="https://www.behance.net/mdnaeim26"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors"
-              title="Behance"
+              className="p-2 rounded-xl bg-[#0057ff] text-white hover:bg-[#0047d4] transition-all hover:scale-105 shadow-sm"
+              title="Behance (mdnaeim26)"
             >
-              <BehanceIcon className="w-4 h-4 text-[#0057ff]" />
+              <BehanceIcon className="w-4 h-4 text-white" />
             </a>
             <a
-              href="https://youtube.com/@naeimvisual"
+              href="https://www.youtube.com/@MdNaeim-u8x"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors"
-              title="YouTube"
+              className="p-2 rounded-xl bg-[#ff0000] text-white hover:bg-[#cc0000] transition-all hover:scale-105 shadow-sm"
+              title="YouTube (@MdNaeim-u8x)"
             >
-              <YouTubeIcon className="w-4 h-4 text-[#ff0000]" />
+              <YouTubeIcon className="w-4 h-4 text-white" />
+            </a>
+            <a
+              href={getWhatsAppLink(whatsAppNumber)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl bg-[#25D366] text-white hover:bg-[#20ba59] transition-all hover:scale-105 shadow-sm"
+              title="WhatsApp"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-white" />
             </a>
           </div>
 
@@ -1283,6 +1480,111 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Direct Email Modal Dialog */}
+      {showEmailModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-modal">
+          <div
+            className={`w-full max-w-md rounded-2xl border p-6 shadow-2xl space-y-4 ${
+              isDark
+                ? 'bg-slate-900 border-slate-700 text-slate-100'
+                : 'bg-white border-slate-200 text-slate-900'
+            }`}
+          >
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-2">
+                <span className="p-2 rounded-xl bg-rose-500/15 text-rose-500">
+                  <GmailIcon className="w-5 h-5 text-rose-500" />
+                </span>
+                <div>
+                  <h3 className="font-heading font-black text-base">Direct Email Contact</h3>
+                  <p className="text-[11px] text-slate-400">Collaborate with NAEIM Visual</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEmailModal(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-200 hover:bg-slate-800 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs font-semibold text-slate-400">Official Inquiries Email:</span>
+              <div className="p-3 rounded-xl border border-rose-500/30 bg-rose-500/10 flex items-center justify-between gap-2">
+                <span className="font-mono text-sm font-bold text-rose-500 select-all">
+                  naeim.connect@gmail.com
+                </span>
+                <button
+                  type="button"
+                  onClick={copyEmailToClipboard}
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Quick message form inside modal */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const msgInput = form.elements.namedItem('modalMessage') as HTMLTextAreaElement;
+                const msg = msgInput?.value || '';
+                const subject = encodeURIComponent('Video Editing Project Inquiry - NAEIM Visual');
+                const body = encodeURIComponent(msg || 'Hi Naeim, I would like to collaborate with you on a video project.');
+                window.location.href = `mailto:naeim.connect@gmail.com?subject=${subject}&body=${body}`;
+                setShowEmailModal(false);
+              }}
+              className="space-y-3 pt-1"
+            >
+              <label htmlFor="modalMessage" className="text-xs font-semibold text-slate-400 block">
+                Write a quick message to Naeim:
+              </label>
+              <textarea
+                id="modalMessage"
+                name="modalMessage"
+                rows={3}
+                placeholder="Hi Naeim, I have a video editing project and need your services..."
+                className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:ring-2 focus:ring-rose-500 ${
+                  isDark
+                    ? 'bg-slate-950 border-slate-700 text-slate-100 placeholder:text-slate-500'
+                    : 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-400'
+                }`}
+              />
+
+              <div className="flex items-center gap-2.5 pt-1">
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Send Email Directly</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowEmailModal(false)}
+                  className="py-2.5 px-4 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

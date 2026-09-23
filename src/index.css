@@ -47,3 +47,62 @@
 .animate-modal {
   animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Orbiting Animation for Editing Badges around Profile */
+@keyframes spinOrbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counterSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-orbit {
+  animation: spinOrbit 26s linear infinite;
+  transform-origin: center center;
+}
+
+.animate-orbit:hover {
+  animation-play-state: paused;
+}
+
+.animate-counter-spin {
+  animation: counterSpin 26s linear infinite;
+  transform-origin: center center;
+}
+
+.animate-orbit:hover .animate-counter-spin {
+  animation-play-state: paused;
+}
+
+/* Continuous gradient glow spin around photo frame - Neon Cyber-Gold & Electric Violet */
+@keyframes glowRotate {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.75;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.75;
+  }
+}
+
+.animate-glow-spin {
+  animation: glowRotate 7s linear infinite;
+}
+
+
