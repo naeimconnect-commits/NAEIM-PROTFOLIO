@@ -3,15 +3,11 @@ import {
   Sun,
   Moon,
   Play,
-  X,
-  ChevronLeft,
-  ChevronRight,
   Mail,
   MessageCircle,
   Copy,
   Check,
   Film,
-  Sparkles,
   ExternalLink,
   Layers,
   Sliders,
@@ -23,7 +19,9 @@ import {
   Share2,
   Tv,
   Flame,
-  Award
+  Award,
+  Sparkles,
+  Smartphone
 } from 'lucide-react';
 
 // Custom SVG Brand Icons for Facebook, Behance & YouTube
@@ -51,59 +49,6 @@ function YouTubeIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-interface GraphicItem {
-  id: number;
-  filename: string;
-  title: string;
-  category: string;
-  description: string;
-}
-
-const GRAPHIC_ITEMS: GraphicItem[] = [
-  {
-    id: 1,
-    filename: 'graphic1.jpg',
-    title: 'Cyber Horizon',
-    category: 'Key Art & Movie Poster',
-    description: 'Neo-noir futuristic visual identity with textured film grain and typographic hierarchy.'
-  },
-  {
-    id: 2,
-    filename: 'graphic2.jpg',
-    title: 'Echo Soundscape',
-    category: 'Audio Visual & Event Teaser',
-    description: 'Dynamic soundwave composition pairing bold modern typography with high-contrast duotone palettes.'
-  },
-  {
-    id: 3,
-    filename: 'graphic3.jpg',
-    title: 'Urban Drift',
-    category: 'Brand Lookbook & Editorial',
-    description: 'High-energy streetwear campaign poster featuring dramatic street photography and brutalist framing.'
-  },
-  {
-    id: 4,
-    filename: 'graphic4.jpg',
-    title: 'Silent Summit',
-    category: 'Documentary Film Artwork',
-    description: 'Atmospheric cold-toned cinematic poster with minimalist serif typography and festival laurels.'
-  },
-  {
-    id: 5,
-    filename: 'graphic5.jpg',
-    title: 'Velocity Motion',
-    category: 'Motion Studio Identity',
-    description: 'Dynamic kinetic light streak design exploring velocity, speed trails, and geometric title layouts.'
-  },
-  {
-    id: 6,
-    filename: 'graphic6.jpg',
-    title: 'Apex Finals',
-    category: 'Sports Hype Reel Artwork',
-    description: 'High-intensity athletic cover artwork with dramatic stadium lighting, glowing embers, and textured grit.'
-  }
-];
-
 interface VideoItem {
   id: string;
   youtubeId: string;
@@ -114,8 +59,90 @@ interface VideoItem {
   duration: string;
   description: string;
   tags: string[];
+  isShort?: boolean;
 }
 
+// Interactive YouTube Video Card: Shows official YouTube thumbnail with play button.
+// Clicking it directly opens the video or short on YouTube with auto-play in a fresh tab,
+// completely avoiding the Google account/workspace iframe restrictions.
+function YouTubePlayer({
+  videoId,
+  title,
+  className = "",
+  aspectRatio = "video",
+  isShort = false,
+}: {
+  videoId: string;
+  title: string;
+  className?: string;
+  aspectRatio?: "video" | "short";
+  isShort?: boolean;
+}) {
+  const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
+  const youtubeUrl = isShort 
+    ? `https://www.youtube.com/shorts/${videoId}` 
+    : `https://www.youtube.com/watch?v=${videoId}&autoplay=1`;
+
+  return (
+    <div className={`relative w-full ${aspectRatio === 'short' ? 'aspect-[9/16]' : 'aspect-video'} rounded-2xl overflow-hidden bg-black border border-slate-700/80 shadow-2xl group ${className}`}>
+      <a
+        href={youtubeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative w-full h-full flex items-center justify-center overflow-hidden cursor-pointer block"
+        aria-label={`Watch ${title} directly on YouTube`}
+        title="Click to play directly on YouTube"
+      >
+        {/* Official YouTube Thumbnail */}
+        <img
+          src={imgSrc}
+          alt={title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onError={() => {
+            // Fallback to high-quality thumbnail if maxres is unavailable
+            if (!imgSrc.includes('hqdefault')) {
+              setImgSrc(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+            }
+          }}
+        />
+
+        {/* Ambient Dark Gradient Overlay with hover lift */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30 group-hover:from-black/60 transition-colors" />
+
+        {/* Prominent Red YouTube Play Button with Pulse on Hover */}
+        <div className="relative z-10 flex flex-col items-center gap-2">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 border-2 border-white/50 group-hover:shadow-red-600/50">
+            <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1 transition-transform group-hover:scale-110" />
+          </div>
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[10px] sm:text-[11px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-black/85 text-white border border-white/20 backdrop-blur-sm shadow-lg flex items-center gap-1">
+            <span>{isShort ? 'Watch Short' : 'Play on YouTube'}</span>
+            <ArrowUpRight className="w-3 h-3 text-red-400" />
+          </span>
+        </div>
+
+        {/* Bottom Bar: Title & Direct YouTube badge */}
+        <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 z-10 flex items-center justify-between text-white/95 text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+          <span className="truncate pr-2 group-hover:text-red-300 transition-colors">{title}</span>
+          <span className="px-2.5 py-1 rounded-md bg-red-600 hover:bg-red-500 text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-1 shadow-md transition-colors">
+            <YouTubeIcon className="w-3.5 h-3.5" />
+            <span>{isShort ? 'Short' : 'Watch'}</span>
+          </span>
+        </div>
+      </a>
+    </div>
+  );
+}
+
+// User-provided portfolio videos & shorts:
+// Long-form / Standard 16:9 Projects:
+// 1. https://youtu.be/kuIQFjypFSs (Featured)
+// 2. https://youtu.be/oZdRVLPeWlg (New)
+// 3. https://youtu.be/qUkSfM-V4oc (New)
+// 4. https://youtu.be/7d1hAfH7egc
+// 5. https://youtu.be/1u6Tp4tM2lY
+// Shorts / Vertical 9:16:
+// 6. https://youtube.com/shorts/Czw6vV-Eklk?feature=share (New)
+// 7. https://youtube.com/shorts/loftNkx9sOs?feature=share (New)
 const PORTFOLIO_VIDEOS: VideoItem[] = [
   {
     id: 'vid-featured',
@@ -125,8 +152,30 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     badge: 'Featured Masterpiece',
     role: 'Lead Editor, Sound Design & Color Grade',
     duration: '2:30',
-    description: 'My absolute best showcase trailer featuring precise pacing, deep sound design layering, dynamic speed transitions, and high-contrast cinematic atmosphere.',
+    description: 'My showcase trailer featuring precise pacing, deep sound design layering, dynamic speed transitions, and high-contrast cinematic atmosphere.',
     tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel']
+  },
+  {
+    id: 'vid-ozdrv',
+    youtubeId: 'oZdRVLPeWlg',
+    url: 'https://youtu.be/oZdRVLPeWlg',
+    title: 'Cinematic Storytelling & Visual Narrative Cut',
+    badge: 'Narrative Project',
+    role: 'Visual Cut, SFX & Atmosphere',
+    duration: 'Full Cut',
+    description: 'A deep atmospheric edit emphasizing pacing, immersive sound design layers, natural dialogue dynamics, and rich cinematic tones.',
+    tags: ['Visual Story', 'Pacing & Tone', 'Sound Design', 'Color Grading']
+  },
+  {
+    id: 'vid-quksf',
+    youtubeId: 'qUkSfM-V4oc',
+    url: 'https://youtu.be/qUkSfM-V4oc',
+    title: 'Kinetic Motion & Dynamic Transition Edit',
+    badge: 'Motion Reel',
+    role: 'Beat Sync, Speed Ramping & Color',
+    duration: 'Full Cut',
+    description: 'Fast-paced rhythmic cut synced precisely to audio transients, multi-layered foley effects, and punchy visual contrast.',
+    tags: ['Kinetic Cuts', 'Beat Matching', 'Color Pass', 'Audio SFX']
   },
   {
     id: 'vid-1',
@@ -136,8 +185,8 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     badge: 'Narrative Atmosphere',
     role: 'Editorial Pacing & Ambient Sound',
     duration: '2:14',
-    description: 'A study in emotional pacing, ambient audio layering, and building cinematic tension without rushed transitions.',
-    tags: ['Emotional Flow', 'Sound Atmosphere', 'Matched Cuts']
+    description: 'A study in emotional pacing, ambient audio layering, and building cinematic tension with rhythmic matched cuts and natural dialogue flow.',
+    tags: ['Emotional Flow', 'Sound Atmosphere', 'Matched Cuts', 'Dialogue Editing']
   },
   {
     id: 'vid-2',
@@ -147,8 +196,35 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     badge: 'Commercial Reel',
     role: 'Dynamic Cuts & Audio SFX Sync',
     duration: '1:48',
-    description: 'Fast-paced cuts matched precisely to musical transients with punchy foley sound effects, speed ramps, and stylized color contrast.',
-    tags: ['Beat Sync', 'Speed Ramps', 'Impact SFX']
+    description: 'Fast-paced cuts matched precisely to musical transients with punchy foley sound effects, kinetic speed ramps, and stylized color contrast.',
+    tags: ['Beat Sync', 'Speed Ramps', 'Impact SFX', 'Color Contrast']
+  }
+];
+
+const PORTFOLIO_SHORTS: VideoItem[] = [
+  {
+    id: 'short-czw6v',
+    youtubeId: 'Czw6vV-Eklk',
+    url: 'https://youtube.com/shorts/Czw6vV-Eklk?feature=share',
+    title: 'Shorts: Visual Impact Cut',
+    badge: 'YouTube Short',
+    role: 'Fast Hook & Viral Pacing',
+    duration: '< 60s',
+    description: 'High-retention vertical edit crafted for maximum engagement, punchy opening hook, and seamless looping rhythm.',
+    tags: ['Vertical Video', 'Hook Design', 'High Retention', 'Speed Ramp'],
+    isShort: true
+  },
+  {
+    id: 'short-loftn',
+    youtubeId: 'loftNkx9sOs',
+    url: 'https://youtube.com/shorts/loftNkx9sOs?feature=share',
+    title: 'Shorts: Kinetic Audio Sync',
+    badge: 'YouTube Short',
+    role: 'Micro-editing & SFX Layers',
+    duration: '< 60s',
+    description: 'Punchy mobile-first short form cut with synchronized sound effects, crisp color grading, and dynamic frame transitions.',
+    tags: ['Sound Sync', 'Micro Cuts', 'Reels / Shorts', 'Color Pop'],
+    isShort: true
   }
 ];
 
@@ -161,9 +237,6 @@ export default function App() {
     }
     return true; // Default dark
   });
-
-  // Lightbox state for graphic images
-  const [activeGraphicIndex, setActiveGraphicIndex] = useState<number | null>(null);
 
   // Email copy feedback
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -187,27 +260,6 @@ export default function App() {
       localStorage.setItem('theme-mode', 'light');
     }
   }, [isDark]);
-
-  // Handle keyboard navigation for lightbox
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (activeGraphicIndex === null) return;
-      if (e.key === 'Escape') {
-        setActiveGraphicIndex(null);
-      } else if (e.key === 'ArrowRight') {
-        setActiveGraphicIndex((prev) =>
-          prev !== null ? (prev + 1) % GRAPHIC_ITEMS.length : null
-        );
-      } else if (e.key === 'ArrowLeft') {
-        setActiveGraphicIndex((prev) =>
-          prev !== null ? (prev - 1 + GRAPHIC_ITEMS.length) % GRAPHIC_ITEMS.length : null
-        );
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeGraphicIndex]);
 
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText('naeim.connect@gmail.com');
@@ -236,7 +288,6 @@ export default function App() {
     >
       {/* ========================================================================= */}
       {/* 1. TOP NAVIGATION BAR                                                     */}
-      {/* Minimalist header with highlighted name on left, Dark/Light toggle on right*/}
       {/* ========================================================================= */}
       <header
         className={`sticky top-0 z-40 border-b backdrop-blur-md transition-colors duration-300 ${
@@ -285,15 +336,18 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              Videos
+              Video Works
             </a>
             <a
-              href="#graphics"
-              className={`transition-colors hover:text-rose-500 ${
+              href="#shorts"
+              className={`transition-colors hover:text-rose-500 flex items-center gap-1.5 ${
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              Graphics
+              <span>Shorts</span>
+              <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-red-600 text-white">
+                New
+              </span>
             </a>
             <a
               href="#about"
@@ -319,7 +373,7 @@ export default function App() {
               onClick={() => setIsDark(!isDark)}
               type="button"
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className={`p-2.5 rounded-xl transition-all duration-200 border flex items-center gap-2 text-xs font-medium ${
+              className={`p-2.5 rounded-xl transition-all duration-200 border flex items-center gap-2 text-xs font-medium cursor-pointer ${
                 isDark
                   ? 'bg-slate-800/90 border-slate-700 text-amber-300 hover:bg-slate-700 hover:text-white shadow-sm'
                   : 'bg-slate-100 border-slate-300/80 text-slate-700 hover:bg-slate-200 hover:text-slate-900 shadow-sm'
@@ -351,12 +405,6 @@ export default function App() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16 sm:space-y-24">
         {/* ========================================================================= */}
-        {/* USER REQUIREMENT:                                                         */}
-        {/* "প্রোফাইল পিকচারটা নামসহ উপরে থাকবে আর ভিডিওগুলো সব সময় নিচে থাকবে।"      */}
-        {/* "আর নামের নিচে ফেসবুকের লোগো, বিহান্সের লোগো, ইউটিউবের লোগো এগুলা দিয়ে দাও।" */}
-        {/* ========================================================================= */}
-
-        {/* ========================================================================= */}
         {/* SECTION 1: PROFILE PICTURE WITH HIGHLIGHTED NAME & SOCIAL LOGOS AT THE TOP*/}
         {/* ========================================================================= */}
         <section id="profile" className="scroll-mt-24">
@@ -380,7 +428,6 @@ export default function App() {
             <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
               {/* Profile Picture at Top */}
               <div className="relative shrink-0 group">
-                {/* Glow ring around avatar */}
                 <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-rose-600 via-amber-400 to-rose-500 opacity-75 blur-md group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border-2 border-white/30 shadow-2xl bg-slate-950">
@@ -492,7 +539,7 @@ export default function App() {
                 >
                   Welcome to my portfolio! I transform raw footage into rhythmically driven visual
                   masterpieces with razor-sharp cuts, atmospheric sound design, and cohesive color
-                  treatment. Explore all my featured video edits below!
+                  treatment. Watch all my video projects below!
                 </p>
 
                 {/* Action Buttons */}
@@ -502,7 +549,15 @@ export default function App() {
                     className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Watch All Videos Below</span>
+                    <span>Watch All Videos</span>
+                  </a>
+
+                  <a
+                    href="#shorts"
+                    className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
+                  >
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>Watch Shorts (2)</span>
                   </a>
 
                   <a
@@ -520,7 +575,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={copyEmailToClipboard}
-                    className={`inline-flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-medium border transition-colors ${
+                    className={`inline-flex items-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
                       isDark
                         ? 'border-slate-800 bg-slate-800/60 text-slate-400 hover:text-slate-200'
                         : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900'
@@ -542,25 +597,47 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {/* DIRECTLY UNDER THE PROFILE DETAILS: THE REQUESTED VIDEO EMBED */}
+            <div className="mt-8 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500">
+                  <Play className="w-4 h-4 fill-rose-500" />
+                  <span>Featured Video Trailer · NAEIM Visual</span>
+                </div>
+                <a
+                  href="https://youtu.be/kuIQFjypFSs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 hover:text-rose-400 transition-colors"
+                >
+                  <YouTubeIcon className="w-4 h-4" />
+                  <span>https://youtu.be/kuIQFjypFSs</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              <YouTubePlayer
+                videoId="kuIQFjypFSs"
+                title="Featured Video Trailer - NAEIM Visual"
+              />
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 2: ALL VIDEOS ARE NOW ORGANIZED BELOW THE PROFILE                 */}
-        {/* User requested: "আর ভিডিওগুলো সব সময় নিচে থাকবে।"                         */}
-        {/* Featuring:                                                                */}
-        {/* 1) Featured Trailer Video (kuIQFjypFSs) in high-impact responsive container*/}
-        {/* 2) Portfolio Videos (7d1hAfH7egc & 1u6Tp4tM2lY)                           */}
+        {/* SECTION 2: MORE PROJECT VIDEOS (16:9)                                     */}
+        {/* YouTube embeds load cleanly with title, direct open, and responsive ratio */}
         {/* ========================================================================= */}
-        <section id="videos" className="space-y-10 scroll-mt-24">
+        <section id="videos" className="space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Tv className="w-4 h-4" />
-                <span>Video Showcase Portfolio</span>
+                <span>Cinematic Video Works</span>
               </div>
               <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                All Featured Videos & Edits
+                Featured & Additional Video Projects
               </h2>
             </div>
             <p
@@ -568,130 +645,170 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              Every cut, sound design layer, and color grade is crafted to captivate the viewer and
-              elevate the story.
+              Editorial pacing, sound design, and color contrast. Play any project directly or open on YouTube.
             </p>
           </div>
 
-          {/* 2A: FEATURED / BEST VIDEO (At the top of the video section) */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500">
-                <Award className="w-4 h-4" />
-                <span>Featured Showcase · Master Trailer</span>
-              </div>
-              <div
-                className={`text-xs font-semibold flex items-center gap-2 ${
-                  isDark ? 'text-slate-400' : 'text-slate-500'
-                }`}
-              >
-                <span>1080p 60fps</span>
-                <span aria-hidden="true">·</span>
-                <span>Sound Mastered</span>
-              </div>
-            </div>
-
-            {/* Featured Video Container (16:9 aspect ratio with subtle shadow) */}
-            <div
-              className={`relative rounded-3xl overflow-hidden border-2 transition-all duration-300 shadow-2xl ${
-                isDark
-                  ? 'bg-slate-900/90 border-slate-800 shadow-black/80 ring-1 ring-rose-500/20'
-                  : 'bg-white border-slate-200 shadow-slate-300/80 ring-1 ring-rose-500/10'
-              }`}
-            >
-              <div className="relative w-full aspect-video bg-black">
-                <iframe
-                  src="https://www.youtube-nocookie.com/embed/kuIQFjypFSs?rel=0&modestbranding=1"
-                  title="Featured Video Trailer - NAEIM Visual"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full border-0"
-                  loading="eager"
-                />
-              </div>
-
-              {/* Meta bar */}
-              <div
-                className={`p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs border-t ${
-                  isDark
-                    ? 'bg-slate-900/95 border-slate-800 text-slate-300'
-                    : 'bg-slate-50 border-slate-200 text-slate-700'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="p-1 rounded-md bg-rose-500/20 text-rose-500">
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                  </span>
-                  <span className="font-bold text-sm tracking-tight text-white dark:text-slate-100">
-                    Featured Master Showreel & Trailer Edit
-                  </span>
-                  <span className="hidden sm:inline opacity-40">|</span>
-                  <span className="hidden sm:inline text-rose-400 font-medium">Original Cut by NAEIM Visual</span>
-                </div>
-
-                <a
-                  href="https://youtu.be/kuIQFjypFSs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-rose-600 hover:bg-rose-500 transition-colors shadow-sm"
-                >
-                  <YouTubeIcon className="w-4 h-4" />
-                  <span>Watch on YouTube</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* 2B: OTHER VIDEO PORTFOLIO WORKS (7d1hAfH7egc & 1u6Tp4tM2lY) */}
-          <div className="space-y-4 pt-4">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500">
-              <Film className="w-4 h-4" />
-              <span>More Video Works</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-              {PORTFOLIO_VIDEOS.slice(1).map((video, idx) => (
+          {/* VIDEOS GRID (4 Projects) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              {PORTFOLIO_VIDEOS.slice(1).map((video) => (
                 <div
                   key={video.id}
-                  className={`group rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
+                  className={`group rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
                     isDark
                       ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
                       : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
                   }`}
                 >
-                  {/* Responsive 16:9 iframe embed */}
-                  <div className="relative w-full aspect-video bg-black overflow-hidden">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0&modestbranding=1`}
-                      title={video.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full border-0"
-                      loading="lazy"
-                    />
-                  </div>
+                  {/* Responsive 16:9 interactive video with YouTube thumbnail */}
+                  <YouTubePlayer
+                    videoId={video.youtubeId}
+                    title={video.title}
+                  />
 
                   {/* Card Information */}
-                  <div className="p-6 space-y-4">
+                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                          {video.badge}
+                        </span>
+                        <span
+                          className={`flex items-center gap-1.5 font-medium ${
+                            isDark ? 'text-slate-400' : 'text-slate-500'
+                          }`}
+                        >
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>{video.duration}</span>
+                          <span aria-hidden="true">·</span>
+                          <span>{video.role}</span>
+                        </span>
+                      </div>
+
+                      <h3 className="font-heading text-xl font-bold tracking-tight group-hover:text-rose-500 transition-colors">
+                        {video.title}
+                      </h3>
+
+                      <p
+                        className={`text-xs sm:text-sm leading-relaxed ${
+                          isDark ? 'text-slate-300' : 'text-slate-600'
+                        }`}
+                      >
+                        {video.description}
+                      </p>
+
+                      {/* Tags */}
+                      <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex flex-wrap gap-1.5">
+                        {video.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
+                              isDark
+                                ? 'bg-slate-800/80 border-slate-700/80 text-slate-300'
+                                : 'bg-slate-100 border-slate-200 text-slate-700'
+                            }`}
+                          >
+                            ✓ {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Direct YouTube Link and Info */}
+                    <div className="pt-4 mt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-xs">
+                      <span
+                        className={`text-[11px] font-mono truncate max-w-[170px] ${
+                          isDark ? 'text-slate-400' : 'text-slate-500'
+                        }`}
+                        title={video.url}
+                      >
+                        {video.url}
+                      </span>
+                      <a
+                        href={video.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-bold text-rose-500 hover:text-rose-400 transition-colors"
+                      >
+                        <YouTubeIcon className="w-3.5 h-3.5 text-rose-500" />
+                        <span>Open Video</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION 2.5: YOUTUBE SHORTS & VERTICAL FORMAT                             */}
+        {/* ========================================================================= */}
+        <section id="shorts" className="space-y-8 scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
+                <Smartphone className="w-4 h-4 text-rose-500" />
+                <span>Short-Form & Vertical Video</span>
+              </div>
+              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+                YouTube Shorts Showcase
+              </h2>
+            </div>
+            <p
+              className={`text-xs sm:text-sm max-w-md ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}
+            >
+              High-retention vertical edits designed for Reels, TikTok & YouTube Shorts with fast-paced retention hooks.
+            </p>
+          </div>
+
+          {/* SHORTS GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {PORTFOLIO_SHORTS.map((short) => (
+              <div
+                key={short.id}
+                className={`group rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
+                  isDark
+                    ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
+                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
+                }`}
+              >
+                {/* 9:16 Vertical Video Frame with YouTube Thumbnail */}
+                <div className="p-4 sm:p-5 flex justify-center bg-black/40">
+                  <div className="w-full max-w-[280px]">
+                    <YouTubePlayer
+                      videoId={short.youtubeId}
+                      title={short.title}
+                      aspectRatio="short"
+                      isShort={true}
+                    />
+                  </div>
+                </div>
+
+                {/* Shorts Card Details */}
+                <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                  <div className="space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">
-                        {video.badge}
+                      <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-red-600/15 text-red-500 border border-red-600/25 flex items-center gap-1.5">
+                        <YouTubeIcon className="w-3 h-3" />
+                        <span>{short.badge}</span>
                       </span>
                       <span
-                        className={`flex items-center gap-1.5 font-medium ${
+                        className={`flex items-center gap-1.5 font-medium text-xs ${
                           isDark ? 'text-slate-400' : 'text-slate-500'
                         }`}
                       >
                         <Clock className="w-3.5 h-3.5" />
-                        <span>{video.duration}</span>
+                        <span>{short.duration}</span>
                         <span aria-hidden="true">·</span>
-                        <span>{video.role}</span>
+                        <span>{short.role}</span>
                       </span>
                     </div>
 
                     <h3 className="font-heading text-xl font-bold tracking-tight group-hover:text-rose-500 transition-colors">
-                      {video.title}
+                      {short.title}
                     </h3>
 
                     <p
@@ -699,12 +816,12 @@ export default function App() {
                         isDark ? 'text-slate-300' : 'text-slate-600'
                       }`}
                     >
-                      {video.description}
+                      {short.description}
                     </p>
 
                     {/* Tags */}
                     <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex flex-wrap gap-1.5">
-                      {video.tags.map((tag) => (
+                      {short.tags.map((tag) => (
                         <span
                           key={tag}
                           className={`text-[11px] px-2 py-0.5 rounded border font-medium ${
@@ -717,112 +834,29 @@ export default function App() {
                         </span>
                       ))}
                     </div>
-
-                    {/* Direct YouTube link */}
-                    <div className="pt-2 flex items-center justify-between text-xs">
-                      <span
-                        className={`text-[11px] ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}
-                      >
-                        Video link #{idx + 1}
-                      </span>
-                      <a
-                        href={video.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-bold text-rose-500 hover:text-rose-400 transition-colors"
-                      >
-                        <YouTubeIcon className="w-3.5 h-3.5 text-rose-500" />
-                        <span>Open on YouTube</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* ========================================================================= */}
-        {/* SECTION 3: GRAPHIC WORK SECTION                                           */}
-        {/* 6 image cards with exact filenames graphic1.jpg to graphic6.jpg           */}
-        {/* Lightbox / Modal when clicked                                             */}
-        {/* ========================================================================= */}
-        <section id="graphics" className="space-y-8 scroll-mt-24">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
-                <Palette className="w-4 h-4" />
-                <span>Graphic & Poster Designs</span>
-              </div>
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                Visual Art & Key Frames
-              </h2>
-            </div>
-            <p
-              className={`text-xs sm:text-sm max-w-md ${
-                isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}
-            >
-              Movie posters, music teasers, and thumbnail key art designed with strong typography
-              and moody color treatment. Click any image to view in full resolution.
-            </p>
-          </div>
-
-          {/* 6 Image Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {GRAPHIC_ITEMS.map((item, idx) => (
-              <div
-                key={item.id}
-                onClick={() => setActiveGraphicIndex(idx)}
-                className={`group cursor-pointer rounded-2xl overflow-hidden border-2 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
-                  isDark
-                    ? 'bg-slate-900/80 border-slate-800 hover:border-rose-500/50 hover:shadow-black/70'
-                    : 'bg-white border-slate-200 hover:border-rose-500/40 hover:shadow-slate-200'
-                }`}
-              >
-                {/* Poster Image Container */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-slate-950">
-                  <img
-                    src={item.filename}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.src = `/${item.filename}`;
-                    }}
-                  />
-
-                  {/* Dark overlay vignette on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-rose-400 mb-1">
-                      {item.category}
+                  {/* Direct YouTube Short Link */}
+                  <div className="pt-4 mt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-xs">
+                    <span
+                      className={`text-[11px] font-mono truncate max-w-[170px] ${
+                        isDark ? 'text-slate-400' : 'text-slate-500'
+                      }`}
+                      title={short.url}
+                    >
+                      {short.url}
                     </span>
-                    <h4 className="font-heading text-lg font-bold leading-tight mb-2">
-                      {item.title}
-                    </h4>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-200">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Click to enlarge in Lightbox</span>
-                    </div>
+                    <a
+                      href={short.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-bold text-red-500 hover:text-red-400 transition-colors"
+                    >
+                      <YouTubeIcon className="w-3.5 h-3.5 text-red-500" />
+                      <span>Watch Short</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
                   </div>
-                </div>
-
-                {/* Card Title & Category */}
-                <div className="p-4 space-y-1">
-                  <div
-                    className={`text-[11px] font-semibold ${
-                      isDark ? 'text-slate-400' : 'text-slate-500'
-                    }`}
-                  >
-                    <span>{item.category}</span>
-                  </div>
-                  <h3 className="font-heading font-bold text-sm tracking-tight group-hover:text-rose-500 transition-colors">
-                    {item.title}
-                  </h3>
                 </div>
               </div>
             ))}
@@ -830,8 +864,7 @@ export default function App() {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 4: DETAILED ABOUT ME (BIO) SECTION                                */}
-        {/* Honest, passionate bio located below graphics                             */}
+        {/* SECTION 3: ABOUT ME (BIO) SECTION                                         */}
         {/* ========================================================================= */}
         <section id="about" className="space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
@@ -943,13 +976,13 @@ export default function App() {
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3">
                   <Layers className="w-5 h-5" />
                 </div>
-                <h4 className="font-heading font-bold text-sm mb-1">Kinetic Typography</h4>
+                <h4 className="font-heading font-bold text-sm mb-1">Kinetic Transitions</h4>
                 <p
                   className={`text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Integrating modern graphic posters, title cards, and lower thirds that reinforce the story.
+                  Speed ramps, dynamic whipping, seamless audio wipes, and punch-ins that keep engagement high.
                 </p>
               </div>
             </div>
@@ -991,7 +1024,7 @@ export default function App() {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 5: GET IN TOUCH SECTION                                           */}
+        {/* SECTION 4: GET IN TOUCH SECTION                                           */}
         {/* Action buttons (Email, WhatsApp, Social Links: Facebook, Behance, YouTube)*/}
         {/* ========================================================================= */}
         <section id="contact" className="space-y-8 scroll-mt-24">
@@ -1053,7 +1086,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={copyEmailToClipboard}
-                    className={`p-2.5 rounded-xl border transition-colors ${
+                    className={`p-2.5 rounded-xl border transition-colors cursor-pointer ${
                       isDark
                         ? 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700'
                         : 'border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -1257,7 +1290,7 @@ export default function App() {
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02] cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Project Brief</span>
@@ -1275,101 +1308,6 @@ export default function App() {
           </div>
         </section>
       </main>
-
-      {/* ========================================================================= */}
-      {/* LIGHTBOX MODAL FOR GRAPHIC IMAGES                                         */}
-      {/* Vanilla JS/React modal with close button, prev/next, and keyboard support */}
-      {/* ========================================================================= */}
-      {activeGraphicIndex !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-modal"
-          onClick={() => setActiveGraphicIndex(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          {/* Modal Container */}
-          <div
-            className="relative max-w-4xl max-h-[92vh] w-full flex flex-col rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="p-4 flex items-center justify-between border-b border-slate-800/80 bg-slate-900/80">
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-rose-400">
-                  {GRAPHIC_ITEMS[activeGraphicIndex].category}
-                </span>
-                <span className="text-slate-600">·</span>
-                <span className="text-sm font-bold text-white">
-                  {GRAPHIC_ITEMS[activeGraphicIndex].title}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-400">
-                  {activeGraphicIndex + 1} / {GRAPHIC_ITEMS.length}
-                </span>
-                <button
-                  onClick={() => setActiveGraphicIndex(null)}
-                  type="button"
-                  aria-label="Close Lightbox"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Image Display */}
-            <div className="relative flex-1 flex items-center justify-center p-2 sm:p-4 bg-black overflow-hidden max-h-[70vh]">
-              <img
-                src={GRAPHIC_ITEMS[activeGraphicIndex].filename}
-                alt={GRAPHIC_ITEMS[activeGraphicIndex].title}
-                className="max-h-[66vh] max-w-full object-contain rounded-lg"
-              />
-
-              {/* Prev button */}
-              <button
-                type="button"
-                onClick={() =>
-                  setActiveGraphicIndex((prev) =>
-                    prev !== null ? (prev - 1 + GRAPHIC_ITEMS.length) % GRAPHIC_ITEMS.length : 0
-                  )
-                }
-                className="absolute left-3 p-2 rounded-full bg-slate-900/80 text-white hover:bg-rose-600 transition-colors border border-slate-700 shadow-lg"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {/* Next button */}
-              <button
-                type="button"
-                onClick={() =>
-                  setActiveGraphicIndex((prev) =>
-                    prev !== null ? (prev + 1) % GRAPHIC_ITEMS.length : 0
-                  )
-                }
-                className="absolute right-3 p-2 rounded-full bg-slate-900/80 text-white hover:bg-rose-600 transition-colors border border-slate-700 shadow-lg"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Caption */}
-            <div className="p-4 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <p className="text-slate-300">
-                {GRAPHIC_ITEMS[activeGraphicIndex].description}
-              </p>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[11px] font-mono text-rose-400">
-                  {GRAPHIC_ITEMS[activeGraphicIndex].filename}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ========================================================================= */}
       {/* FOOTER                                                                    */}
