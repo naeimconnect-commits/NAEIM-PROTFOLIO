@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sun,
   Moon,
   Play,
+  Pause,
   Mail,
   MessageCircle,
   Copy,
@@ -19,11 +20,28 @@ import {
   Share2,
   Tv,
   Flame,
-  Award,
   Sparkles,
   Smartphone,
-  Phone
+  Phone,
+  Globe,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  ArrowDown,
+  ArrowUp,
+  Zap,
+  LayoutGrid
 } from 'lucide-react';
+import { translations, Language } from './translations';
+import lanyardArtboard2 from './assets/images/lanyard-Artboard-2final.png';
+import lanyardArtboard3 from './assets/images/lanyard-Artboard-3final.png';
+import lanyardArtboard4 from './assets/images/lanyard-Artboard-4final.png';
+import lanyardArtboard5 from './assets/images/lanyard-Artboard-5final.png';
+import graphicNaeim3847 from './assets/images/graphic_naeim_3847.jpg';
+import graphicBrochure222 from './assets/images/graphic_brochure_222.jpg';
+import graphicIslamicDsi from './assets/images/graphic_islamic_dsi.jpg';
 
 // Custom SVG Brand Icons for Facebook, Behance & YouTube
 function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -80,8 +98,6 @@ interface VideoItem {
 }
 
 // Interactive YouTube Video Card: Shows official YouTube thumbnail with play button.
-// Clicking it directly opens the video or short on YouTube with auto-play in a fresh tab,
-// completely avoiding the Google account/workspace iframe restrictions.
 function YouTubePlayer({
   videoId,
   title,
@@ -116,19 +132,18 @@ function YouTubePlayer({
           alt={title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={() => {
-            // Fallback to high-quality thumbnail if maxres is unavailable
             if (!imgSrc.includes('hqdefault')) {
               setImgSrc(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
             }
           }}
         />
 
-        {/* Ambient Dark Gradient Overlay with hover lift */}
+        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30 group-hover:from-black/60 transition-colors" />
 
-        {/* Prominent Red YouTube Play Button with Pulse on Hover */}
+        {/* Play Button */}
         <div className="relative z-10 flex flex-col items-center gap-1.5 sm:gap-2">
-          <div className="w-9 h-9 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 border border-white/50 group-hover:shadow-red-600/50">
+          <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 border border-white/50 group-hover:shadow-red-600/50">
             <Play className="w-4 h-4 sm:w-8 sm:h-8 fill-current ml-0.5 sm:ml-1 transition-transform group-hover:scale-110" />
           </div>
           <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[9px] sm:text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-black/85 text-white border border-white/20 backdrop-blur-sm shadow-lg flex items-center gap-1 hidden xs:flex">
@@ -138,7 +153,7 @@ function YouTubePlayer({
         </div>
 
         {/* Bottom Bar: Title & Direct YouTube badge */}
-        <div className="absolute bottom-0 inset-x-0 p-1.5 sm:p-3.5 z-10 flex items-center justify-between text-white/95 text-[10px] sm:text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+        <div className="absolute bottom-0 inset-x-0 p-2 sm:p-3.5 z-10 flex items-center justify-between text-white/95 text-[10px] sm:text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
           <span className="truncate pr-1 sm:pr-2 group-hover:text-red-300 transition-colors text-[10px] sm:text-xs">{title}</span>
           <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded sm:rounded-md bg-red-600 hover:bg-red-500 text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-0.5 sm:gap-1 shadow-md transition-colors">
             <YouTubeIcon className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
@@ -150,16 +165,7 @@ function YouTubePlayer({
   );
 }
 
-// User-provided portfolio videos & shorts:
-// Long-form / Standard 16:9 Projects:
-// 1. https://youtu.be/kuIQFjypFSs (Featured)
-// 2. https://youtu.be/oZdRVLPeWlg (New)
-// 3. https://youtu.be/qUkSfM-V4oc (New)
-// 4. https://youtu.be/7d1hAfH7egc
-// 5. https://youtu.be/1u6Tp4tM2lY
-// Shorts / Vertical 9:16:
-// 6. https://youtube.com/shorts/Czw6vV-Eklk?feature=share (New)
-// 7. https://youtube.com/shorts/loftNkx9sOs?feature=share (New)
+// Portfolio 16:9 Long-form videos
 const PORTFOLIO_VIDEOS: VideoItem[] = [
   {
     id: 'vid-featured',
@@ -169,7 +175,7 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     badge: 'Featured Masterpiece',
     role: 'Lead Editor, Sound Design & Color Grade',
     duration: '2:30',
-    description: 'My showcase trailer featuring precise pacing, deep sound design layering, dynamic speed transitions, and high-contrast cinematic atmosphere.',
+    description: 'Showcase trailer featuring precise pacing, deep sound design layering, dynamic speed transitions, and high-contrast cinematic atmosphere.',
     tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel']
   },
   {
@@ -218,6 +224,7 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
   }
 ];
 
+// Vertical 9:16 Shorts
 const PORTFOLIO_SHORTS: VideoItem[] = [
   {
     id: 'short-czw6v',
@@ -245,6 +252,90 @@ const PORTFOLIO_SHORTS: VideoItem[] = [
   }
 ];
 
+interface GraphicDesignItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  image: string;
+  fallbackUrl: string;
+  postimgUrl: string;
+  artboardNum: string;
+}
+
+const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
+  {
+    id: 'graphic-naeim-3847',
+    title: 'Brand Identity & 3D Logo Presentation',
+    subtitle: 'Agency Mockup & Creative Visual Identity Design',
+    category: 'Brand Identity',
+    image: graphicNaeim3847,
+    fallbackUrl: 'https://i.postimg.cc/YCcjv63p/3847-Naeim-(2).jpg',
+    postimgUrl: 'https://postimg.cc/4m5XMhqM',
+    artboardNum: 'Brand 01'
+  },
+  {
+    id: 'graphic-brochure-222',
+    title: 'Corporate Tri-Fold & Bi-Fold Brochure',
+    subtitle: 'Professional Clean Layout for Business Profile & Marketing',
+    category: 'Print & Brochure',
+    image: graphicBrochure222,
+    fallbackUrl: 'https://i.postimg.cc/kg86s14V/brusiar-222.jpg',
+    postimgUrl: 'https://postimages.org/',
+    artboardNum: 'Print 02'
+  },
+  {
+    id: 'graphic-islamic-dsi',
+    title: 'Islamic Cultural & Event Banner Design',
+    subtitle: 'Spiritual Typography & Social Media Visual Artwork',
+    category: 'Social Banner',
+    image: graphicIslamicDsi,
+    fallbackUrl: 'https://i.postimg.cc/hv5zyNT4/islamic-dsi.jpg',
+    postimgUrl: 'https://postimg.cc/QKcdV4fv',
+    artboardNum: 'Banner 03'
+  },
+  {
+    id: 'lanyard-artboard-2',
+    title: 'Lanyard Artboard 2 Final',
+    subtitle: 'Official Corporate Identity & Lanyard Mockup Design',
+    category: 'Lanyard Branding',
+    image: lanyardArtboard2,
+    fallbackUrl: 'https://i.postimg.cc/2SHFpXY9/lanyard-Artboard-2final.png',
+    postimgUrl: 'https://postimg.cc/hXd7TsfV',
+    artboardNum: 'Artboard 02'
+  },
+  {
+    id: 'lanyard-artboard-3',
+    title: 'Lanyard Artboard 3 Final',
+    subtitle: 'Premium Conference & Employee Pass Ribbon Design',
+    category: 'Corporate Mockup',
+    image: lanyardArtboard3,
+    fallbackUrl: 'https://i.postimg.cc/yxz0hMh4/lanyard-Artboard-3final.png',
+    postimgUrl: 'https://postimg.cc/BLM84wwM',
+    artboardNum: 'Artboard 03'
+  },
+  {
+    id: 'lanyard-artboard-4',
+    title: 'Lanyard Artboard 4 Final',
+    subtitle: 'Executive Event Badge & Accreditation Ribbon',
+    category: 'Event Identity',
+    image: lanyardArtboard4,
+    fallbackUrl: 'https://i.postimg.cc/Nj0mx7Xf/lanyard-Artboard-4final.png',
+    postimgUrl: 'https://postimg.cc/GHZ4LDzZ',
+    artboardNum: 'Artboard 04'
+  },
+  {
+    id: 'lanyard-artboard-5',
+    title: 'Lanyard Artboard 5 Final',
+    subtitle: 'Modern Minimal Brand Lanyard Strap & Holder',
+    category: 'Stationery Identity',
+    image: lanyardArtboard5,
+    fallbackUrl: 'https://i.postimg.cc/cCMwFFTr/lanyard-Artboard-5final.png',
+    postimgUrl: 'https://postimg.cc/JH0sncfL',
+    artboardNum: 'Artboard 05'
+  }
+];
+
 export default function App() {
   // Theme state: dark mode default as requested
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -252,20 +343,109 @@ export default function App() {
       const saved = localStorage.getItem('theme-mode');
       if (saved) return saved === 'dark';
     }
-    return true; // Default dark
+    return true;
   });
+
+  // Language state (Bengali default as requested, toggleable to English)
+  const [lang, setLang] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('preferred-lang');
+      if (savedLang === 'en' || savedLang === 'bn') return savedLang;
+    }
+    return 'bn';
+  });
+
+  const t = translations[lang];
+
+  // Save language preference
+  const toggleLanguage = () => {
+    const nextLang: Language = lang === 'bn' ? 'en' : 'bn';
+    setLang(nextLang);
+    localStorage.setItem('preferred-lang', nextLang);
+  };
 
   // Email copy feedback
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // WhatsApp number state (initialized to user's exact number: 01610977029)
-  const [whatsAppNumber, setWhatsAppNumber] = useState('01610977029');
-  const [isEditingWhatsApp, setIsEditingWhatsApp] = useState(false);
-  const [tempWhatsApp, setTempWhatsApp] = useState('01610977029');
+  // WhatsApp number
+  const whatsAppNumber = '01610977029';
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [selectedGraphic, setSelectedGraphic] = useState<GraphicDesignItem | null>(null);
+
+  // Graphic Section Interactive Stacked Showcase States
+  const [graphicViewMode, setGraphicViewMode] = useState<'showcase' | 'grid'>('showcase');
+  const [activeGraphicIndex, setActiveGraphicIndex] = useState(0);
+  const [isGraphicAnimating, setIsGraphicAnimating] = useState(false);
+  const [autoPlayShowcase, setAutoPlayShowcase] = useState(true);
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const lastWheelTime = useRef<number>(0);
+
+  const nextGraphic = () => {
+    setIsGraphicAnimating(true);
+    setActiveGraphicIndex((prev) => (prev + 1) % GRAPHIC_DESIGNS.length);
+    setTimeout(() => setIsGraphicAnimating(false), 260);
+  };
+
+  const prevGraphic = () => {
+    setIsGraphicAnimating(true);
+    setActiveGraphicIndex((prev) => (prev - 1 + GRAPHIC_DESIGNS.length) % GRAPHIC_DESIGNS.length);
+    setTimeout(() => setIsGraphicAnimating(false), 260);
+  };
+
+  const jumpToGraphic = (index: number) => {
+    if (index === activeGraphicIndex) return;
+    setIsGraphicAnimating(true);
+    setActiveGraphicIndex(index % GRAPHIC_DESIGNS.length);
+    setTimeout(() => setIsGraphicAnimating(false), 260);
+  };
+
+  // Touch Swipe handlers for finger scroll
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null || touchStartX.current === null) return;
+    const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+    const deltaX = touchStartX.current - e.changedTouches[0].clientX;
+
+    // Detect swipe up or swipe left to bring next design up
+    if (deltaY > 35 || deltaX > 45) {
+      nextGraphic();
+    } else if (deltaY < -35 || deltaX < -45) {
+      prevGraphic();
+    }
+    touchStartY.current = null;
+    touchStartX.current = null;
+  };
+
+  // Mouse wheel scroll handler
+  const handleWheelScroll = (e: React.WheelEvent) => {
+    const now = Date.now();
+    if (now - lastWheelTime.current < 350) return;
+    if (Math.abs(e.deltaY) > 20) {
+      lastWheelTime.current = now;
+      if (e.deltaY > 0) {
+        nextGraphic();
+      } else {
+        prevGraphic();
+      }
+    }
+  };
+
+  // Subtle auto-rotation every 4.8s if autoplay enabled
+  useEffect(() => {
+    if (!autoPlayShowcase || graphicViewMode !== 'showcase') return;
+    const timer = setInterval(() => {
+      nextGraphic();
+    }, 4800);
+    return () => clearInterval(timer);
+  }, [autoPlayShowcase, graphicViewMode, activeGraphicIndex]);
 
   // Profile image fallback state
-  const [imgSrc, setImgSrc] = useState('profile.jpg');
+  const [profileImg, setProfileImg] = useState('profile.jpg');
 
   // Contact form state
   const [contactName, setContactName] = useState('');
@@ -299,14 +479,6 @@ export default function App() {
     }
     const msg = encodeURIComponent('Hi Naeim, I saw your video editor portfolio and would like to collaborate on a video project!');
     return `https://wa.me/${cleaned}?text=${msg}`;
-  };
-
-  const handleSaveWhatsApp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (tempWhatsApp.trim()) {
-      setWhatsAppNumber(tempWhatsApp.trim());
-      setIsEditingWhatsApp(false);
-    }
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -357,7 +529,7 @@ export default function App() {
                 }`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                Video Editor & Visual Storyteller
+                {t.videoEditorTitle}
               </span>
             </div>
           </a>
@@ -370,7 +542,7 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              Profile
+              {t.navProfile}
             </a>
             <a
               href="#videos"
@@ -378,7 +550,7 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              Video Works
+              {t.navVideos}
             </a>
             <a
               href="#shorts"
@@ -386,10 +558,18 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              <span>Shorts</span>
+              <span>{t.navShorts}</span>
               <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-red-600 text-white">
                 New
               </span>
+            </a>
+            <a
+              href="#graphics"
+              className={`transition-colors hover:text-[#0057ff] flex items-center gap-1.5 ${
+                isDark ? 'text-slate-300' : 'text-slate-600'
+              }`}
+            >
+              <span>{t.navGraphics}</span>
             </a>
             <a
               href="#about"
@@ -397,7 +577,7 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              About
+              {t.navAbout}
             </a>
             <a
               href="#contact"
@@ -405,17 +585,31 @@ export default function App() {
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}
             >
-              Contact
+              {t.navContact}
             </a>
           </nav>
 
-          {/* Right Controls: Dark/Light Toggle + CTA */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Right Controls: Language Switcher + Dark/Light Toggle + CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Language Switcher Button (Bangla <-> English) */}
+            <button
+              onClick={toggleLanguage}
+              type="button"
+              className="p-2 sm:px-3 sm:py-2 rounded-xl transition-all duration-200 border flex items-center gap-1.5 text-xs font-bold bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border-rose-500/30 cursor-pointer shadow-sm hover:scale-105"
+              title={lang === 'bn' ? 'Switch to English' : 'বাংলায় দেখুন'}
+            >
+              <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-500" />
+              <span className="text-[11px] sm:text-xs tracking-wide">
+                {lang === 'bn' ? 'English' : 'বাংলা'}
+              </span>
+            </button>
+
+            {/* Dark/Light mode toggle */}
             <button
               onClick={() => setIsDark(!isDark)}
               type="button"
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className={`p-2.5 rounded-xl transition-all duration-200 border flex items-center gap-2 text-xs font-medium cursor-pointer ${
+              className={`p-2 sm:p-2.5 rounded-xl transition-all duration-200 border flex items-center gap-1.5 text-xs font-medium cursor-pointer ${
                 isDark
                   ? 'bg-slate-800/90 border-slate-700 text-amber-300 hover:bg-slate-700 hover:text-white shadow-sm'
                   : 'bg-slate-100 border-slate-300/80 text-slate-700 hover:bg-slate-200 hover:text-slate-900 shadow-sm'
@@ -425,21 +619,21 @@ export default function App() {
               {isDark ? (
                 <>
                   <Sun className="w-4 h-4 transition-transform hover:rotate-45" />
-                  <span className="hidden sm:inline text-slate-200 font-semibold text-xs">Light</span>
+                  <span className="hidden lg:inline text-slate-200 font-semibold text-xs">{t.lightMode}</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-4 h-4 transition-transform hover:-rotate-12" />
-                  <span className="hidden sm:inline text-slate-700 font-semibold text-xs">Dark</span>
+                  <span className="hidden lg:inline text-slate-700 font-semibold text-xs">{t.darkMode}</span>
                 </>
               )}
             </button>
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-1.5 py-2 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
+              className="inline-flex items-center gap-1.5 py-2 px-3.5 sm:px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
             >
-              <span>Hire Me</span>
+              <span>{t.hireMe}</span>
             </a>
           </div>
         </div>
@@ -447,7 +641,7 @@ export default function App() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16 sm:space-y-24">
         {/* ========================================================================= */}
-        {/* SECTION 1: PROFILE PICTURE WITH HIGHLIGHTED NAME & SOCIAL LOGOS AT THE TOP*/}
+        {/* SECTION 1: PROFILE PICTURE WITH HIGHLIGHTED NAME & SOCIAL LOGOS           */}
         {/* ========================================================================= */}
         <section id="profile" className="scroll-mt-24">
           <div
@@ -468,107 +662,101 @@ export default function App() {
             />
 
             <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 sm:gap-12">
-              {/* Profile Picture with Perfectly Aligned Revolving Circular Badges in Authentic Official Brand Colors */}
+              {/* Profile Picture with Orbiting Circular Badges in Authentic Official Brand Colors */}
               <div className="relative shrink-0 flex items-center justify-center p-8 sm:p-10 select-none">
-                {/* 1. Subtle Ambient Outer Glow Pulse */}
+                {/* Subtle Ambient Outer Glow Pulse */}
                 <div
                   aria-hidden="true"
                   className="absolute inset-2 rounded-full bg-gradient-to-tr from-amber-500/25 via-rose-500/20 to-cyan-500/25 blur-2xl animate-glow-spin pointer-events-none"
                 />
 
-                {/* 2. Rotating Orbit Ring */}
+                {/* Rotating Orbit Ring */}
                 <div
                   className="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full border-2 border-amber-500/50 dark:border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.3)] animate-orbit pointer-events-auto"
                 >
-                  {/* Badge 1: Premiere Pro (Angle 0° - Top) - Official Premiere Purple #9999FF / #00005B */}
+                  {/* Badge 1: Premiere Pro (Top) */}
                   <div
                     className="absolute -top-5 left-1/2 -translate-x-1/2"
                     title="Adobe Premiere Pro"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#00005b] text-[#9999ff] border-2 border-[#9999ff] shadow-xl shadow-purple-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <span className="font-black text-sm leading-none text-[#9999ff] drop-shadow">Pr</span>
-                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Premiere</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#00005b] text-[#9999ff] border-2 border-[#9999ff] shadow-xl shadow-purple-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <span className="font-black text-base sm:text-lg leading-none text-[#9999ff] drop-shadow">Pr</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Badge 2: After Effects (Angle 60° - Top Right) - Official After Effects Violet #D291FF / #00005B */}
+                  {/* Badge 2: After Effects (Top Right) */}
                   <div
                     className="absolute top-[25%] right-[-16px] translate-x-1 -translate-y-1/2"
                     title="Adobe After Effects"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#00005b] text-[#d291ff] border-2 border-[#d291ff] shadow-xl shadow-purple-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <span className="font-black text-sm leading-none text-[#d291ff] drop-shadow">Ae</span>
-                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">AfterFX</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#00005b] text-[#d291ff] border-2 border-[#d291ff] shadow-xl shadow-purple-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <span className="font-black text-base sm:text-lg leading-none text-[#d291ff] drop-shadow">Ae</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Badge 3: Photoshop (Angle 120° - Bottom Right) - Official Photoshop Cyan Blue #31A8FF / #001E36 */}
+                  {/* Badge 3: Photoshop (Bottom Right) */}
                   <div
                     className="absolute top-[75%] right-[-16px] translate-x-1 -translate-y-1/2"
                     title="Adobe Photoshop"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#001e36] text-[#31a8ff] border-2 border-[#31a8ff] shadow-xl shadow-blue-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <span className="font-black text-sm leading-none text-[#31a8ff] drop-shadow">Ps</span>
-                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Photoshop</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#001e36] text-[#31a8ff] border-2 border-[#31a8ff] shadow-xl shadow-blue-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <span className="font-black text-base sm:text-lg leading-none text-[#31a8ff] drop-shadow">Ps</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Badge 4: Illustrator (Angle 180° - Bottom) - Official Illustrator Orange #FF9A00 / #330000 */}
+                  {/* Badge 4: Illustrator (Bottom) */}
                   <div
                     className="absolute -bottom-5 left-1/2 -translate-x-1/2"
                     title="Adobe Illustrator"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#330000] text-[#ff9a00] border-2 border-[#ff9a00] shadow-xl shadow-amber-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <span className="font-black text-sm leading-none text-[#ff9a00] drop-shadow">Ai</span>
-                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Illustrator</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#330000] text-[#ff9a00] border-2 border-[#ff9a00] shadow-xl shadow-amber-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <span className="font-black text-base sm:text-lg leading-none text-[#ff9a00] drop-shadow">Ai</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Badge 5: Meta (Angle 240° - Bottom Left) - Official Meta Blue #0081FB / #002F6C */}
+                  {/* Badge 5: Meta (Bottom Left) */}
                   <div
                     className="absolute top-[75%] left-[-16px] -translate-x-1 -translate-y-1/2"
                     title="Meta Platforms & Video Ads"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#002f6c] text-[#0081fb] border-2 border-[#0081fb] shadow-xl shadow-blue-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <span className="font-black text-base leading-none text-[#0081fb] drop-shadow">∞</span>
-                        <span className="text-[6.5px] font-black tracking-tight uppercase text-white/90">Meta</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#002f6c] text-[#0081fb] border-2 border-[#0081fb] shadow-xl shadow-blue-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <span className="font-black text-xl leading-none text-[#0081fb] drop-shadow">∞</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Badge 6: Digital Marketing (Angle 300° - Top Left) - Official Cyan/Sky Marketing #0EA5E9 / #0F172A */}
+                  {/* Badge 6: Digital Marketing (Top Left) */}
                   <div
                     className="absolute top-[25%] left-[-16px] -translate-x-1 -translate-y-1/2"
                     title="Digital Marketing & Growth"
                   >
                     <div className="animate-counter-spin">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex flex-col items-center justify-center bg-[#0f172a] text-[#38bdf8] border-2 border-[#38bdf8] shadow-xl shadow-cyan-950/80 hover:scale-120 transition-transform cursor-pointer">
-                        <Sparkles className="w-3.5 h-3.5 text-[#38bdf8] drop-shadow" />
-                        <span className="text-[6px] font-black tracking-tight uppercase text-white/90">Marketing</span>
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-[#0f172a] text-[#38bdf8] border-2 border-[#38bdf8] shadow-xl shadow-cyan-950/80 hover:scale-125 transition-transform cursor-pointer">
+                        <Sparkles className="w-5 h-5 text-[#38bdf8] drop-shadow" />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 3. Center Profile Photo with Glowing Amber/Gold Gradient Border */}
+                {/* Center Profile Photo with Glowing Amber/Gold Gradient Border */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1 bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 shadow-2xl z-10">
                   <div className="w-full h-full rounded-full overflow-hidden border-2 border-amber-200/60 bg-slate-950 relative">
                     <img
-                      src={imgSrc}
+                      src={profileImg}
                       alt="NAEIM Visual - Profile"
                       className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                       onError={() => {
-                        if (imgSrc !== 'https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png') {
-                          setImgSrc('https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png');
+                        if (profileImg !== 'https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png') {
+                          setProfileImg('https://i.postimg.cc/k4qKT7NH/afad9c06-d5bb-4290jjj.png');
                         }
                       }}
                     />
@@ -577,24 +765,24 @@ export default function App() {
                   {/* Available badge */}
                   <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg flex items-center gap-1 whitespace-nowrap border border-white/40 z-20">
                     <span className="w-1.5 h-1.5 rounded-full bg-yellow-200 animate-ping" />
-                    <span>Open to Work</span>
+                    <span>{t.openToWork}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Name, Social Logos Under Name, Greeting & CTAs */}
+              {/* Name, Social Logos, Bio & CTAs */}
               <div className="flex-1 text-center md:text-left space-y-4">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                   <span className="px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-rose-500/15 text-rose-500 border border-rose-500/30 flex items-center gap-1.5 shadow-sm">
                     <Flame className="w-3.5 h-3.5 fill-rose-500" />
-                    Video Editor & Motion Artist
+                    {t.roleBadge}
                   </span>
                   <span
                     className={`text-xs font-semibold ${
                       isDark ? 'text-slate-400' : 'text-slate-500'
                     }`}
                   >
-                    Visual Storyteller · Sound Design · Color Grade
+                    {t.roleSubBadge}
                   </span>
                 </div>
 
@@ -610,7 +798,7 @@ export default function App() {
                       isDark ? 'text-slate-100' : 'text-slate-900'
                     }`}
                   >
-                    Dynamic Video Editor & Creative Motion Designer
+                    {t.profileSubtitle}
                   </p>
                 </div>
 
@@ -618,7 +806,7 @@ export default function App() {
                 <div className="pt-1">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-center md:justify-start gap-1.5">
                     <Share2 className="w-3.5 h-3.5 text-rose-500" />
-                    <span>Official Creative Channels</span>
+                    <span>{t.officialChannels}</span>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
@@ -667,7 +855,7 @@ export default function App() {
                 <div className="pt-2">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-center md:justify-start gap-1.5">
                     <MessageCircle className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Direct Inquiries & WhatsApp Chat</span>
+                    <span>{t.directContact}</span>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
@@ -679,11 +867,11 @@ export default function App() {
                       title="Send Email / Message"
                     >
                       <GmailIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
-                      <span className="text-white font-extrabold tracking-wide">Email</span>
+                      <span className="text-white font-extrabold tracking-wide">{t.emailBtn}</span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </button>
 
-                    {/* WhatsApp Button (Clean, NO number displayed here, directly opens WhatsApp for 01610977029) */}
+                    {/* WhatsApp Button (Clean, directly opens WhatsApp for 01610977029) */}
                     <a
                       href={getWhatsAppLink(whatsAppNumber)}
                       target="_blank"
@@ -692,18 +880,18 @@ export default function App() {
                       title="Direct Chat on WhatsApp"
                     >
                       <WhatsAppIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
-                      <span className="text-white font-extrabold tracking-wide">WhatsApp</span>
+                      <span className="text-white font-extrabold tracking-wide">{t.whatsAppBtn}</span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </a>
 
-                    {/* Contact Phone Button (Direct telephone contact replacing number) */}
+                    {/* Contact Phone Button */}
                     <a
                       href="tel:+8801610977029"
                       className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-amber-500 font-bold text-xs transition-all duration-200 bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-500 hover:to-orange-500 hover:shadow-lg hover:shadow-amber-600/30 hover:scale-105"
                       title="Direct Phone Call: +8801610977029"
                     >
                       <Phone className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
-                      <span className="text-white font-extrabold tracking-wide">Contact</span>
+                      <span className="text-white font-extrabold tracking-wide">{t.contactCallBtn}</span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:text-white" />
                     </a>
                   </div>
@@ -715,7 +903,7 @@ export default function App() {
                     isDark ? 'text-slate-300' : 'text-slate-600'
                   }`}
                 >
-                  Passionate video editor & visual storyteller. Specializing in cinematic pacing, dynamic sound design, and color grading.
+                  {t.aboutQuote}
                 </p>
 
                 {/* Quick Scroll Links */}
@@ -725,7 +913,7 @@ export default function App() {
                     className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02]"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Watch Videos</span>
+                    <span>{t.watchShowreel}</span>
                   </a>
 
                   <a
@@ -733,19 +921,35 @@ export default function App() {
                     className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
                   >
                     <Smartphone className="w-3.5 h-3.5" />
-                    <span>Shorts</span>
+                    <span>{t.watchShorts}</span>
                   </a>
 
                   <a
-                    href="#contact"
+                    href="#graphics"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-[#0057ff]/30 bg-[#0057ff]/10 text-[#0084ff] hover:bg-[#0057ff] hover:text-white transition-all shadow-sm hover:scale-[1.02]"
+                  >
+                    <Palette className="w-3.5 h-3.5" />
+                    <span>{t.navGraphics}</span>
+                  </a>
+
+                  <a
+                    href="#about"
                     className={`inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border transition-colors ${
                       isDark
                         ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white'
                         : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-100 shadow-sm'
                     }`}
                   >
+                    <Sliders className="w-3.5 h-3.5" />
+                    <span>{t.navAbout}</span>
+                  </a>
+
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
+                  >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Contact</span>
+                    <span>{t.navContact}</span>
                   </a>
 
                   <button
@@ -761,12 +965,12 @@ export default function App() {
                     {copiedEmail ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span className="text-emerald-500 font-semibold">Copied!</span>
+                        <span className="text-emerald-500 font-semibold">{t.copied}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Copy Email</span>
+                        <span>{t.copyEmail}</span>
                       </>
                     )}
                   </button>
@@ -774,12 +978,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* DIRECTLY UNDER THE PROFILE DETAILS: THE REQUESTED VIDEO EMBED */}
+            {/* DIRECTLY UNDER THE PROFILE DETAILS: THE FEATURED TRAILER VIDEO EMBED */}
             <div className="mt-8 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500">
                   <Play className="w-4 h-4 fill-rose-500" />
-                  <span>Featured Video Trailer · NAEIM Visual</span>
+                  <span>{t.featuredTrailer}</span>
                 </div>
                 <a
                   href="https://youtu.be/kuIQFjypFSs"
@@ -803,17 +1007,16 @@ export default function App() {
 
         {/* ========================================================================= */}
         {/* SECTION 2: MORE PROJECT VIDEOS (16:9)                                     */}
-        {/* YouTube embeds load cleanly with title, direct open, and responsive ratio */}
         {/* ========================================================================= */}
         <section id="videos" className="space-y-6 sm:space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Tv className="w-4 h-4" />
-                <span>Cinematic Video Works</span>
+                <span>{t.videoSectionBadge}</span>
               </div>
               <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                Video Projects
+                {t.videoSectionTitle}
               </h2>
             </div>
             <p
@@ -821,77 +1024,77 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              Editorial pacing, sound design, and color contrast. Click to play on YouTube.
+              {t.videoSectionDesc}
             </p>
           </div>
 
-          {/* VIDEOS GRID: 2 columns on mobile (grid-cols-2) and 2 on tablet/desktop */}
+          {/* VIDEOS GRID: 2 columns on mobile and 2 on desktop */}
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8">
-              {PORTFOLIO_VIDEOS.slice(1).map((video) => (
-                <div
-                  key={video.id}
-                  className={`group rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col ${
-                    isDark
-                      ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
-                      : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
-                  }`}
-                >
-                  {/* Responsive 16:9 interactive video with YouTube thumbnail */}
-                  <YouTubePlayer
-                    videoId={video.youtubeId}
-                    title={video.title}
-                  />
+            {PORTFOLIO_VIDEOS.slice(1).map((video) => (
+              <div
+                key={video.id}
+                className={`group rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col ${
+                  isDark
+                    ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
+                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
+                }`}
+              >
+                {/* Responsive 16:9 interactive video with YouTube thumbnail */}
+                <YouTubePlayer
+                  videoId={video.youtubeId}
+                  title={video.title}
+                />
 
-                  {/* Card Information - Compact & Clean */}
-                  <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
-                    <div className="space-y-1.5 sm:space-y-2">
-                      <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
-                        <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20 truncate max-w-[110px] sm:max-w-none">
-                          {video.badge}
-                        </span>
-                        <span
-                          className={`hidden sm:flex items-center gap-1 font-medium ${
-                            isDark ? 'text-slate-400' : 'text-slate-500'
-                          }`}
-                        >
-                          <Clock className="w-3 h-3" />
-                          <span>{video.duration}</span>
-                        </span>
-                      </div>
-
-                      <h3 className="font-heading text-xs sm:text-lg font-bold tracking-tight group-hover:text-rose-500 transition-colors line-clamp-2 leading-snug">
-                        {video.title}
-                      </h3>
-
-                      <p
-                        className={`text-[11px] sm:text-xs leading-relaxed hidden sm:block ${
-                          isDark ? 'text-slate-400' : 'text-slate-600'
+                {/* Card Information */}
+                <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
+                      <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20 truncate max-w-[110px] sm:max-w-none">
+                        {video.badge}
+                      </span>
+                      <span
+                        className={`hidden sm:flex items-center gap-1 font-medium ${
+                          isDark ? 'text-slate-400' : 'text-slate-500'
                         }`}
                       >
-                        {video.description}
-                      </p>
+                        <Clock className="w-3 h-3" />
+                        <span>{video.duration}</span>
+                      </span>
                     </div>
 
-                    {/* Direct YouTube Link and Info */}
-                    <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-[11px] sm:text-xs">
-                      <span className="hidden sm:inline font-mono text-[10px] text-slate-500 truncate max-w-[100px]">
-                        YouTube
-                      </span>
-                      <a
-                        href={video.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 font-bold text-rose-500 hover:text-rose-400 transition-colors text-[10px] sm:text-xs ml-auto"
-                      >
-                        <YouTubeIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500" />
-                        <span>Watch</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                      </a>
-                    </div>
+                    <h3 className="font-heading text-xs sm:text-lg font-bold tracking-tight group-hover:text-rose-500 transition-colors line-clamp-2 leading-snug">
+                      {video.title}
+                    </h3>
+
+                    <p
+                      className={`text-[11px] sm:text-xs leading-relaxed hidden sm:block ${
+                        isDark ? 'text-slate-400' : 'text-slate-600'
+                      }`}
+                    >
+                      {video.description}
+                    </p>
+                  </div>
+
+                  {/* Direct YouTube Link */}
+                  <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-[11px] sm:text-xs">
+                    <span className="hidden sm:inline font-mono text-[10px] text-slate-500 truncate max-w-[100px]">
+                      YouTube
+                    </span>
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-bold text-rose-500 hover:text-rose-400 transition-colors text-[10px] sm:text-xs ml-auto"
+                    >
+                      <YouTubeIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500" />
+                      <span>{t.watchBtn}</span>
+                      <ArrowUpRight className="w-3 h-3" />
+                    </a>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* ========================================================================= */}
@@ -902,10 +1105,10 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Smartphone className="w-4 h-4 text-rose-500" />
-                <span>Short-Form Video</span>
+                <span>{t.shortsSectionBadge}</span>
               </div>
               <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                YouTube Shorts
+                {t.shortsSectionTitle}
               </h2>
             </div>
             <p
@@ -913,11 +1116,11 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              High-retention vertical edits designed for Reels & YouTube Shorts. Click to play.
+              {t.shortsSectionDesc}
             </p>
           </div>
 
-          {/* SHORTS GRID: 2 columns on mobile (grid-cols-2) and 2 on tablet/desktop */}
+          {/* SHORTS GRID: 2 columns on mobile and desktop */}
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8 max-w-3xl mx-auto">
             {PORTFOLIO_SHORTS.map((short) => (
               <div
@@ -928,7 +1131,7 @@ export default function App() {
                     : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
                 }`}
               >
-                {/* 9:16 Vertical Video Frame with YouTube Thumbnail */}
+                {/* 9:16 Vertical Video Frame */}
                 <div className="p-2 sm:p-4 flex justify-center bg-black/40">
                   <div className="w-full max-w-[220px]">
                     <YouTubePlayer
@@ -940,7 +1143,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Shorts Card Details - Compact */}
+                {/* Shorts Card Details */}
                 <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-1 sm:space-y-1.5">
                     <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
@@ -964,13 +1167,488 @@ export default function App() {
                       className="inline-flex items-center gap-1 font-bold text-red-500 hover:text-red-400 transition-colors text-[10px] sm:text-xs"
                     >
                       <YouTubeIcon className="w-3 h-3 text-red-500" />
-                      <span>Watch</span>
+                      <span>{t.watchShort}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION 2.7: GRAPHIC DESIGN (LANYARD ARTBOARDS) & PROMINENT BEHANCE CTA  */}
+        {/* ========================================================================= */}
+        <section id="graphics" className="space-y-6 sm:space-y-8 scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b pb-4 border-slate-200 dark:border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0057ff] mb-1">
+                <Palette className="w-4 h-4 text-[#0057ff]" />
+                <span>{t.graphicsBadge}</span>
+              </div>
+              <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+                {t.graphicsTitle}
+              </h2>
+              <p
+                className={`text-xs sm:text-sm max-w-lg mt-1 ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
+                }`}
+              >
+                {t.graphicsDesc}
+              </p>
+            </div>
+
+            {/* View Mode & Carousel Controls */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-start md:self-end">
+              {/* Carousel / Grid Toggle */}
+              <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center gap-1 shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => setGraphicViewMode('showcase')}
+                  className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    graphicViewMode === 'showcase'
+                      ? 'bg-[#0057ff] text-white shadow-md'
+                      : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                  title={t.carouselView}
+                >
+                  <Layers className="w-3.5 h-3.5" />
+                  <span className="text-[11px] sm:text-xs">{t.carouselView}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setGraphicViewMode('grid')}
+                  className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    graphicViewMode === 'grid'
+                      ? 'bg-[#0057ff] text-white shadow-md'
+                      : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                  title={t.gridView}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span className="text-[11px] sm:text-xs">{t.gridView}</span>
+                </button>
+              </div>
+
+              {/* Showcase Navigation Arrow Buttons */}
+              {graphicViewMode === 'showcase' && (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={prevGraphic}
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-[#0057ff] hover:text-white dark:hover:bg-[#0057ff] text-slate-700 dark:text-slate-200 shadow-sm flex items-center justify-center transition-all cursor-pointer"
+                    title={t.prevDesign}
+                  >
+                    <ChevronUp className="w-4 h-4 sm:hidden" />
+                    <ChevronLeft className="w-4 h-4 hidden sm:inline" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setAutoPlayShowcase(!autoPlayShowcase)}
+                    className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center transition-all cursor-pointer ${
+                      autoPlayShowcase
+                        ? 'bg-blue-50 dark:bg-blue-950/40 text-[#0057ff] border-[#0057ff]/30'
+                        : 'bg-white dark:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+                    }`}
+                    title={autoPlayShowcase ? 'Pause Autoplay' : 'Play Autoplay'}
+                  >
+                    {autoPlayShowcase ? (
+                      <Pause className="w-3.5 h-3.5" />
+                    ) : (
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={nextGraphic}
+                    className="px-3 h-8 sm:h-9 rounded-xl bg-[#0057ff] hover:bg-[#0047d4] text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all cursor-pointer group"
+                    title={t.nextDesign}
+                  >
+                    <span>{t.nextDesign}</span>
+                    <ArrowDown className="w-3.5 h-3.5 animate-bounce group-hover:translate-y-0.5 transition-transform" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* VIEW MODE 1: STACKED SHOWCASE (1 big top card, 2 blurred upcoming cards below, swift arrow navigation & gestures) */}
+          {graphicViewMode === 'showcase' ? (
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onWheel={handleWheelScroll}
+              className="relative max-w-3xl mx-auto select-none space-y-4 sm:space-y-5"
+            >
+              {(() => {
+                const activeItem = GRAPHIC_DESIGNS[activeGraphicIndex];
+                const nextItem1 = GRAPHIC_DESIGNS[(activeGraphicIndex + 1) % GRAPHIC_DESIGNS.length];
+                const nextItem2 = GRAPHIC_DESIGNS[(activeGraphicIndex + 2) % GRAPHIC_DESIGNS.length];
+
+                return (
+                  <div className="space-y-4 sm:space-y-5">
+                    {/* 1. TOP MAIN FEATURED CARD (স্পষ্ট, বড় ও ফোকাসড কার্ড) */}
+                    <div
+                      key={activeItem.id}
+                      className={`relative rounded-3xl overflow-hidden border-2 transition-all duration-300 shadow-2xl ${
+                        isDark
+                          ? 'bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950 border-[#0057ff]/40 shadow-[#0057ff]/10'
+                          : 'bg-white border-blue-200/80 shadow-xl shadow-blue-500/10'
+                      }`}
+                    >
+                      {/* Image Frame with Aspect Square/4:3 and upward rise transition */}
+                      <div
+                        className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden bg-slate-950 flex items-center justify-center cursor-pointer group"
+                        onClick={() => setSelectedGraphic(activeItem)}
+                        title={`${activeItem.title} - ${t.tapToView}`}
+                      >
+                        <div
+                          className={`w-full h-full flex items-center justify-center transition-all duration-300 ${
+                            isGraphicAnimating
+                              ? 'translate-y-6 opacity-40 scale-95'
+                              : 'translate-y-0 opacity-100 scale-100'
+                          }`}
+                        >
+                          <img
+                            src={activeItem.image}
+                            alt={activeItem.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                            onError={(e) => {
+                              if (activeItem.fallbackUrl && e.currentTarget.src !== activeItem.fallbackUrl) {
+                                e.currentTarget.src = activeItem.fallbackUrl;
+                              }
+                            }}
+                          />
+                        </div>
+
+                        {/* Top Badges */}
+                        <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+                          <span className="px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-black/80 backdrop-blur-md text-amber-300 border border-amber-400/30 shadow-lg">
+                            {activeItem.artboardNum}
+                          </span>
+                          <span className="px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-extrabold uppercase tracking-wide bg-[#0057ff]/90 text-white backdrop-blur-md shadow-lg">
+                            {activeItem.category}
+                          </span>
+                        </div>
+
+                        <div className="absolute top-3 right-3 z-10">
+                          <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-black/75 backdrop-blur-md text-white border border-white/20 shadow-lg flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                            <span>{activeGraphicIndex + 1} / {GRAPHIC_DESIGNS.length}</span>
+                          </span>
+                        </div>
+
+                        {/* Center Hover View Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                          <span className="px-4 py-2 rounded-full bg-[#0057ff] text-white text-xs font-bold tracking-wide flex items-center gap-2 shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                            <Eye className="w-4 h-4" />
+                            <span>{t.tapToView}</span>
+                          </span>
+                        </div>
+
+                        {/* Prominent Next Arrow Action Button (তীরের মতো বোতাম) on Card */}
+                        <div className="absolute bottom-3 right-3 z-20">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              nextGraphic();
+                            }}
+                            className="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-gradient-to-r from-[#0057ff] to-cyan-500 hover:from-[#0047d4] hover:to-cyan-600 text-white font-extrabold text-xs sm:text-sm shadow-2xl shadow-blue-900/60 flex items-center gap-2 cursor-pointer transition-all hover:scale-105 active:scale-95 border border-white/20"
+                            title={t.nextDesign}
+                          >
+                            <span>{t.nextDesign}</span>
+                            <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                              <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Card Info Bar */}
+                      <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-200/50 dark:border-slate-800/80">
+                        <div>
+                          <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-[#0057ff] block">
+                            {activeItem.category}
+                          </span>
+                          <h3 className="font-heading text-base sm:text-lg font-bold tracking-tight">
+                            {activeItem.title}
+                          </h3>
+                          <p className={`text-xs sm:text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                            {activeItem.subtitle}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedGraphic(activeItem)}
+                            className="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-[#0057ff] hover:text-[#0057ff] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            <span>{t.tapToView}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2. TWO BLURRED UPCOMING CARDS BELOW (নিচে দুইটা হালকা একটু ঝাপসা করে শো করবে) */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2 px-1">
+                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                          <ArrowUp className="w-3.5 h-3.5 text-[#0057ff]" />
+                          <span>{lang === 'bn' ? 'পরবর্তী ২টি ডিজাইন (ক্লিক করলে বা স্ক্রল করলে উপরে উঠবে)' : 'Next 2 in Queue (Click or scroll to bring up)'}</span>
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-medium">
+                          {t.nextUp}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                        {/* Blurred Card 1 */}
+                        <div
+                          onClick={nextGraphic}
+                          className={`relative aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden border cursor-pointer transition-all duration-300 group hover:scale-[1.02] ${
+                            isDark
+                              ? 'bg-slate-900 border-slate-800 hover:border-[#0057ff]'
+                              : 'bg-slate-100 border-slate-300 hover:border-[#0057ff]'
+                          }`}
+                          title={`${nextItem1.title} - ${lang === 'bn' ? 'উপরে আনতে ক্লিক করুন' : 'Click to bring up'}`}
+                        >
+                          <img
+                            src={nextItem1.image}
+                            alt={nextItem1.title}
+                            className="w-full h-full object-cover filter blur-[2px] opacity-60 group-hover:blur-0 group-hover:opacity-100 transition-all duration-300"
+                            loading="lazy"
+                            onError={(e) => {
+                              if (nextItem1.fallbackUrl && e.currentTarget.src !== nextItem1.fallbackUrl) {
+                                e.currentTarget.src = nextItem1.fallbackUrl;
+                              }
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-between p-2.5 sm:p-3">
+                            <span className="self-start px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-black/70 text-amber-300 border border-white/20 backdrop-blur-sm">
+                              {nextItem1.artboardNum}
+                            </span>
+                            <div className="text-white">
+                              <p className="text-[10px] sm:text-xs font-bold line-clamp-1 group-hover:text-blue-300">
+                                {nextItem1.title}
+                              </p>
+                              <span className="text-[9px] text-blue-400 font-extrabold flex items-center gap-1 mt-0.5">
+                                <ArrowUp className="w-3 h-3" />
+                                <span>{lang === 'bn' ? 'উপরে আনুন' : 'Bring Up'}</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Blurred Card 2 */}
+                        <div
+                          onClick={() => jumpToGraphic((activeGraphicIndex + 2) % GRAPHIC_DESIGNS.length)}
+                          className={`relative aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden border cursor-pointer transition-all duration-300 group hover:scale-[1.02] ${
+                            isDark
+                              ? 'bg-slate-900 border-slate-800 hover:border-[#0057ff]'
+                              : 'bg-slate-100 border-slate-300 hover:border-[#0057ff]'
+                          }`}
+                          title={`${nextItem2.title} - ${lang === 'bn' ? 'উপরে আনতে ক্লিক করুন' : 'Click to bring up'}`}
+                        >
+                          <img
+                            src={nextItem2.image}
+                            alt={nextItem2.title}
+                            className="w-full h-full object-cover filter blur-[2px] opacity-60 group-hover:blur-0 group-hover:opacity-100 transition-all duration-300"
+                            loading="lazy"
+                            onError={(e) => {
+                              if (nextItem2.fallbackUrl && e.currentTarget.src !== nextItem2.fallbackUrl) {
+                                e.currentTarget.src = nextItem2.fallbackUrl;
+                              }
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-between p-2.5 sm:p-3">
+                            <span className="self-start px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-black/70 text-amber-300 border border-white/20 backdrop-blur-sm">
+                              {nextItem2.artboardNum}
+                            </span>
+                            <div className="text-white">
+                              <p className="text-[10px] sm:text-xs font-bold line-clamp-1 group-hover:text-blue-300">
+                                {nextItem2.title}
+                              </p>
+                              <span className="text-[9px] text-blue-400 font-extrabold flex items-center gap-1 mt-0.5">
+                                <ArrowUp className="w-3 h-3" />
+                                <span>{lang === 'bn' ? 'উপরে আনুন' : 'Bring Up'}</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Quick navigation hint & dot indicators */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2 px-1">
+                      <p className="text-[11px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium text-center sm:text-left flex items-center gap-1.5">
+                        <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <span>{t.swipeOrScrollHint}</span>
+                      </p>
+
+                      {/* Dots to jump to any item */}
+                      <div className="flex items-center gap-1.5">
+                        {GRAPHIC_DESIGNS.map((_, dotIdx) => (
+                          <button
+                            key={dotIdx}
+                            type="button"
+                            onClick={() => jumpToGraphic(dotIdx)}
+                            className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                              dotIdx === activeGraphicIndex
+                                ? 'w-7 bg-[#0057ff]'
+                                : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600'
+                            }`}
+                            title={`Go to design ${dotIdx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          ) : (
+            /* VIEW MODE 2: FULL GRID VIEW (2 cols on mobile, 4 on desktop) */
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+              {GRAPHIC_DESIGNS.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setSelectedGraphic(item)}
+                  className={`group cursor-pointer rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col ${
+                    isDark
+                      ? 'bg-slate-900/90 border-slate-800 hover:border-[#0057ff]/60 hover:shadow-[#0057ff]/20'
+                      : 'bg-white border-slate-200 hover:border-[#0057ff]/60 hover:shadow-blue-500/20 shadow-md'
+                  }`}
+                  title={`${item.title} - ${t.tapToView}`}
+                >
+                  {/* 1:1 Aspect Ratio Matching Original Artboard */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      onError={(e) => {
+                        if (item.fallbackUrl && e.currentTarget.src !== item.fallbackUrl) {
+                          e.currentTarget.src = item.fallbackUrl;
+                        }
+                      }}
+                    />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="px-3 py-1.5 rounded-full bg-[#0057ff] text-white text-[10px] sm:text-xs font-bold tracking-wide flex items-center gap-1.5 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>{t.tapToView}</span>
+                      </span>
+                    </div>
+
+                    {/* Corner Badge */}
+                    <div className="absolute top-2 left-2 z-10">
+                      <span className="px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-black/80 backdrop-blur-md text-amber-300 border border-white/20">
+                        {item.artboardNum}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Info */}
+                  <div className="p-3 sm:p-4 space-y-1 flex-1 flex flex-col justify-between">
+                    <div>
+                      <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-[#0057ff] block">
+                        {item.category}
+                      </span>
+                      <h3 className="font-heading text-xs sm:text-sm font-bold tracking-tight line-clamp-1 group-hover:text-[#0057ff] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p
+                        className={`text-[10px] sm:text-[11px] line-clamp-1 sm:line-clamp-2 ${
+                          isDark ? 'text-slate-400' : 'text-slate-500'
+                        }`}
+                      >
+                        {item.subtitle}
+                      </p>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-[10px] sm:text-xs">
+                      <span className="text-slate-400 font-medium truncate max-w-[90px]">{item.category}</span>
+                      <span className="text-[#0057ff] font-bold flex items-center gap-0.5 shrink-0">
+                        <span>View</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ===================================================================== */}
+          {/* BIG PROMINENT BEHANCE CALLOUT BANNER                                  */}
+          {/* "বাকি কাজ দেখতে চাইলে বিহান্সে ক্লিক করুন"                              */}
+          {/* ===================================================================== */}
+          <div className="relative overflow-hidden rounded-3xl border-2 border-[#0057ff]/40 bg-gradient-to-br from-[#0057ff]/15 via-blue-950/40 to-slate-900/90 p-6 sm:p-10 shadow-2xl group transition-all duration-300 hover:border-[#0057ff]/80 hover:shadow-2xl hover:shadow-[#0057ff]/25">
+            {/* Ambient backdrop glow elements */}
+            <div
+              aria-hidden="true"
+              className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#0057ff]/25 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute -left-10 -top-10 w-60 h-60 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none"
+            />
+
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 text-center md:text-left">
+              {/* Left Side: Big Behance Logo + Text */}
+              <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6 max-w-2xl">
+                {/* Big Glowing Behance Logo Badge */}
+                <div className="relative shrink-0">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-[#0057ff] to-[#0091ff] text-white flex items-center justify-center shadow-xl shadow-[#0057ff]/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border-2 border-white/40">
+                    <BehanceIcon className="w-9 h-9 sm:w-11 sm:h-11 text-white" />
+                  </div>
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center text-white text-[9px] font-bold">
+                    ✓
+                  </span>
+                </div>
+
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-wider bg-[#0057ff]/20 text-[#0084ff] border border-[#0057ff]/30">
+                    <BehanceIcon className="w-3.5 h-3.5" />
+                    <span>Behance Official Portfolio</span>
+                  </div>
+                  <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-slate-900 dark:text-white leading-snug">
+                    {t.behanceBigBannerTitle}
+                  </h3>
+                  <p
+                    className={`text-xs sm:text-sm leading-relaxed max-w-xl ${
+                      isDark ? 'text-slate-300' : 'text-slate-600'
+                    }`}
+                  >
+                    {t.behanceBigBannerDesc}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Side: Big Clickable Action Button */}
+              <div className="shrink-0 w-full md:w-auto flex flex-col sm:flex-row items-center gap-3">
+                <a
+                  href="https://www.behance.net/mdnaeim26"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 py-3.5 sm:py-4 px-6 sm:px-8 rounded-2xl font-black text-sm sm:text-base tracking-wide bg-gradient-to-r from-[#0057ff] to-[#0077ff] hover:from-[#0047e0] hover:to-[#0057ff] text-white shadow-xl shadow-[#0057ff]/40 hover:shadow-[#0057ff]/60 hover:scale-105 active:scale-95 transition-all duration-200 border border-white/30 cursor-pointer"
+                  title="Open Behance Profile: mdnaeim26"
+                >
+                  <BehanceIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <span>{t.behanceBtnText}</span>
+                  <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-white/90" />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -982,10 +1660,10 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <Sliders className="w-4 h-4" />
-                <span>Story & Style</span>
+                <span>{t.aboutBadge}</span>
               </div>
               <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                About NAEIM Visual
+                {t.aboutTitle}
               </h2>
             </div>
           </div>
@@ -997,13 +1675,13 @@ export default function App() {
                 : 'bg-white border-slate-200 shadow-sm'
             }`}
           >
-            {/* Direct Honest Bio */}
+            {/* Direct Bio Quote */}
             <blockquote
               className={`text-sm sm:text-base lg:text-lg font-normal leading-relaxed italic border-l-4 border-rose-500 pl-3 sm:pl-5 ${
                 isDark ? 'text-slate-200' : 'text-slate-700'
               }`}
             >
-              &ldquo;I am a video editor dedicated to cinematic visual storytelling. I bring fresh creativity, precise rhythm, dynamic audio mixing, and modern aesthetics to every project.&rdquo;
+              &ldquo;{t.aboutQuote}&rdquo;
             </blockquote>
 
             {/* Core Pillars: 2x2 grid on mobile & tablet */}
@@ -1016,13 +1694,13 @@ export default function App() {
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center mb-2">
                   <Film className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Rhythm & Pacing</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">{t.pillar1Title}</h4>
                 <p
                   className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Seamless cuts matched to mood and beat.
+                  {t.pillar1Desc}
                 </p>
               </div>
 
@@ -1034,13 +1712,13 @@ export default function App() {
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center mb-2">
                   <Volume2 className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Sound Design</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">{t.pillar2Title}</h4>
                 <p
                   className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Layered ambient SFX, whooshes, and hits.
+                  {t.pillar2Desc}
                 </p>
               </div>
 
@@ -1052,13 +1730,13 @@ export default function App() {
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-2">
                   <Palette className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Color Grading</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">{t.pillar3Title}</h4>
                 <p
                   className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Rich cinematic tones and mood pallets.
+                  {t.pillar3Desc}
                 </p>
               </div>
 
@@ -1070,13 +1748,13 @@ export default function App() {
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-2">
                   <Layers className="w-4 h-4" />
                 </div>
-                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">Transitions</h4>
+                <h4 className="font-heading font-bold text-xs sm:text-sm mb-0.5">{t.pillar4Title}</h4>
                 <p
                   className={`text-[11px] sm:text-xs leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}
                 >
-                  Dynamic speed ramps and motion cues.
+                  {t.pillar4Desc}
                 </p>
               </div>
             </div>
@@ -1088,14 +1766,15 @@ export default function App() {
                   isDark ? 'text-slate-400' : 'text-slate-500'
                 }`}
               >
-                Editing Tools
+                {t.toolsTitle}
               </span>
               <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
                 {[
                   'Adobe Premiere Pro',
                   'Adobe After Effects',
                   'DaVinci Resolve',
-                  'Photoshop',
+                  'Adobe Photoshop',
+                  'Adobe Illustrator',
                   'Audio Mixing',
                   'Color Grading'
                 ].map((tool) => (
@@ -1117,17 +1796,16 @@ export default function App() {
 
         {/* ========================================================================= */}
         {/* SECTION 4: GET IN TOUCH SECTION                                           */}
-        {/* Action buttons (Email, WhatsApp, Social Links: Facebook, Behance, YouTube)*/}
         {/* ========================================================================= */}
         <section id="contact" className="space-y-8 scroll-mt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
                 <MessageCircle className="w-4 h-4" />
-                <span>Let&apos;s Build Something Memorable</span>
+                <span>{t.contactBadge}</span>
               </div>
               <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                Get in Touch
+                {t.contactTitle}
               </h2>
             </div>
             <p
@@ -1135,8 +1813,7 @@ export default function App() {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              Have raw footage, a cinematic trailer, or a commercial video that needs punchy visual
-              rhythm? Reach out directly!
+              {t.contactDesc}
             </p>
           </div>
 
@@ -1156,7 +1833,7 @@ export default function App() {
                     <Mail className="w-5 h-5" />
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-sm">Direct Email</h4>
+                    <h4 className="font-heading font-bold text-sm">{t.directEmailTitle}</h4>
                     <p
                       className={`text-xs ${
                         isDark ? 'text-slate-400' : 'text-slate-500'
@@ -1173,7 +1850,7 @@ export default function App() {
                     className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-colors shadow-sm"
                   >
                     <Send className="w-3.5 h-3.5" />
-                    <span>Send Email</span>
+                    <span>{t.emailBtn}</span>
                   </a>
                   <button
                     type="button"
@@ -1207,13 +1884,13 @@ export default function App() {
                     <WhatsAppIcon className="w-5 h-5 text-emerald-500" />
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-sm">WhatsApp Direct Chat</h4>
+                    <h4 className="font-heading font-bold text-sm">{t.whatsAppDirectTitle}</h4>
                     <p
                       className={`text-xs ${
                         isDark ? 'text-slate-400' : 'text-slate-500'
                       }`}
                     >
-                      Instant reply & collaboration for your video projects
+                      {t.whatsAppDirectDesc}
                     </p>
                   </div>
                 </div>
@@ -1226,7 +1903,7 @@ export default function App() {
                     className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md hover:scale-[1.02]"
                   >
                     <WhatsAppIcon className="w-4 h-4 text-white" />
-                    <span>Start WhatsApp Chat</span>
+                    <span>{t.startWhatsApp}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                   <a
@@ -1235,7 +1912,7 @@ export default function App() {
                     title="Direct Phone Call"
                   >
                     <Phone className="w-3.5 h-3.5 text-white" />
-                    <span>Contact Call</span>
+                    <span>{t.contactCall}</span>
                   </a>
                 </div>
               </div>
@@ -1249,7 +1926,7 @@ export default function App() {
                 }`}
               >
                 <h4 className="font-heading font-bold text-xs uppercase tracking-wider mb-3">
-                  Official Creative Profiles
+                  {t.creativeProfiles}
                 </h4>
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   {/* Facebook */}
@@ -1311,13 +1988,13 @@ export default function App() {
                 }`}
               >
                 <div className="space-y-1">
-                  <h3 className="font-heading font-black text-xl">Send a Direct Message</h3>
+                  <h3 className="font-heading font-black text-xl">{t.sendMessageTitle}</h3>
                   <p
                     className={`text-xs ${
                       isDark ? 'text-slate-400' : 'text-slate-600'
                     }`}
                   >
-                    Tell me a bit about your video footage, desired vibe, deadline, or general idea.
+                    {t.sendMessageDesc}
                   </p>
                 </div>
 
@@ -1327,12 +2004,12 @@ export default function App() {
                       htmlFor="client-name"
                       className="text-xs font-bold uppercase tracking-wider block opacity-80"
                     >
-                      Your Name
+                      {t.yourName}
                     </label>
                     <input
                       id="client-name"
                       type="text"
-                      placeholder="e.g. Alex Hunter"
+                      placeholder={t.namePlaceholder}
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
                       required
@@ -1349,12 +2026,12 @@ export default function App() {
                       htmlFor="client-email"
                       className="text-xs font-bold uppercase tracking-wider block opacity-80"
                     >
-                      Email Address
+                      {t.yourEmail}
                     </label>
                     <input
                       id="client-email"
                       type="email"
-                      placeholder="alex@studio.com"
+                      placeholder={t.emailPlaceholder}
                       value={contactEmail}
                       onChange={(e) => setContactEmail(e.target.value)}
                       required
@@ -1372,12 +2049,12 @@ export default function App() {
                     htmlFor="client-message"
                     className="text-xs font-bold uppercase tracking-wider block opacity-80"
                   >
-                    Project Details / Raw Footage Description
+                    {t.yourMessage}
                   </label>
                   <textarea
                     id="client-message"
                     rows={4}
-                    placeholder="Describe your raw video files, style preferences (fast-paced, cinematic trailer, social cuts), and estimated timeline..."
+                    placeholder={t.messagePlaceholder}
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
                     required
@@ -1395,13 +2072,13 @@ export default function App() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white transition-all shadow-md shadow-rose-600/25 hover:scale-[1.02] cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Project Brief</span>
+                    <span>{t.sendBtn}</span>
                   </button>
 
                   {formSent && (
                     <span className="text-xs font-bold text-emerald-500 flex items-center gap-1.5 animate-pulse">
                       <Check className="w-4 h-4" />
-                      Email client prepared! Thank you.
+                      {t.sendSuccess}
                     </span>
                   )}
                 </div>
@@ -1431,7 +2108,7 @@ export default function App() {
                 NAEIM Visual
               </span>
               <span className="text-[10px]">
-                Video Editor & Visual Storyteller · Portfolio 2026
+                {t.footerTagline}
               </span>
             </div>
           </div>
@@ -1476,7 +2153,7 @@ export default function App() {
           </div>
 
           <p className="text-xs opacity-70">
-            Crafted with passion, rhythm & high-energy editing.
+            {t.footerBottom}
           </p>
         </div>
       </footer>
@@ -1497,8 +2174,8 @@ export default function App() {
                   <GmailIcon className="w-5 h-5 text-rose-500" />
                 </span>
                 <div>
-                  <h3 className="font-heading font-black text-base">Direct Email Contact</h3>
-                  <p className="text-[11px] text-slate-400">Collaborate with NAEIM Visual</p>
+                  <h3 className="font-heading font-black text-base">{t.emailModalTitle}</h3>
+                  <p className="text-[11px] text-slate-400">{t.emailModalSubtitle}</p>
                 </div>
               </div>
               <button
@@ -1511,7 +2188,7 @@ export default function App() {
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-semibold text-slate-400">Official Inquiries Email:</span>
+              <span className="text-xs font-semibold text-slate-400">{t.directEmailTitle}:</span>
               <div className="p-3 rounded-xl border border-rose-500/30 bg-rose-500/10 flex items-center justify-between gap-2">
                 <span className="font-mono text-sm font-bold text-rose-500 select-all">
                   naeim.connect@gmail.com
@@ -1524,12 +2201,12 @@ export default function App() {
                   {copiedEmail ? (
                     <>
                       <Check className="w-3.5 h-3.5" />
-                      <span>Copied!</span>
+                      <span>{t.copied}</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-3.5 h-3.5" />
-                      <span>Copy</span>
+                      <span>{t.copyEmail}</span>
                     </>
                   )}
                 </button>
@@ -1551,13 +2228,13 @@ export default function App() {
               className="space-y-3 pt-1"
             >
               <label htmlFor="modalMessage" className="text-xs font-semibold text-slate-400 block">
-                Write a quick message to Naeim:
+                {t.writeQuickMsg}
               </label>
               <textarea
                 id="modalMessage"
                 name="modalMessage"
                 rows={3}
-                placeholder="Hi Naeim, I have a video editing project and need your services..."
+                placeholder={t.modalPlaceholder}
                 className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:ring-2 focus:ring-rose-500 ${
                   isDark
                     ? 'bg-slate-950 border-slate-700 text-slate-100 placeholder:text-slate-500'
@@ -1571,20 +2248,120 @@ export default function App() {
                   className="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Send Email Directly</span>
+                  <span>{t.sendDirectBtn}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowEmailModal(false)}
                   className="py-2.5 px-4 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
-                  Close
+                  {t.closeModalBtn}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Graphic Design Image Lightbox Modal with Slider Navigation */}
+      {selectedGraphic && (() => {
+        const currentIndex = GRAPHIC_DESIGNS.findIndex(g => g.id === selectedGraphic.id);
+        const handlePrevModal = (e: React.MouseEvent) => {
+          e.stopPropagation();
+          const prevIdx = (currentIndex - 1 + GRAPHIC_DESIGNS.length) % GRAPHIC_DESIGNS.length;
+          setSelectedGraphic(GRAPHIC_DESIGNS[prevIdx]);
+        };
+        const handleNextModal = (e: React.MouseEvent) => {
+          e.stopPropagation();
+          const nextIdx = (currentIndex + 1) % GRAPHIC_DESIGNS.length;
+          setSelectedGraphic(GRAPHIC_DESIGNS[nextIdx]);
+        };
+
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-modal"
+            onClick={() => setSelectedGraphic(null)}
+          >
+            <div
+              className="relative max-w-4xl w-full max-h-[92vh] flex flex-col rounded-3xl overflow-hidden bg-slate-900 border border-slate-700 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-950/80">
+                <div className="flex items-center gap-2.5">
+                  <span className="p-1.5 rounded-lg bg-[#0057ff]/20 text-[#0084ff]">
+                    <BehanceIcon className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <h4 className="font-heading font-bold text-sm text-white flex items-center gap-2">
+                      <span>{selectedGraphic.title}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">
+                        {currentIndex + 1} / {GRAPHIC_DESIGNS.length}
+                      </span>
+                    </h4>
+                    <p className="text-[11px] text-slate-400">{selectedGraphic.subtitle}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://www.behance.net/mdnaeim26"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-[#0057ff] hover:bg-[#0047d4] text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+                  >
+                    <BehanceIcon className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Behance</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGraphic(null)}
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                    title="Close Preview"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal Image with Navigation Arrows */}
+              <div className="relative flex-1 overflow-auto p-2 sm:p-4 bg-black/90 flex items-center justify-center">
+                {/* Modal Prev Arrow */}
+                <button
+                  type="button"
+                  onClick={handlePrevModal}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-slate-950/80 hover:bg-[#0057ff] text-white border border-slate-700/80 flex items-center justify-center shadow-lg transition-all cursor-pointer hover:scale-110"
+                  title="Previous Graphic"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <img
+                  src={selectedGraphic.image}
+                  alt={selectedGraphic.title}
+                  className="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-2xl border border-slate-800"
+                  onError={(e) => {
+                    if (selectedGraphic.fallbackUrl && e.currentTarget.src !== selectedGraphic.fallbackUrl) {
+                      e.currentTarget.src = selectedGraphic.fallbackUrl;
+                    }
+                  }}
+                />
+
+                {/* Modal Next Arrow */}
+                <button
+                  type="button"
+                  onClick={handleNextModal}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-slate-950/80 hover:bg-[#0057ff] text-white border border-slate-700/80 flex items-center justify-center shadow-lg transition-all cursor-pointer hover:scale-110"
+                  title="Next Graphic"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -1,0 +1,222 @@
+export type Language = 'bn' | 'en';
+
+export const translations = {
+  bn: {
+    // Header & Navigation
+    videoEditorTitle: 'ভিডিও এডিটর ও ভিজ্যুয়াল স্টোরিটেলার',
+    navProfile: 'প্রোফাইল',
+    navVideos: 'ভিডিও কাজ',
+    navShorts: 'শর্টস',
+    navAbout: 'আমার সম্পর্কে',
+    navContact: 'যোগাযোগ',
+    hireMe: 'হায়ার করুন',
+    lightMode: 'লাইট',
+    darkMode: 'ডার্ক',
+    langToggle: 'English',
+
+    // Hero / Profile
+    roleBadge: 'ভিডিও এডিটর ও মোশন আর্টিস্ট',
+    roleSubBadge: 'ভিজ্যুয়াল স্টোরিটেলিং · সাউন্ড ডিজাইন · কালার গ্রেডিং',
+    profileSubtitle: 'ডাইনামিক ভিডিও এডিটর ও ক্রিয়েটিভ মোশন ডিজাইনার',
+    openToWork: 'কাজের জন্য প্রস্তুত',
+    officialChannels: 'অফিসিয়াল ক্রিয়েটিভ চ্যানেল',
+    directContact: 'সরাসরি যোগাযোগ ও হোয়াটসঅ্যাপ চ্যাট',
+    emailBtn: 'ইমেইল',
+    whatsAppBtn: 'হোয়াটসঅ্যাপ',
+    contactCallBtn: 'কল করুন',
+    watchShowreel: 'শো-রিল দেখুন',
+    watchShorts: 'শর্টস দেখুন',
+    getInTouch: 'যোগাযোগ করুন',
+    copyEmail: 'ইমেইল কপি',
+    copied: 'কপি হয়েছে!',
+    featuredTrailer: 'ফিচার্ড ভিডিও ট্রেইলার · NAEIM Visual',
+
+    // Video Section
+    videoSectionBadge: 'সিনেমাটিক ভিডিও প্রজেক্ট',
+    videoSectionTitle: 'ভিডিও প্রজেক্টসমূহ',
+    videoSectionDesc: 'নির্ভুল পেসিং, আধুনিক সাউন্ড ডিজাইন ও কালার গ্রেডিং। ইউটিউবে সরাসরি দেখতে ক্লিক করুন।',
+    watchOnYouTube: 'ইউটিউবে দেখুন',
+    watchBtn: 'দেখুন',
+
+    // Shorts Section
+    shortsSectionBadge: 'শর্ট-ফর্ম ভিডিও',
+    shortsSectionTitle: 'ইউটিউব শর্টস ও রিলস',
+    shortsSectionDesc: 'হাই-রিটেনশন ভার্টিক্যাল ভিডিও এডিটিং যা রিলস ও ইউটিউব শর্টসে দর্শকদের ধরে রাখে।',
+    watchShort: 'শর্ট দেখুন',
+
+    // Graphic Design Section
+    navGraphics: 'গ্রাফিক ডিজাইন',
+    graphicsBadge: 'গ্রাফিক ডিজাইন ও ব্র্যান্ডিং',
+    graphicsTitle: 'গ্রাফিক ডিজাইন প্রজেক্ট',
+    graphicsDesc: 'ল্যানিয়ার্ড আর্টবোর্ড, কর্পোরেট ব্রোশিওর, ইসলামিক ব্যানার ও ব্র্যান্ডিং মকআপ ডিজাইন।',
+    behanceBigBannerTitle: 'বাকি কাজ দেখতে চাইলে বিহান্সে ক্লিক করুন',
+    behanceBigBannerDesc: 'আমার সব ধরণের গ্রাফিক ডিজাইন ও ব্র্যান্ডিংয়ের বাকি কাজ দেখতে সরাসরি আমার বিহান্স প্রোফাইলে চলে যান।',
+    behanceBtnText: 'বিহান্সে প্রোফাইল দেখুন',
+    tapToView: 'বড় করে দেখুন',
+    carouselView: 'শোকেস ভিউ',
+    gridView: 'সবগুলো গ্রিড',
+    prevSlide: 'আগেরটি',
+    nextSlide: 'পরেরটি',
+    nextDesign: 'পরবর্তী ডিজাইন',
+    prevDesign: 'আগের ডিজাইন',
+    nextUp: 'নিচ থেকে আসবে',
+    swipeOrScrollHint: 'আঙুল দিয়ে উপরে সোয়াইপ করুন বা তীরের বোতামে ক্লিক করুন — একটার পর একটা নিচ থেকে উঠবে',
+
+    // About Section
+    aboutBadge: 'স্টোরি ও এডিটিং স্টাইল',
+    aboutTitle: 'NAEIM Visual সম্পর্কে',
+    aboutQuote: 'আমি একজন ভিডিও এডিটর ও মোশন ডিজাইনার, যার লক্ষ্য প্রতিটি ফ্রেমে সিনেমাটিক গল্প ফুটিয়ে তোলা। ক্রিয়েটিভ পেসিং, সাউন্ড ডিজাইন এবং আধুনিক রঙের মেলবন্ধনে প্রতিটি প্রজেক্টকে আকর্ষণীয় করে তুলি।',
+    pillar1Title: 'রিদম ও পেসিং',
+    pillar1Desc: 'গানের বিট ও গল্পের মেজাজের সাথে নিখুঁত কাটিং ও গতি।',
+    pillar2Title: 'সাউন্ড ডিজাইন',
+    pillar2Desc: 'মাল্টি-লেয়ার ফলি, ড্রামস ও অ্যাম্বিয়েন্ট অডিও এফেক্টস।',
+    pillar3Title: 'সিনেমাটিক কালার',
+    pillar3Desc: 'হাই-কন্ট্রাস্ট ভাইব্রেন্ট কালার গ্রেড ও রিচ টোন।',
+    pillar4Title: 'গতি ও ট্রানজিশন',
+    pillar4Desc: 'ডাইনামিক স্পিড র‍্যাম্পস, কিউ ও হাই-রিটেনশন কাটিং।',
+    toolsTitle: 'ব্যবহৃত সফটওয়্যার ও স্কিলস',
+
+    // Contact Section
+    contactBadge: 'আসুন চমৎকার কিছু তৈরি করি',
+    contactTitle: 'যোগাযোগ ও প্রজেক্ট আলোচনা',
+    contactDesc: 'আপনার র ফুটেজ, ইউটিউব ভিডিও, সিনেমাটিক ট্রেইলার বা সোশ্যাল কমার্শিয়ালের জন্য সরাসরি যোগাযোগ করুন!',
+    directEmailTitle: 'অফিসিয়াল ইমেইল ইনকোয়ারি',
+    emailModalHint: 'naeim.connect@gmail.com · ভিডিও প্রজেক্ট ও কলাবোরেশনের জন্য সরাসরি লিখুন',
+    whatsAppDirectTitle: 'হোয়াটসঅ্যাপ সরাসরি চ্যাট',
+    whatsAppDirectDesc: 'ভিডিও প্রজেক্ট নিয়ে তাৎক্ষণিক রিপ্লাই ও আলোচনার জন্য চ্যাট শুরু করুন',
+    startWhatsApp: 'হোয়াটসঅ্যাপ চ্যাট শুরু করুন',
+    contactCall: 'সরাসরি ফোন কল',
+    creativeProfiles: 'অফিসিয়াল সোশ্যাল মিডিয়া প্রোফাইল',
+    sendMessageTitle: 'প্রজেক্টের বিবরণ লিখে পাঠান',
+    sendMessageDesc: 'আপনার র ভিডিও ফুটেজ, কাজের ধরন, সময়সীমা ও প্রয়োজনীয় স্টাইল সম্পর্কে সংক্ষেপে লিখুন।',
+    yourName: 'আপনার নাম',
+    yourEmail: 'আপনার ইমেইল',
+    yourMessage: 'প্রজেক্টের বিস্তারিত তথ্য',
+    namePlaceholder: 'যেমন: সাদমান আহমেদ',
+    emailPlaceholder: 'you@example.com',
+    messagePlaceholder: 'আপনার ভিডিওর ধরন, সময়সীমা ও বিস্তারিত লিখুন...',
+    sendBtn: 'মেসেজ পাঠিয়ে দিন',
+    sendSuccess: 'ইমেইল প্রস্তুত হয়েছে! আপনাকে ধন্যবাদ।',
+
+    // Email Modal
+    emailModalTitle: 'সরাসরি ইমেইল যোগাযোগ',
+    emailModalSubtitle: 'NAEIM Visual-এর সাথে কলাবোরেশন করুন',
+    writeQuickMsg: 'নাঈমকে একটি দ্রুত বার্তা লিখুন:',
+    modalPlaceholder: 'হ্যালো নাঈম, আমার একটি ভিডিও এডিটিং প্রজেক্ট আছে...',
+    sendDirectBtn: 'সরাসরি ইমেইল পাঠান',
+    closeModalBtn: 'বন্ধ করুন',
+
+    // Footer
+    footerTagline: 'ভিডিও এডিটর ও ভিজ্যুয়াল স্টোরিটেলার · পোর্টফোলিও ২০২৬',
+    footerBottom: 'প্যাশন, ছন্দ ও হাই-এনার্জি ক্রিয়েটিভিটি দিয়ে তৈরি।'
+  },
+  en: {
+    // Header & Navigation
+    videoEditorTitle: 'Video Editor & Visual Storyteller',
+    navProfile: 'Profile',
+    navVideos: 'Videos',
+    navShorts: 'Shorts',
+    navAbout: 'About',
+    navContact: 'Contact',
+    hireMe: 'Hire Me',
+    lightMode: 'Light',
+    darkMode: 'Dark',
+    langToggle: 'বাংলা',
+
+    // Hero / Profile
+    roleBadge: 'Video Editor & Motion Artist',
+    roleSubBadge: 'Visual Storytelling · Sound Design · Color Grade',
+    profileSubtitle: 'Dynamic Video Editor & Creative Motion Designer',
+    openToWork: 'Open to Work',
+    officialChannels: 'Official Creative Channels',
+    directContact: 'Direct Inquiries & WhatsApp Chat',
+    emailBtn: 'Email',
+    whatsAppBtn: 'WhatsApp',
+    contactCallBtn: 'Contact',
+    watchShowreel: 'Watch Reel',
+    watchShorts: 'Watch Shorts',
+    getInTouch: 'Get in Touch',
+    copyEmail: 'Copy Email',
+    copied: 'Copied!',
+    featuredTrailer: 'Featured Video Trailer · NAEIM Visual',
+
+    // Video Section
+    videoSectionBadge: 'Cinematic Video Works',
+    videoSectionTitle: 'Video Projects',
+    videoSectionDesc: 'Editorial pacing, immersive sound design, and rich color grading. Click to watch on YouTube.',
+    watchOnYouTube: 'Watch on YouTube',
+    watchBtn: 'Watch',
+
+    // Shorts Section
+    shortsSectionBadge: 'Short-Form Video',
+    shortsSectionTitle: 'YouTube Shorts',
+    shortsSectionDesc: 'High-retention vertical edits designed for Reels & YouTube Shorts. Click to play.',
+    watchShort: 'Watch Short',
+
+    // Graphic Design Section
+    navGraphics: 'Graphics',
+    graphicsBadge: 'Graphic Design & Branding',
+    graphicsTitle: 'Graphic Design Showcase',
+    graphicsDesc: 'Lanyard artboards, corporate brochures, Islamic banners, and brand identity mockups.',
+    behanceBigBannerTitle: 'Want to See More Works? Click on Behance',
+    behanceBigBannerDesc: 'To explore my complete graphic design portfolio, lanyard artboards, and creative branding showcases, visit my official Behance profile.',
+    behanceBtnText: 'View on Behance',
+    tapToView: 'Click to expand',
+    carouselView: 'Showcase View',
+    gridView: 'Grid View',
+    prevSlide: 'Previous',
+    nextSlide: 'Next',
+    nextDesign: 'Next Design',
+    prevDesign: 'Previous Design',
+    nextUp: 'Next in Queue',
+    swipeOrScrollHint: 'Swipe up or click the arrow button — designs will slide up one after another',
+
+    // About Section
+    aboutBadge: 'Story & Style',
+    aboutTitle: 'About NAEIM Visual',
+    aboutQuote: 'I am a video editor dedicated to cinematic visual storytelling. I bring fresh creativity, precise rhythm, dynamic audio mixing, and modern aesthetics to every project.',
+    pillar1Title: 'Rhythm & Pacing',
+    pillar1Desc: 'Seamless cuts matched to mood, tempo, and story arc.',
+    pillar2Title: 'Sound Design',
+    pillar2Desc: 'Multi-layered foley, impact risers, and ambient audio depth.',
+    pillar3Title: 'Cinematic Color',
+    pillar3Desc: 'Vibrant contrast, rich filmic palettes, and refined skin tones.',
+    pillar4Title: 'Transitions & Energy',
+    pillar4Desc: 'Dynamic speed ramps, matched cuts, and high-retention flow.',
+    toolsTitle: 'Editing Tools Arsenal',
+
+    // Contact Section
+    contactBadge: "Let's Build Something Memorable",
+    contactTitle: 'Get in Touch',
+    contactDesc: 'Have raw footage, a cinematic trailer, or a commercial video that needs punchy visual rhythm? Reach out directly!',
+    directEmailTitle: 'Official Inquiries Email',
+    emailModalHint: 'naeim.connect@gmail.com · Direct collaboration for high-impact video editing',
+    whatsAppDirectTitle: 'WhatsApp Direct Chat',
+    whatsAppDirectDesc: 'Instant reply & collaboration for your upcoming video projects',
+    startWhatsApp: 'Start WhatsApp Chat',
+    contactCall: 'Contact Call',
+    creativeProfiles: 'Official Creative Profiles',
+    sendMessageTitle: 'Send a Direct Project Brief',
+    sendMessageDesc: 'Tell me a bit about your video footage, desired vibe, deadline, or general idea.',
+    yourName: 'Your Name',
+    yourEmail: 'Your Email',
+    yourMessage: 'Project Details',
+    namePlaceholder: 'e.g. Alex Morgan',
+    emailPlaceholder: 'you@example.com',
+    messagePlaceholder: 'Describe your footage, project scope, deadlines, and editing style...',
+    sendBtn: 'Send Project Brief',
+    sendSuccess: 'Email client prepared! Thank you.',
+
+    // Email Modal
+    emailModalTitle: 'Direct Email Contact',
+    emailModalSubtitle: 'Collaborate with NAEIM Visual',
+    writeQuickMsg: 'Write a quick message to Naeim:',
+    modalPlaceholder: 'Hi Naeim, I have a video editing project and need your services...',
+    sendDirectBtn: 'Send Email Directly',
+    closeModalBtn: 'Close',
+
+    // Footer
+    footerTagline: 'Video Editor & Visual Storyteller · Portfolio 2026',
+    footerBottom: 'Crafted with passion, rhythm & high-energy editing.'
+  }
+};
