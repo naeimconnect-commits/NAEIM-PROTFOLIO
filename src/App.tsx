@@ -42,6 +42,10 @@ import lanyardArtboard5 from './assets/images/lanyard-Artboard-5final.png';
 import graphicNaeim3847 from './assets/images/graphic_naeim_3847.jpg';
 import graphicBrochure222 from './assets/images/graphic_brochure_222.jpg';
 import graphicIslamicDsi from './assets/images/graphic_islamic_dsi.jpg';
+import graphicNaeimul3847 from './assets/images/graphic_naeimul_3847.jpg';
+import graphicDesign8a58 from './assets/images/graphic_design_8a58.jpg';
+import graphicDesignB300 from './assets/images/graphic_design_b300.jpg';
+import graphicDesignProfil from './assets/images/graphic_design_profil.jpg';
 
 // Custom SVG Brand Icons for Facebook, Behance & YouTube
 function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -265,6 +269,46 @@ interface GraphicDesignItem {
 
 const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
   {
+    id: 'graphic-naeimul-3847',
+    title: 'কালজিরা ফুলের মধু - Falak Food Packaging',
+    subtitle: 'Pure Honey Bottle & Social Media Promotional Artwork',
+    category: 'Product & Social Ad',
+    image: graphicNaeimul3847,
+    fallbackUrl: 'https://i.postimg.cc/NFSSx7GJ/3847-Naeimul-Islam-(2).jpg',
+    postimgUrl: 'https://postimg.cc/9wPLm97Z',
+    artboardNum: 'Product 01'
+  },
+  {
+    id: 'graphic-design-8a58',
+    title: 'Corporate Roll-Up Banner Collection',
+    subtitle: 'Classera Workshops & Amana Umrah Retractable Banners',
+    category: 'Roll-Up Banner',
+    image: graphicDesign8a58,
+    fallbackUrl: 'https://i.postimg.cc/hPxc5fFv/6a8142b1-8a58-44a9-8726-b05361777b98.jpg',
+    postimgUrl: 'https://postimages.org/',
+    artboardNum: 'Roll-Up 02'
+  },
+  {
+    id: 'graphic-design-b300',
+    title: 'Special Delicious Burger Billboard',
+    subtitle: 'High-Impact Fast Food Billboard & Outdoor Advertising',
+    category: 'Outdoor Billboard',
+    image: graphicDesignB300,
+    fallbackUrl: 'https://i.postimg.cc/wTtds3x4/b3003d58-7342-472d-b30d-3da2ce644569.jpg',
+    postimgUrl: 'https://postimages.org/',
+    artboardNum: 'Billboard 03'
+  },
+  {
+    id: 'graphic-design-profil',
+    title: 'ملتقى الطلاب - Student Gathering Event Flyer',
+    subtitle: 'Academic Educational Seminar & Lecture Poster Layout',
+    category: 'Event Flyer',
+    image: graphicDesignProfil,
+    fallbackUrl: 'https://i.postimg.cc/Jz2D5sZv/profil.jpg',
+    postimgUrl: 'https://postimg.cc/HrbkpsS9',
+    artboardNum: 'Flyer 04'
+  },
+  {
     id: 'graphic-naeim-3847',
     title: 'Brand Identity & 3D Logo Presentation',
     subtitle: 'Agency Mockup & Creative Visual Identity Design',
@@ -272,7 +316,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: graphicNaeim3847,
     fallbackUrl: 'https://i.postimg.cc/YCcjv63p/3847-Naeim-(2).jpg',
     postimgUrl: 'https://postimg.cc/4m5XMhqM',
-    artboardNum: 'Brand 01'
+    artboardNum: 'Brand 05'
   },
   {
     id: 'graphic-brochure-222',
@@ -282,7 +326,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: graphicBrochure222,
     fallbackUrl: 'https://i.postimg.cc/kg86s14V/brusiar-222.jpg',
     postimgUrl: 'https://postimages.org/',
-    artboardNum: 'Print 02'
+    artboardNum: 'Print 06'
   },
   {
     id: 'graphic-islamic-dsi',
@@ -292,7 +336,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: graphicIslamicDsi,
     fallbackUrl: 'https://i.postimg.cc/hv5zyNT4/islamic-dsi.jpg',
     postimgUrl: 'https://postimg.cc/QKcdV4fv',
-    artboardNum: 'Banner 03'
+    artboardNum: 'Banner 07'
   },
   {
     id: 'lanyard-artboard-2',
@@ -302,7 +346,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: lanyardArtboard2,
     fallbackUrl: 'https://i.postimg.cc/2SHFpXY9/lanyard-Artboard-2final.png',
     postimgUrl: 'https://postimg.cc/hXd7TsfV',
-    artboardNum: 'Artboard 02'
+    artboardNum: 'Artboard 08'
   },
   {
     id: 'lanyard-artboard-3',
@@ -312,7 +356,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: lanyardArtboard3,
     fallbackUrl: 'https://i.postimg.cc/yxz0hMh4/lanyard-Artboard-3final.png',
     postimgUrl: 'https://postimg.cc/BLM84wwM',
-    artboardNum: 'Artboard 03'
+    artboardNum: 'Artboard 09'
   },
   {
     id: 'lanyard-artboard-4',
@@ -322,7 +366,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: lanyardArtboard4,
     fallbackUrl: 'https://i.postimg.cc/Nj0mx7Xf/lanyard-Artboard-4final.png',
     postimgUrl: 'https://postimg.cc/GHZ4LDzZ',
-    artboardNum: 'Artboard 04'
+    artboardNum: 'Artboard 10'
   },
   {
     id: 'lanyard-artboard-5',
@@ -332,7 +376,7 @@ const GRAPHIC_DESIGNS: GraphicDesignItem[] = [
     image: lanyardArtboard5,
     fallbackUrl: 'https://i.postimg.cc/cCMwFFTr/lanyard-Artboard-5final.png',
     postimgUrl: 'https://postimg.cc/JH0sncfL',
-    artboardNum: 'Artboard 05'
+    artboardNum: 'Artboard 11'
   }
 ];
 
