@@ -183,6 +183,17 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel']
   },
   {
+    id: 'vid-sans-anim',
+    youtubeId: 'k3FHa0gZrb0',
+    url: 'https://youtu.be/k3FHa0gZrb0',
+    title: 'sans Animation Video — Motion Graphics & Story Edit',
+    badge: 'Animation Project',
+    role: 'Animation, Motion Design & Audio Sync',
+    duration: 'Full Cut',
+    description: 'Creative character animation video featuring custom keyframing, expressive motion timing, and synchronized sound effects.',
+    tags: ['Animation', 'Motion Graphics', 'Keyframing', 'Sound Sync']
+  },
+  {
     id: 'vid-ozdrv',
     youtubeId: 'oZdRVLPeWlg',
     url: 'https://youtu.be/oZdRVLPeWlg',
