@@ -867,7 +867,7 @@ export default function App() {
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
                     {/* Facebook Button */}
                     <a
-                      href="https://www.facebook.com"
+                      href="https://www.facebook.com/share/1CZ22kJcXR/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-[#1877f2] font-bold text-xs transition-all duration-200 bg-[#1877f2] text-white hover:bg-[#166fe5] hover:shadow-lg hover:shadow-[#1877f2]/30 hover:scale-105"
@@ -1986,7 +1986,7 @@ export default function App() {
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   {/* Facebook */}
                   <a
-                    href="https://www.facebook.com"
+                    href="https://www.facebook.com/share/1CZ22kJcXR/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`p-3 rounded-xl border flex flex-col items-center gap-1.5 transition-all text-center ${
@@ -2170,7 +2170,7 @@ export default function App() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://www.facebook.com"
+              href="https://www.facebook.com/share/1CZ22kJcXR/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-xl bg-[#1877f2] text-white hover:bg-[#166fe5] transition-all hover:scale-105 shadow-sm"
