@@ -100,34 +100,28 @@ interface VideoItem {
   description: string;
   tags: string[];
   isShort?: boolean;
+  playlistId?: string;
 }
 
 const YOUTUBE_PLAYLIST_ID = 'PLPSDvuSFbUN8';
-const YOUTUBE_PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLPSDvuSFbUN8';
 
-// Interactive YouTube Video Card: Shows official YouTube thumbnail with play button.
-// Loads YouTube embedded player with full playlist support when played.
+// Interactive YouTube Video Card: Clean thumbnail with play button.
+// Loads YouTube embedded player with playlist support when played.
 function YouTubePlayer({
   videoId,
   title,
   className = "",
   aspectRatio = "video",
-  isShort = false,
-  playlistId = YOUTUBE_PLAYLIST_ID,
+  playlistId,
 }: {
   videoId: string;
   title: string;
   className?: string;
   aspectRatio?: "video" | "short";
-  isShort?: boolean;
   playlistId?: string;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
-
-  const watchUrl = playlistId
-    ? `https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`
-    : (isShort ? `https://www.youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}&autoplay=1`);
 
   const embedUrl = playlistId
     ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&list=${playlistId}&rel=0`
@@ -143,19 +137,6 @@ function YouTubePlayer({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
-        {playlistId && (
-          <a
-            href={watchUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-black/80 hover:bg-red-600 text-white text-[9px] sm:text-[10px] font-bold tracking-wide backdrop-blur-md border border-white/20 transition-all flex items-center gap-1 shadow-lg"
-            title="Open playlist in new tab"
-          >
-            <ListVideo className="w-3 h-3 text-red-400" />
-            <span className="hidden sm:inline">YouTube Playlist</span>
-            <ArrowUpRight className="w-2.5 h-2.5" />
-          </a>
-        )}
       </div>
     );
   }
@@ -195,7 +176,7 @@ function YouTubePlayer({
           </span>
         </div>
 
-        {/* Bottom Bar: Title & Direct YouTube badge */}
+        {/* Bottom Bar: Title & Direct Play badge */}
         <div className="absolute bottom-0 inset-x-0 p-2 sm:p-3.5 z-10 flex items-center justify-between text-white/95 text-[10px] sm:text-xs font-semibold bg-gradient-to-t from-black/90 via-black/60 to-transparent">
           <span className="truncate pr-1 sm:pr-2 group-hover:text-red-300 transition-colors text-[10px] sm:text-xs">{title}</span>
           <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded sm:rounded-md bg-red-600 hover:bg-red-500 text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-0.5 sm:gap-1 shadow-md transition-colors">
@@ -204,80 +185,71 @@ function YouTubePlayer({
           </span>
         </div>
       </button>
-
-      {/* Direct link to YouTube playlist */}
-      <a
-        href={watchUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(e) => e.stopPropagation()}
-        className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-black/80 hover:bg-red-600 text-white text-[9px] sm:text-[10px] font-bold tracking-wide backdrop-blur-md border border-white/20 transition-all flex items-center gap-1 shadow-lg"
-        title="Open in YouTube with Playlist"
-      >
-        <ListVideo className="w-3 h-3 text-red-400" />
-        <span className="hidden sm:inline">Playlist</span>
-        <ArrowUpRight className="w-2.5 h-2.5" />
-      </a>
     </div>
   );
 }
 
-// Portfolio 16:9 Long-form videos (All 5 items in the official showcase playlist)
+// Portfolio 16:9 Long-form videos (Top featured + 6 video grid)
 const PORTFOLIO_VIDEOS: VideoItem[] = [
   {
     id: 'vid-featured',
     youtubeId: 'GPIDQ0odAnA',
-    url: 'https://www.youtube.com/watch?v=GPIDQ0odAnA&list=PLPSDvuSFbUN8',
+    url: `https://www.youtube.com/watch?v=GPIDQ0odAnA&list=${YOUTUBE_PLAYLIST_ID}`,
     title: 'Featured Master Cut — Video Editing Showcase',
     badge: 'Featured Masterpiece',
     role: 'Lead Editor, Sound Design & Color Grade',
     duration: 'Full Cut',
     description: 'Premier showcase edit featuring dynamic cuts, sound layering, precision motion pacing, and visual storytelling.',
-    tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel']
+    tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel'],
+    playlistId: YOUTUBE_PLAYLIST_ID
   },
   {
     id: 'vid-as-sunnah',
     youtubeId: 'YH1vjumjM70',
-    url: 'https://www.youtube.com/watch?v=YH1vjumjM70&list=PLPSDvuSFbUN8',
+    url: `https://www.youtube.com/watch?v=YH1vjumjM70&list=${YOUTUBE_PLAYLIST_ID}`,
     title: 'My three-month experience at As-Sunnah Skill.',
     badge: 'Experience Story',
     role: 'Documentary Cut, Pacing & Sound Design',
     duration: 'Full Cut',
     description: 'A reflective narrative edit recounting three months of learning and growth at As-Sunnah Skill, featuring seamless pacing and layered audio.',
-    tags: ['Documentary', 'Storytelling', 'Audio Mix', 'Narrative Cut']
+    tags: ['Documentary', 'Storytelling', 'Audio Mix', 'Narrative Cut'],
+    playlistId: YOUTUBE_PLAYLIST_ID
   },
   {
     id: 'vid-sans-anim',
     youtubeId: 'V1nLl2XMKhU',
-    url: 'https://www.youtube.com/watch?v=V1nLl2XMKhU&list=PLPSDvuSFbUN8',
+    url: `https://www.youtube.com/watch?v=V1nLl2XMKhU&list=${YOUTUBE_PLAYLIST_ID}`,
     title: 'Sans Video Animation',
     badge: 'Animation Project',
     role: 'Animation, Motion Design & Audio Sync',
     duration: 'Full Cut',
     description: 'Creative character animation video featuring custom motion pacing, dynamic visual transitions, and synchronized sound effects.',
-    tags: ['Animation', 'Motion Graphics', 'Keyframing', 'Sound Sync']
+    tags: ['Animation', 'Motion Graphics', 'Keyframing', 'Sound Sync'],
+    playlistId: YOUTUBE_PLAYLIST_ID
   },
   {
     id: 'vid-bangladesh-problem',
     youtubeId: 'ahXJhrEtweM',
-    url: 'https://www.youtube.com/watch?v=ahXJhrEtweM&list=PLPSDvuSFbUN8',
+    url: `https://www.youtube.com/watch?v=ahXJhrEtweM&list=${YOUTUBE_PLAYLIST_ID}`,
     title: 'The biggest problem in Bangladesh',
     badge: 'Social Documentary',
     role: 'Editorial Cut, Pacing & Visual Story',
     duration: 'Full Cut',
     description: 'A compelling social documentary cut addressing a critical perspective in Bangladesh with tight narrative pacing and layered audio storytelling.',
-    tags: ['Documentary', 'Visual Story', 'Pacing & Tone', 'Sound Design']
+    tags: ['Documentary', 'Visual Story', 'Pacing & Tone', 'Sound Design'],
+    playlistId: YOUTUBE_PLAYLIST_ID
   },
   {
     id: 'vid-outdoor-training',
     youtubeId: 'GkLtTGZ5kJI',
-    url: 'https://www.youtube.com/watch?v=GkLtTGZ5kJI&list=PLPSDvuSFbUN8',
+    url: `https://www.youtube.com/watch?v=GkLtTGZ5kJI&list=${YOUTUBE_PLAYLIST_ID}`,
     title: 'Outdoor training beyond skill-based training',
     badge: 'Outdoor Training',
     role: 'Visual Cut, Movement & Action Edit',
     duration: 'Full Cut',
     description: 'Dynamic visual documentation of outdoor training beyond skill-based training with engaging momentum and rhythmic sound flow.',
-    tags: ['Outdoor Training', 'Dynamic Cut', 'Action Pacing', 'Sound Design']
+    tags: ['Outdoor Training', 'Dynamic Cut', 'Action Pacing', 'Sound Design'],
+    playlistId: YOUTUBE_PLAYLIST_ID
   },
   {
     id: 'vid-cinematic-ai-2',
@@ -300,46 +272,6 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     duration: 'Full Cut',
     description: 'Dynamic professional ad motion showcase with sleek product animation, typography pacing, and synchronized audio design.',
     tags: ['Ad Motion', 'Commercial', 'Product Animation', 'Sound Design']
-  }
-];
-
-// Vertical 9:16 Shorts
-const PORTFOLIO_SHORTS: VideoItem[] = [
-  {
-    id: 'short-ad-motion',
-    youtubeId: 'GpjxAmw3L1k',
-    url: 'https://youtube.com/shorts/GpjxAmw3L1k?feature=share',
-    title: 'Professional Ad Motion',
-    badge: 'Ad Motion',
-    role: 'Commercial Motion & Product Reel',
-    duration: '< 60s',
-    description: 'High-impact commercial ad motion cut featuring clean typography, product transitions, and punchy audio sync.',
-    tags: ['Ad Motion', 'Commercial', 'Shorts / Reels', 'Product Promo'],
-    isShort: true
-  },
-  {
-    id: 'short-czw6v',
-    youtubeId: 'Czw6vV-Eklk',
-    url: 'https://youtube.com/shorts/Czw6vV-Eklk?feature=share',
-    title: 'Shorts: Visual Impact Cut',
-    badge: 'YouTube Short',
-    role: 'Fast Hook & Viral Pacing',
-    duration: '< 60s',
-    description: 'High-retention vertical edit crafted for maximum engagement, punchy opening hook, and seamless looping rhythm.',
-    tags: ['Vertical Video', 'Hook Design', 'High Retention', 'Speed Ramp'],
-    isShort: true
-  },
-  {
-    id: 'short-loftn',
-    youtubeId: 'loftNkx9sOs',
-    url: 'https://youtube.com/shorts/loftNkx9sOs?feature=share',
-    title: 'Shorts: Kinetic Audio Sync',
-    badge: 'YouTube Short',
-    role: 'Micro-editing & SFX Layers',
-    duration: '< 60s',
-    description: 'Punchy mobile-first short form cut with synchronized sound effects, crisp color grading, and dynamic frame transitions.',
-    tags: ['Sound Sync', 'Micro Cuts', 'Reels / Shorts', 'Color Pop'],
-    isShort: true
   }
 ];
 
@@ -477,13 +409,13 @@ export default function App() {
     return true;
   });
 
-  // Language state (Bengali default as requested, toggleable to English)
+  // Language state (English default on initial open, toggleable to Bengali)
   const [lang, setLang] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
-      const savedLang = localStorage.getItem('preferred-lang');
+      const savedLang = localStorage.getItem('preferred-lang-v2');
       if (savedLang === 'en' || savedLang === 'bn') return savedLang;
     }
-    return 'bn';
+    return 'en';
   });
 
   const t = translations[lang];
@@ -492,7 +424,7 @@ export default function App() {
   const toggleLanguage = () => {
     const nextLang: Language = lang === 'bn' ? 'en' : 'bn';
     setLang(nextLang);
-    localStorage.setItem('preferred-lang', nextLang);
+    localStorage.setItem('preferred-lang-v2', nextLang);
   };
 
   // Email copy feedback
@@ -682,17 +614,6 @@ export default function App() {
               }`}
             >
               {t.navVideos}
-            </a>
-            <a
-              href="#shorts"
-              className={`transition-colors hover:text-rose-500 flex items-center gap-1.5 ${
-                isDark ? 'text-slate-300' : 'text-slate-600'
-              }`}
-            >
-              <span>{t.navShorts}</span>
-              <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-red-600 text-white">
-                New
-              </span>
             </a>
             <a
               href="#graphics"
@@ -1048,14 +969,6 @@ export default function App() {
                   </a>
 
                   <a
-                    href="#shorts"
-                    className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm hover:scale-[1.02]"
-                  >
-                    <Smartphone className="w-3.5 h-3.5" />
-                    <span>{t.watchShorts}</span>
-                  </a>
-
-                  <a
                     href="#graphics"
                     className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold border border-[#0057ff]/30 bg-[#0057ff]/10 text-[#0084ff] hover:bg-[#0057ff] hover:text-white transition-all shadow-sm hover:scale-[1.02]"
                   >
@@ -1122,8 +1035,8 @@ export default function App() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 hover:text-rose-400 transition-colors"
                 >
-                  <ListVideo className="w-3.5 h-3.5 text-rose-500" />
-                  <span>{t.openFullPlaylist}</span>
+                  <YouTubeIcon className="w-4 h-4" />
+                  <span>https://youtu.be/GPIDQ0odAnA</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
@@ -1160,46 +1073,6 @@ export default function App() {
             </p>
           </div>
 
-          {/* Official YouTube Playlist Banner Card */}
-          <div className={`p-4 sm:p-5 rounded-2xl border flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all ${
-            isDark 
-              ? 'bg-gradient-to-r from-red-950/40 via-slate-900/80 to-slate-900 border-red-900/40 shadow-lg shadow-black/40' 
-              : 'bg-gradient-to-r from-red-50 via-rose-50/50 to-white border-red-200/80 shadow-md shadow-rose-100/50'
-          }`}>
-            <div className="flex items-start sm:items-center gap-3.5">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-600/30">
-                <ListVideo className="w-6 h-6" />
-              </div>
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30">
-                    {t.playlistBannerBadge}
-                  </span>
-                  <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                    {PORTFOLIO_VIDEOS.length} Projects
-                  </span>
-                </div>
-                <h3 className="font-heading text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                  {t.playlistBannerTitle}
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xl">
-                  {t.playlistBannerDesc}
-                </p>
-              </div>
-            </div>
-
-            <a
-              href={YOUTUBE_PLAYLIST_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/25 transition-all hover:scale-[1.02] shrink-0"
-            >
-              <YouTubeIcon className="w-4 h-4" />
-              <span>{t.openFullPlaylist}</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
           {/* VIDEOS GRID: 2 columns on mobile and 2 on desktop */}
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8">
             {PORTFOLIO_VIDEOS.slice(1).map((video) => (
@@ -1215,7 +1088,7 @@ export default function App() {
                 <YouTubePlayer
                   videoId={video.youtubeId}
                   title={video.title}
-                  playlistId={YOUTUBE_PLAYLIST_ID}
+                  playlistId={video.playlistId}
                 />
 
                 {/* Card Information */}
@@ -1250,9 +1123,8 @@ export default function App() {
 
                   {/* Direct YouTube Link */}
                   <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-[11px] sm:text-xs">
-                    <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[10px] text-slate-500 truncate">
-                      <ListVideo className="w-3 h-3 text-red-500" />
-                      <span>Playlist</span>
+                    <span className="hidden sm:inline font-mono text-[10px] text-slate-500 truncate max-w-[100px]">
+                      YouTube
                     </span>
                     <a
                       href={video.url}
@@ -1261,87 +1133,7 @@ export default function App() {
                       className="inline-flex items-center gap-1 font-bold text-rose-500 hover:text-rose-400 transition-colors text-[10px] sm:text-xs ml-auto"
                     >
                       <YouTubeIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500" />
-                      <span>{t.watchWithPlaylist}</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* SECTION 2.5: YOUTUBE SHORTS & VERTICAL FORMAT                             */}
-        {/* ========================================================================= */}
-        <section id="shorts" className="space-y-6 sm:space-y-8 scroll-mt-24">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 mb-1">
-                <Smartphone className="w-4 h-4 text-rose-500" />
-                <span>{t.shortsSectionBadge}</span>
-              </div>
-              <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-black tracking-tight">
-                {t.shortsSectionTitle}
-              </h2>
-            </div>
-            <p
-              className={`text-xs sm:text-sm max-w-md ${
-                isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}
-            >
-              {t.shortsSectionDesc}
-            </p>
-          </div>
-
-          {/* SHORTS GRID: 2 columns on mobile and desktop */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8 max-w-3xl mx-auto">
-            {PORTFOLIO_SHORTS.map((short) => (
-              <div
-                key={short.id}
-                className={`group rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col ${
-                  isDark
-                    ? 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:shadow-black/70'
-                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-slate-200/90'
-                }`}
-              >
-                {/* 9:16 Vertical Video Frame */}
-                <div className="p-2 sm:p-4 flex justify-center bg-black/40">
-                  <div className="w-full max-w-[220px]">
-                    <YouTubePlayer
-                      videoId={short.youtubeId}
-                      title={short.title}
-                      aspectRatio="short"
-                      isShort={true}
-                    />
-                  </div>
-                </div>
-
-                {/* Shorts Card Details */}
-                <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col justify-between">
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-xs">
-                      <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-bold uppercase tracking-wider bg-red-600/15 text-red-500 border border-red-600/25 flex items-center gap-1">
-                        <YouTubeIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                        <span>Short</span>
-                      </span>
-                    </div>
-
-                    <h3 className="font-heading text-xs sm:text-base font-bold tracking-tight group-hover:text-rose-500 transition-colors line-clamp-2 leading-snug">
-                      {short.title}
-                    </h3>
-                  </div>
-
-                  {/* Direct YouTube Short Link */}
-                  <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-end text-xs">
-                    <a
-                      href={short.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-bold text-red-500 hover:text-red-400 transition-colors text-[10px] sm:text-xs"
-                    >
-                      <YouTubeIcon className="w-3 h-3 text-red-500" />
-                      <span>{t.watchShort}</span>
+                      <span>{t.watchBtn}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
