@@ -32,7 +32,8 @@ import {
   ArrowDown,
   ArrowUp,
   Zap,
-  LayoutGrid
+  LayoutGrid,
+  ListVideo
 } from 'lucide-react';
 import { translations, Language } from './translations';
 import lanyardArtboard2 from './assets/images/lanyard-Artboard-2final.png';
@@ -101,34 +102,72 @@ interface VideoItem {
   isShort?: boolean;
 }
 
+const YOUTUBE_PLAYLIST_ID = 'PLPSDvuSFbUN8';
+const YOUTUBE_PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLPSDvuSFbUN8';
+
 // Interactive YouTube Video Card: Shows official YouTube thumbnail with play button.
+// Loads YouTube embedded player with full playlist support when played.
 function YouTubePlayer({
   videoId,
   title,
   className = "",
   aspectRatio = "video",
   isShort = false,
+  playlistId = YOUTUBE_PLAYLIST_ID,
 }: {
   videoId: string;
   title: string;
   className?: string;
   aspectRatio?: "video" | "short";
   isShort?: boolean;
+  playlistId?: string;
 }) {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
-  const youtubeUrl = isShort 
-    ? `https://www.youtube.com/shorts/${videoId}` 
-    : `https://www.youtube.com/watch?v=${videoId}&autoplay=1`;
+
+  const watchUrl = playlistId
+    ? `https://www.youtube.com/watch?v=${videoId}&list=${playlistId}`
+    : (isShort ? `https://www.youtube.com/shorts/${videoId}` : `https://www.youtube.com/watch?v=${videoId}&autoplay=1`);
+
+  const embedUrl = playlistId
+    ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&list=${playlistId}&rel=0`
+    : `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+
+  if (isPlaying) {
+    return (
+      <div className={`relative w-full ${aspectRatio === 'short' ? 'aspect-[9/16]' : 'aspect-video'} rounded-2xl overflow-hidden bg-black border border-slate-700/80 shadow-2xl ${className}`}>
+        <iframe
+          src={embedUrl}
+          title={title}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+        {playlistId && (
+          <a
+            href={watchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-black/80 hover:bg-red-600 text-white text-[9px] sm:text-[10px] font-bold tracking-wide backdrop-blur-md border border-white/20 transition-all flex items-center gap-1 shadow-lg"
+            title="Open playlist in new tab"
+          >
+            <ListVideo className="w-3 h-3 text-red-400" />
+            <span className="hidden sm:inline">YouTube Playlist</span>
+            <ArrowUpRight className="w-2.5 h-2.5" />
+          </a>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={`relative w-full ${aspectRatio === 'short' ? 'aspect-[9/16]' : 'aspect-video'} rounded-2xl overflow-hidden bg-black border border-slate-700/80 shadow-2xl group ${className}`}>
-      <a
-        href={youtubeUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative w-full h-full flex items-center justify-center overflow-hidden cursor-pointer block"
-        aria-label={`Watch ${title} directly on YouTube`}
-        title="Click to play directly on YouTube"
+      {/* Click thumbnail to play inline with playlist */}
+      <button
+        type="button"
+        onClick={() => setIsPlaying(true)}
+        className="relative w-full h-full flex items-center justify-center overflow-hidden cursor-pointer block text-left"
+        aria-label={`Play ${title}`}
       >
         {/* Official YouTube Thumbnail */}
         <img
@@ -151,8 +190,8 @@ function YouTubePlayer({
             <Play className="w-4 h-4 sm:w-8 sm:h-8 fill-current ml-0.5 sm:ml-1 transition-transform group-hover:scale-110" />
           </div>
           <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[9px] sm:text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-black/85 text-white border border-white/20 backdrop-blur-sm shadow-lg flex items-center gap-1 hidden xs:flex">
-            <span>{isShort ? 'Watch Short' : 'Play on YouTube'}</span>
-            <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-400" />
+            <span>Play Video</span>
+            <Play className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-red-400 text-red-400" />
           </span>
         </div>
 
@@ -161,81 +200,84 @@ function YouTubePlayer({
           <span className="truncate pr-1 sm:pr-2 group-hover:text-red-300 transition-colors text-[10px] sm:text-xs">{title}</span>
           <span className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded sm:rounded-md bg-red-600 hover:bg-red-500 text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-white shrink-0 flex items-center gap-0.5 sm:gap-1 shadow-md transition-colors">
             <YouTubeIcon className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
-            <span>{isShort ? 'Short' : 'Watch'}</span>
+            <span>Play</span>
           </span>
         </div>
+      </button>
+
+      {/* Direct link to YouTube playlist */}
+      <a
+        href={watchUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="absolute top-2 right-2 z-20 px-2 py-1 rounded-lg bg-black/80 hover:bg-red-600 text-white text-[9px] sm:text-[10px] font-bold tracking-wide backdrop-blur-md border border-white/20 transition-all flex items-center gap-1 shadow-lg"
+        title="Open in YouTube with Playlist"
+      >
+        <ListVideo className="w-3 h-3 text-red-400" />
+        <span className="hidden sm:inline">Playlist</span>
+        <ArrowUpRight className="w-2.5 h-2.5" />
       </a>
     </div>
   );
 }
 
-// Portfolio 16:9 Long-form videos
+// Portfolio 16:9 Long-form videos (All 5 items in the official showcase playlist)
 const PORTFOLIO_VIDEOS: VideoItem[] = [
   {
     id: 'vid-featured',
-    youtubeId: 'kuIQFjypFSs',
-    url: 'https://youtu.be/kuIQFjypFSs',
-    title: 'Featured Master Cut — Cinematic Showcase Trailer',
+    youtubeId: 'GPIDQ0odAnA',
+    url: 'https://www.youtube.com/watch?v=GPIDQ0odAnA&list=PLPSDvuSFbUN8',
+    title: 'Featured Master Cut — Video Editing Showcase',
     badge: 'Featured Masterpiece',
     role: 'Lead Editor, Sound Design & Color Grade',
-    duration: '2:30',
-    description: 'Showcase trailer featuring precise pacing, deep sound design layering, dynamic speed transitions, and high-contrast cinematic atmosphere.',
+    duration: 'Full Cut',
+    description: 'Premier showcase edit featuring dynamic cuts, sound layering, precision motion pacing, and visual storytelling.',
     tags: ['Full Audio Mix', 'Color Grading', 'Kinetic Rhythm', 'Showreel']
   },
   {
+    id: 'vid-as-sunnah',
+    youtubeId: 'YH1vjumjM70',
+    url: 'https://www.youtube.com/watch?v=YH1vjumjM70&list=PLPSDvuSFbUN8',
+    title: 'My three-month experience at As-Sunnah Skill.',
+    badge: 'Experience Story',
+    role: 'Documentary Cut, Pacing & Sound Design',
+    duration: 'Full Cut',
+    description: 'A reflective narrative edit recounting three months of learning and growth at As-Sunnah Skill, featuring seamless pacing and layered audio.',
+    tags: ['Documentary', 'Storytelling', 'Audio Mix', 'Narrative Cut']
+  },
+  {
     id: 'vid-sans-anim',
-    youtubeId: 'k3FHa0gZrb0',
-    url: 'https://youtu.be/k3FHa0gZrb0',
-    title: 'sans Animation Video — Motion Graphics & Story Edit',
+    youtubeId: 'V1nLl2XMKhU',
+    url: 'https://www.youtube.com/watch?v=V1nLl2XMKhU&list=PLPSDvuSFbUN8',
+    title: 'Sans Video Animation',
     badge: 'Animation Project',
     role: 'Animation, Motion Design & Audio Sync',
     duration: 'Full Cut',
-    description: 'Creative character animation video featuring custom keyframing, expressive motion timing, and synchronized sound effects.',
+    description: 'Creative character animation video featuring custom motion pacing, dynamic visual transitions, and synchronized sound effects.',
     tags: ['Animation', 'Motion Graphics', 'Keyframing', 'Sound Sync']
   },
   {
-    id: 'vid-ozdrv',
-    youtubeId: 'oZdRVLPeWlg',
-    url: 'https://youtu.be/oZdRVLPeWlg',
-    title: 'Cinematic Storytelling & Visual Narrative Cut',
-    badge: 'Narrative Project',
-    role: 'Visual Cut, SFX & Atmosphere',
+    id: 'vid-bangladesh-problem',
+    youtubeId: 'ahXJhrEtweM',
+    url: 'https://www.youtube.com/watch?v=ahXJhrEtweM&list=PLPSDvuSFbUN8',
+    title: 'The biggest problem in Bangladesh',
+    badge: 'Social Documentary',
+    role: 'Editorial Cut, Pacing & Visual Story',
     duration: 'Full Cut',
-    description: 'A deep atmospheric edit emphasizing pacing, immersive sound design layers, natural dialogue dynamics, and rich cinematic tones.',
-    tags: ['Visual Story', 'Pacing & Tone', 'Sound Design', 'Color Grading']
+    description: 'A compelling social documentary cut addressing a critical perspective in Bangladesh with tight narrative pacing and layered audio storytelling.',
+    tags: ['Documentary', 'Visual Story', 'Pacing & Tone', 'Sound Design']
   },
   {
-    id: 'vid-quksf',
-    youtubeId: 'qUkSfM-V4oc',
-    url: 'https://youtu.be/qUkSfM-V4oc',
-    title: 'Kinetic Motion & Dynamic Transition Edit',
-    badge: 'Motion Reel',
-    role: 'Beat Sync, Speed Ramping & Color',
+    id: 'vid-outdoor-training',
+    youtubeId: 'GkLtTGZ5kJI',
+    url: 'https://www.youtube.com/watch?v=GkLtTGZ5kJI&list=PLPSDvuSFbUN8',
+    title: 'Outdoor training beyond skill-based training',
+    badge: 'Outdoor Training',
+    role: 'Visual Cut, Movement & Action Edit',
     duration: 'Full Cut',
-    description: 'Fast-paced rhythmic cut synced precisely to audio transients, multi-layered foley effects, and punchy visual contrast.',
-    tags: ['Kinetic Cuts', 'Beat Matching', 'Color Pass', 'Audio SFX']
-  },
-  {
-    id: 'vid-1',
-    youtubeId: '7d1hAfH7egc',
-    url: 'https://youtu.be/7d1hAfH7egc',
-    title: 'Narrative Short & Atmospheric Cut',
-    badge: 'Narrative Atmosphere',
-    role: 'Editorial Pacing & Ambient Sound',
-    duration: '2:14',
-    description: 'A study in emotional pacing, ambient audio layering, and building cinematic tension with rhythmic matched cuts and natural dialogue flow.',
-    tags: ['Emotional Flow', 'Sound Atmosphere', 'Matched Cuts', 'Dialogue Editing']
-  },
-  {
-    id: 'vid-2',
-    youtubeId: '1u6Tp4tM2lY',
-    url: 'https://youtu.be/1u6Tp4tM2lY',
-    title: 'High-Energy Commercial Motion Reel',
-    badge: 'Commercial Reel',
-    role: 'Dynamic Cuts & Audio SFX Sync',
-    duration: '1:48',
-    description: 'Fast-paced cuts matched precisely to musical transients with punchy foley sound effects, kinetic speed ramps, and stylized color contrast.',
-    tags: ['Beat Sync', 'Speed Ramps', 'Impact SFX', 'Color Contrast']
+    description: 'Dynamic visual documentation of outdoor training beyond skill-based training with engaging momentum and rhythmic sound flow.',
+    tags: ['Outdoor Training', 'Dynamic Cut', 'Action Pacing', 'Sound Design']
   }
 ];
 
@@ -893,11 +935,11 @@ export default function App() {
 
                     {/* YouTube Button */}
                     <a
-                      href="https://www.youtube.com/@MdNaeim-u8x"
+                      href="https://www.youtube.com/@niislamicmedia1757/videos"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group/btn inline-flex items-center gap-2 py-2 px-3.5 rounded-xl border border-[#ff0000] font-bold text-xs transition-all duration-200 bg-[#ff0000] text-white hover:bg-[#cc0000] hover:shadow-lg hover:shadow-[#ff0000]/30 hover:scale-105"
-                      title="Subscribe on YouTube (@MdNaeim-u8x)"
+                      title="Subscribe on YouTube (@niislamicmedia1757)"
                     >
                       <YouTubeIcon className="w-4 h-4 text-white transition-transform group-hover/btn:scale-110" />
                       <span className="text-white font-extrabold tracking-wide">YouTube</span>
@@ -1041,20 +1083,21 @@ export default function App() {
                   <span>{t.featuredTrailer}</span>
                 </div>
                 <a
-                  href="https://youtu.be/kuIQFjypFSs"
+                  href={`https://www.youtube.com/watch?v=GPIDQ0odAnA&list=${YOUTUBE_PLAYLIST_ID}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 hover:text-rose-400 transition-colors"
                 >
-                  <YouTubeIcon className="w-4 h-4" />
-                  <span>https://youtu.be/kuIQFjypFSs</span>
+                  <ListVideo className="w-3.5 h-3.5 text-rose-500" />
+                  <span>{t.openFullPlaylist}</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
 
               <YouTubePlayer
-                videoId="kuIQFjypFSs"
+                videoId="GPIDQ0odAnA"
                 title="Featured Video Trailer - NAEIM Visual"
+                playlistId={YOUTUBE_PLAYLIST_ID}
               />
             </div>
           </div>
@@ -1083,6 +1126,46 @@ export default function App() {
             </p>
           </div>
 
+          {/* Official YouTube Playlist Banner Card */}
+          <div className={`p-4 sm:p-5 rounded-2xl border flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all ${
+            isDark 
+              ? 'bg-gradient-to-r from-red-950/40 via-slate-900/80 to-slate-900 border-red-900/40 shadow-lg shadow-black/40' 
+              : 'bg-gradient-to-r from-red-50 via-rose-50/50 to-white border-red-200/80 shadow-md shadow-rose-100/50'
+          }`}>
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-600/30">
+                <ListVideo className="w-6 h-6" />
+              </div>
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30">
+                    {t.playlistBannerBadge}
+                  </span>
+                  <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                    5 Projects
+                  </span>
+                </div>
+                <h3 className="font-heading text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                  {t.playlistBannerTitle}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xl">
+                  {t.playlistBannerDesc}
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={YOUTUBE_PLAYLIST_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/25 transition-all hover:scale-[1.02] shrink-0"
+            >
+              <YouTubeIcon className="w-4 h-4" />
+              <span>{t.openFullPlaylist}</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
           {/* VIDEOS GRID: 2 columns on mobile and 2 on desktop */}
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8">
             {PORTFOLIO_VIDEOS.slice(1).map((video) => (
@@ -1098,6 +1181,7 @@ export default function App() {
                 <YouTubePlayer
                   videoId={video.youtubeId}
                   title={video.title}
+                  playlistId={YOUTUBE_PLAYLIST_ID}
                 />
 
                 {/* Card Information */}
@@ -1132,8 +1216,9 @@ export default function App() {
 
                   {/* Direct YouTube Link */}
                   <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between text-[11px] sm:text-xs">
-                    <span className="hidden sm:inline font-mono text-[10px] text-slate-500 truncate max-w-[100px]">
-                      YouTube
+                    <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[10px] text-slate-500 truncate">
+                      <ListVideo className="w-3 h-3 text-red-500" />
+                      <span>Playlist</span>
                     </span>
                     <a
                       href={video.url}
@@ -1142,7 +1227,7 @@ export default function App() {
                       className="inline-flex items-center gap-1 font-bold text-rose-500 hover:text-rose-400 transition-colors text-[10px] sm:text-xs ml-auto"
                     >
                       <YouTubeIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500" />
-                      <span>{t.watchBtn}</span>
+                      <span>{t.watchWithPlaylist}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </div>
@@ -2016,7 +2101,7 @@ export default function App() {
 
                   {/* YouTube */}
                   <a
-                    href="https://www.youtube.com/@MdNaeim-u8x"
+                    href="https://www.youtube.com/@niislamicmedia1757/videos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`p-3 rounded-xl border flex flex-col items-center gap-1.5 transition-all text-center ${
@@ -2188,11 +2273,11 @@ export default function App() {
               <BehanceIcon className="w-4 h-4 text-white" />
             </a>
             <a
-              href="https://www.youtube.com/@MdNaeim-u8x"
+              href="https://www.youtube.com/@niislamicmedia1757/videos"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-xl bg-[#ff0000] text-white hover:bg-[#cc0000] transition-all hover:scale-105 shadow-sm"
-              title="YouTube (@MdNaeim-u8x)"
+              title="YouTube (@niislamicmedia1757)"
             >
               <YouTubeIcon className="w-4 h-4 text-white" />
             </a>

@@ -37,6 +37,11 @@ export const translations = {
     videoSectionDesc: 'নির্ভুল পেসিং, আধুনিক সাউন্ড ডিজাইন ও কালার গ্রেডিং। ইউটিউবে সরাসরি দেখতে ক্লিক করুন।',
     watchOnYouTube: 'ইউটিউবে দেখুন',
     watchBtn: 'দেখুন',
+    playlistBannerBadge: 'অফিসিয়াল প্লেলিস্ট',
+    playlistBannerTitle: 'ভিডিও এডিটিং পোর্টফোলিও প্লেলিস্ট',
+    playlistBannerDesc: 'আস-সুন্নাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউটের প্রজেক্টসহ আমার সব কাজ নিয়ে তৈরি করা অফিসিয়াল প্লেলিস্ট। যেকোনো ভিডিওতে ক্লিক করলে ইউটিউব প্লেলিস্টের বাকি ভিডিওগুলো ধারাবাহিকভাবে প্লে করবে।',
+    openFullPlaylist: 'সম্পূর্ণ প্লেলিস্ট ওপেন করুন',
+    watchWithPlaylist: 'প্লেলিস্টসহ দেখুন',
 
     // Shorts Section
     shortsSectionBadge: 'শর্ট-ফর্ম ভিডিও',
@@ -146,6 +151,11 @@ export const translations = {
     videoSectionDesc: 'Editorial pacing, immersive sound design, and rich color grading. Click to watch on YouTube.',
     watchOnYouTube: 'Watch on YouTube',
     watchBtn: 'Watch',
+    playlistBannerBadge: 'Official Playlist',
+    playlistBannerTitle: 'Video Editing Portfolio Playlist',
+    playlistBannerDesc: 'Curated showcase playlist featuring projects from As-Sunnah Skill Development Institute. Playing any video loads the full playlist queue automatically.',
+    openFullPlaylist: 'Open Full Playlist (5 Videos)',
+    watchWithPlaylist: 'Watch with Playlist',
 
     // Shorts Section
     shortsSectionBadge: 'Short-Form Video',
