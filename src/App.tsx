@@ -278,11 +278,45 @@ const PORTFOLIO_VIDEOS: VideoItem[] = [
     duration: 'Full Cut',
     description: 'Dynamic visual documentation of outdoor training beyond skill-based training with engaging momentum and rhythmic sound flow.',
     tags: ['Outdoor Training', 'Dynamic Cut', 'Action Pacing', 'Sound Design']
+  },
+  {
+    id: 'vid-cinematic-ai-2',
+    youtubeId: 'ROLLRwFjHxA',
+    url: 'https://youtu.be/ROLLRwFjHxA',
+    title: 'cinematic AI motion video 2',
+    badge: 'AI Motion',
+    role: 'AI Motion Direction, Visual Generation & Sound Design',
+    duration: 'Full Cut',
+    description: 'Cinematic AI motion video showcasing creative visual generation, atmospheric depth, and layered sound effects.',
+    tags: ['AI Motion', 'Cinematic Cut', 'Visual Story', 'Sound Design']
+  },
+  {
+    id: 'vid-ad-motion',
+    youtubeId: 'GpjxAmw3L1k',
+    url: 'https://youtube.com/shorts/GpjxAmw3L1k?feature=share',
+    title: 'Professional Ad Motion',
+    badge: 'Ad Motion',
+    role: 'Commercial Motion, Brand Reel & Sound Sync',
+    duration: 'Full Cut',
+    description: 'Dynamic professional ad motion showcase with sleek product animation, typography pacing, and synchronized audio design.',
+    tags: ['Ad Motion', 'Commercial', 'Product Animation', 'Sound Design']
   }
 ];
 
 // Vertical 9:16 Shorts
 const PORTFOLIO_SHORTS: VideoItem[] = [
+  {
+    id: 'short-ad-motion',
+    youtubeId: 'GpjxAmw3L1k',
+    url: 'https://youtube.com/shorts/GpjxAmw3L1k?feature=share',
+    title: 'Professional Ad Motion',
+    badge: 'Ad Motion',
+    role: 'Commercial Motion & Product Reel',
+    duration: '< 60s',
+    description: 'High-impact commercial ad motion cut featuring clean typography, product transitions, and punchy audio sync.',
+    tags: ['Ad Motion', 'Commercial', 'Shorts / Reels', 'Product Promo'],
+    isShort: true
+  },
   {
     id: 'short-czw6v',
     youtubeId: 'Czw6vV-Eklk',
@@ -1142,7 +1176,7 @@ export default function App() {
                     {t.playlistBannerBadge}
                   </span>
                   <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                    5 Projects
+                    {PORTFOLIO_VIDEOS.length} Projects
                   </span>
                 </div>
                 <h3 className="font-heading text-sm sm:text-base font-bold text-slate-900 dark:text-white">
